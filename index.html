@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Areli Jewellery — Low-maintenance luxury where style meets practicality. Hypoallergenic, tarnish-free, waterproof jewelry from Ghana." />
+  <title>Areli Jewellery — Everyday Luxury from Ghana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/styles.css" />
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="main-nav" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a href="/" class="logo" aria-label="Areli Jewellery Home">
+        <span class="logo-icon" aria-hidden="true">
+          <svg viewBox="0 0 32 32" fill="none">
+            <path d="M16 4C10 4 6 10 6 16c0 6 4 12 10 20 6-8 10-14 10-20 0-6-4-12-10-12z" stroke="#C9A96E" stroke-width="1.2" fill="none"/>
+            <circle cx="16" cy="14" r="3" fill="#C9A96E" opacity="0.6"/>
+          </svg>
+        </span>
+        Areli
+      </a>
+      <ul class="nav-links">
+        <li><a href="/" class="active">Home</a></li>
+        <li><a href="/#new-arrivals">Shop</a></li>
+        <li><a href="/about.html">About</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+      </ul>
+      <div class="nav-actions">
+        <button class="cart-toggle" aria-label="Open shopping cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/><path d="M6 6L5 3H2"/>
+          </svg>
+          <span class="cart-count">0</span>
+        </button>
+        <button class="mobile-menu-toggle" aria-label="Open menu">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M3 12h18M3 6h18M3 18h18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-overlay" role="dialog" aria-label="Mobile navigation">
+    <button class="mobile-menu-close" aria-label="Close menu">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+    </button>
+    <ul class="mobile-nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/#new-arrivals">Shop</a></li>
+      <li><a href="/about.html">About</a></li>
+      <li><a href="/contact.html">Contact</a></li>
+    </ul>
+    <p class="mobile-menu-tagline">Low-maintenance luxury where style meets practicality.</p>
+  </div>
+
+  <main>
+    <!-- Hero -->
+    <section class="hero texture-bg" aria-label="Hero">
+      <div class="hero-content fade-in-left">
+        <p class="hero-eyebrow">Areli Jewellery · Ghana</p>
+        <h1>Designed for Everyday Wear</h1>
+        <p class="hero-tagline">Low-maintenance luxury where style meets practicality.</p>
+        <div class="hero-features">
+          <span class="hero-feature">Hypoallergenic</span>
+          <span class="hero-feature">Tarnish-Free</span>
+          <span class="hero-feature">Waterproof</span>
+        </div>
+        <div class="hero-cta">
+          <a href="#new-arrivals" class="btn btn-accent">Shop New Arrivals</a>
+          <a href="/about.html" class="btn btn-outline">Our Story</a>
+        </div>
+      </div>
+      <div class="hero-image-wrap">
+        <img
+          class="hero-image"
+          src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=1200&q=85"
+          data-local="/images/hero/hero-main.jpg"
+          alt="Model wearing Areli statement jewelry piece"
+          loading="eager"
+        />
+      </div>
+    </section>
+
+    <!-- New Arrivals -->
+    <section id="new-arrivals" class="section carousel-section">
+      <div class="container">
+        <div class="carousel-header fade-in-up">
+          <div>
+            <p class="section-label">Just In</p>
+            <h2 class="section-title">New Arrivals</h2>
+          </div>
+          <div class="carousel-controls">
+            <button class="carousel-prev" aria-label="Previous products">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <button class="carousel-next" aria-label="Next products">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="carousel-wrapper">
+          <div class="carousel-track" role="list" aria-label="New arrival products"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Areli -->
+    <section class="section why-areli">
+      <div class="container">
+        <div class="fade-in-up" style="text-align:center; max-width:600px; margin:0 auto;">
+          <p class="section-label">Why Choose Us</p>
+          <h2 class="section-title">Why Areli</h2>
+          <p class="section-subtitle" style="margin:0 auto;">Jewelry that keeps up with your life — beautiful, durable, and effortlessly low-maintenance.</p>
+        </div>
+        <div class="why-grid stagger-children">
+          <div class="why-card">
+            <div class="why-icon">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M24 4l4 8h9l-7 6 3 9-9-6-9 6 3-9-7-6h9z"/>
+                <circle cx="24" cy="36" r="8"/>
+              </svg>
+            </div>
+            <h3>Hypoallergenic</h3>
+            <p>Gentle on sensitive skin. Wear all day without irritation or discomfort.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M8 20c0-8 8-14 16-14s16 6 16 14v4c0 10-8 18-16 18S8 34 8 24v-4z"/>
+                <path d="M16 28c2 4 6 6 8 6s6-2 8-6"/>
+              </svg>
+            </div>
+            <h3>Waterproof</h3>
+            <p>Shower, swim, sweat — your pieces stay stunning through it all.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="24" cy="24" r="18"/>
+                <path d="M16 24h16M24 16v16"/>
+                <path d="M12 12l4 4M32 12l-4 4M12 36l4-4M32 36l-4-4" opacity="0.5"/>
+              </svg>
+            </div>
+            <h3>Tarnish-Free</h3>
+            <p>No polishing needed. Your jewelry maintains its shine day after day.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Style Inspiration -->
+    <section class="section">
+      <div class="container">
+        <div class="fade-in-up">
+          <p class="section-label">Style Inspiration</p>
+          <h2 class="section-title">Wear It Everywhere</h2>
+          <p class="section-subtitle">From the boardroom to the gym to a night out — Areli moves with you.</p>
+        </div>
+        <div class="lifestyle-grid"></div>
+      </div>
+    </section>
+
+    <!-- Shop by Category -->
+    <section class="section" style="background: var(--beige-mid);">
+      <div class="container">
+        <div class="fade-in-up" style="text-align:center;">
+          <p class="section-label">Collections</p>
+          <h2 class="section-title">Shop by Category</h2>
+        </div>
+        <div class="category-grid"></div>
+      </div>
+    </section>
+
+    <!-- Bestsellers -->
+    <section class="section bestsellers">
+      <div class="container">
+        <div class="fade-in-up">
+          <p class="section-label">Customer Favorites</p>
+          <h2 class="section-title">Bestsellers</h2>
+          <p class="section-subtitle">Our most-loved pieces — affordable luxury you can wear every single day.</p>
+        </div>
+        <div class="bestsellers-grid"></div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="section testimonials texture-bg">
+      <div class="container">
+        <div class="fade-in-up" style="text-align:center; max-width:600px; margin:0 auto;">
+          <p class="section-label">What Our Customers Say</p>
+          <h2 class="section-title">Loved & Trusted</h2>
+          <p class="section-subtitle" style="margin:0 auto;">Real reviews from women who wear Areli every day.</p>
+        </div>
+        <div class="testimonials-track"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer texture-bg">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="/" class="logo">
+            <span class="logo-icon" aria-hidden="true">
+              <svg viewBox="0 0 32 32" fill="none">
+                <path d="M16 4C10 4 6 10 6 16c0 6 4 12 10 20 6-8 10-14 10-20 0-6-4-12-10-12z" stroke="#C9A96E" stroke-width="1.2" fill="none"/>
+                <circle cx="16" cy="14" r="3" fill="#C9A96E" opacity="0.6"/>
+              </svg>
+            </span>
+            Areli
+          </a>
+          <p>Affordable luxury, confidently African, effortlessly stylish. Hypoallergenic jewelry designed for everyday wear.</p>
+          <div class="social-links">
+            <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+            </a>
+            <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="Facebook">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </a>
+            <a href="https://tiktok.com" target="_blank" rel="noopener" aria-label="TikTok">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 0010.86 4.43v-7a8.16 8.16 0 004.77 1.52V10.2a4.85 4.85 0 01-1.18-.51z"/></svg>
+            </a>
+            <a href="https://wa.me/233539974264" target="_blank" rel="noopener" aria-label="WhatsApp">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.435 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div>
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/#new-arrivals">Shop</a></li>
+            <li><a href="/about.html">About Us</a></li>
+            <li><a href="/contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Collections</h4>
+          <ul class="footer-links">
+            <li><a href="#shop-necklaces">Necklaces</a></li>
+            <li><a href="#shop-rings">Rings</a></li>
+            <li><a href="#shop-earrings">Earrings</a></li>
+            <li><a href="#shop-bracelets">Bracelets</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Contact</h4>
+          <ul class="footer-links">
+            <li><a href="tel:+233539974264">053 997 4264</a></li>
+            <li><a href="/contact.html">Payment & Delivery</a></li>
+            <li><a href="https://wa.me/233539974264" target="_blank" rel="noopener">WhatsApp Us</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Areli Jewellery. All rights reserved.</p>
+        <p>Based in Ghana · Affordable luxury for everyday wear</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart Panel -->
+  <div class="cart-overlay" aria-hidden="true"></div>
+  <aside class="cart-panel" aria-label="Shopping cart">
+    <div class="cart-header">
+      <h3>Your Cart</h3>
+      <button class="cart-close" aria-label="Close cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="cart-items" role="list"></div>
+    <p class="cart-empty">Your cart is empty. Discover our beautiful pieces!</p>
+    <div class="cart-footer">
+      <div class="cart-total">
+        <span>Total</span>
+        <span class="cart-total-amount">GHS 0.00</span>
+      </div>
+      <a href="/contact.html" class="btn btn-accent">Proceed to Checkout</a>
+      <p class="cart-note">Payment via MTN Mobile Money · See delivery info on Contact page</p>
+    </div>
+  </aside>
+
+  <!-- Back to Top -->
+  <button class="back-to-top" aria-label="Back to top">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+  </button>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="mobile-bottom-nav" aria-label="Mobile bottom navigation">
+    <a href="/" class="active">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+      Home
+    </a>
+    <a href="/#new-arrivals">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6h15l-1.5 9h-12z"/><circle cx="9" cy="20" r="1"/><circle cx="18" cy="20" r="1"/></svg>
+      Shop
+    </a>
+    <a href="/about.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+      About
+    </a>
+    <a href="/contact.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      Contact
+    </a>
+  </nav>
+
+  <script type="module" src="/js/main.js"></script>
+</body>
+</html>
