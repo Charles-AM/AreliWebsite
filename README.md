@@ -43,6 +43,29 @@ npm run build
 npm run preview
 ```
 
+## Deploy to Netlify
+
+### Option 1: Connect GitHub (recommended)
+
+1. Go to [app.netlify.com](https://app.netlify.com) and sign in
+2. Click **Add new site** → **Import an existing project**
+3. Choose **GitHub** and select the `AreliWebsite` repository
+4. Netlify will auto-detect settings from `netlify.toml`:
+   - **Build command:** `npm run build`
+   - **Publish directory:** `dist`
+5. Click **Deploy site**
+
+Your site will be live at a `*.netlify.app` URL within a few minutes. Each push to the connected branch triggers a new deploy.
+
+### Option 2: Manual drag-and-drop
+
+```bash
+npm install
+npm run build
+```
+
+Then drag the `dist` folder onto [app.netlify.com/drop](https://app.netlify.com/drop).
+
 ## Tech Stack
 
 - [Vite](https://vitejs.dev/) — Build tool
