@@ -742,9 +742,56 @@ h1, h2, h3, h4 {
    ============================================ */
 .category-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 1.5rem;
   margin-top: 3rem;
+}
+
+/* ============================================
+   Collections Groups
+   ============================================ */
+.collections-section {
+  background: var(--white);
+}
+
+.collection-group {
+  margin-bottom: 4rem;
+}
+
+.collection-group:last-child {
+  margin-bottom: 0;
+}
+
+.collection-group-title {
+  font-family: var(--font-serif);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  color: var(--accent-gold);
+  margin-bottom: 2rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--beige-dark);
+}
+
+.collection-category {
+  margin-bottom: 2.5rem;
+  scroll-margin-top: calc(var(--nav-height) + 1rem);
+}
+
+.collection-category:last-child {
+  margin-bottom: 0;
+}
+
+.collection-category-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+}
+
+.collection-category-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  color: var(--grey-charcoal);
 }
 
 .category-card {
@@ -1589,14 +1636,10 @@ h1, h2, h3, h4 {
   }
 
   .category-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .bestsellers-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .footer-grid {
     grid-template-columns: 1fr 1fr;
   }
 

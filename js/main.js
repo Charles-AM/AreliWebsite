@@ -1,4 +1,4 @@
-import { products, lifestyleImages, testimonials, categories } from './products.js';
+import { collections, bestsellers, lifestyleImages, testimonials, categories, getAllCollectionProducts } from './products.js';
 import { addToCart, initCart, initWishlist } from './cart.js';
 import {
   initScrollAnimations,
@@ -8,16 +8,6 @@ import {
   initLazyImages,
   initCarousel,
 } from './animations.js';
-
-function resolveImageSrc(localPath, fallback) {
-  return localPath;
-}
-
-function handleImageError(img, fallback) {
-  if (fallback && img.src !== fallback) {
-    img.src = fallback;
-  }
-}
 
 function createProductCard(product, showWishlist = true) {
   const card = document.createElement('article');
@@ -48,18 +38,52 @@ function createProductCard(product, showWishlist = true) {
   return card;
 }
 
-function renderNewArrivals() {
-  const track = document.querySelector('.carousel-track');
-  if (!track) return;
-  products.newArrivals.forEach((product) => {
-    track.appendChild(createProductCard(product));
+function renderCollections() {
+  const container = document.getElementById('collections-container');
+  if (!container) return;
+
+  collections.forEach((group) => {
+    const groupEl = document.createElement('div');
+    groupEl.className = 'collection-group fade-in-up';
+    groupEl.innerHTML = `<h3 class="collection-group-title">${group.group}</h3>`;
+
+    group.categories.forEach((category) => {
+      const section = document.createElement('div');
+      section.className = 'collection-category';
+      section.id = `collection-${category.id}`;
+      section.innerHTML = `
+        <div class="collection-category-header">
+          <h4 class="collection-category-title">${category.name}</h4>
+          <div class="carousel-controls">
+            <button class="carousel-prev" aria-label="Previous ${category.name} products">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+            </button>
+            <button class="carousel-next" aria-label="Next ${category.name} products">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="carousel-wrapper">
+          <div class="carousel-track" role="list" aria-label="${category.name} products"></div>
+        </div>
+      `;
+
+      const track = section.querySelector('.carousel-track');
+      category.products.forEach((product) => {
+        track.appendChild(createProductCard(product));
+      });
+
+      groupEl.appendChild(section);
+    });
+
+    container.appendChild(groupEl);
   });
 }
 
 function renderBestsellers() {
   const grid = document.querySelector('.bestsellers-grid');
   if (!grid) return;
-  products.bestsellers.forEach((product) => {
+  bestsellers.forEach((product) => {
     grid.appendChild(createProductCard(product, false));
   });
 }
@@ -106,10 +130,11 @@ function renderCategories() {
   const grid = document.querySelector('.category-grid');
   if (!grid) return;
   const icons = {
+    jewelry: '<path d="M12 2l2 4h5l-4 3 1.5 5L12 12 7.5 14 9 9 5 6h5z" fill="none" stroke="currentColor" stroke-width="1.2"/>',
     necklace: '<path d="M12 2C8 2 5 5 5 9c0 4 3 7 7 13 4-6 7-9 7-13 0-4-3-7-7-7z" fill="none" stroke="currentColor" stroke-width="1.2"/>',
-    ring: '<circle cx="12" cy="14" r="6" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M12 8V2" stroke="currentColor" stroke-width="1.2"/>',
-    earrings: '<circle cx="8" cy="8" r="2" fill="currentColor"/><circle cx="16" cy="8" r="2" fill="currentColor"/><path d="M8 10v6M16 10v6" stroke="currentColor" stroke-width="1.2"/>',
     bracelet: '<ellipse cx="12" cy="12" rx="8" ry="4" fill="none" stroke="currentColor" stroke-width="1.2"/>',
+    perfume: '<path d="M9 4h6v3a3 3 0 01-6 0V4zM8 10h8v10H8z" fill="none" stroke="currentColor" stroke-width="1.2"/>',
+    crochet: '<path d="M4 6c4 2 8 2 12 0M4 12c4 2 8 2 12 0M4 18c4 2 8 2 12 0" fill="none" stroke="currentColor" stroke-width="1.2"/>',
   };
   categories.forEach((cat, i) => {
     const el = document.createElement('a');
@@ -129,8 +154,8 @@ function initProductActions() {
     const btn = e.target.closest('.btn-add-cart');
     if (!btn) return;
     const id = btn.dataset.id;
-    const allProducts = [...products.newArrivals, ...products.bestsellers];
-    const product = allProducts.find((p) => p.id === id);
+    const product = getAllCollectionProducts().find((p) => p.id === id)
+      || bestsellers.find((p) => p.id === id);
     if (product) {
       addToCart(product);
       btn.textContent = 'Added!';
@@ -180,12 +205,11 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroImage();
   initAboutImage();
 
-  renderNewArrivals();
+  renderCollections();
   renderBestsellers();
   renderLifestyle();
   renderTestimonials();
   renderCategories();
 
-  // Re-run animations after dynamic content loads
   setTimeout(initScrollAnimations, 100);
 });
