@@ -1833,8 +1833,59 @@ h1, h2, h3, h4 {
     padding: 3.5rem 0;
   }
 
+  .hero-image-wrap {
+    min-height: 42vh;
+    max-height: 320px;
+  }
+
   .lifestyle-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .lifestyle-card {
+    aspect-ratio: 4 / 5;
+  }
+
+  .collections-fullbleed {
+    padding: 0 0.75rem;
+  }
+
+  .gallery-track {
+    gap: 0.5rem;
+    padding: 0 0.15rem 0.35rem;
+  }
+
+  .gallery-track .gallery-card {
+    flex: 0 0 clamp(128px, 38vw, 190px);
+  }
+
+  .gallery-image-wrap {
+    aspect-ratio: 4 / 5;
+  }
+
+  .gallery-info {
+    padding: 0.45rem 0.35rem 0.55rem;
+  }
+
+  .gallery-name {
+    font-size: 0.68rem;
+  }
+
+  .gallery-price {
+    font-size: 0.65rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .btn-gallery-cart {
+    padding: 0.35rem 0.3rem;
+    font-size: 0.6rem;
+  }
+
+  .about-image-wrap {
+    max-width: 280px;
+    margin-inline: auto;
   }
 
   .category-grid {
@@ -1862,10 +1913,6 @@ h1, h2, h3, h4 {
     flex: 0 0 200px;
   }
 
-  .gallery-track .gallery-card {
-    flex: 0 0 min(78vw, 340px);
-  }
-
   .contact-tabs {
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -1881,6 +1928,19 @@ h1, h2, h3, h4 {
 @media (max-width: 480px) {
   .hero h1 {
     font-size: 2.25rem;
+  }
+
+  .hero-image-wrap {
+    min-height: 36vh;
+    max-height: 260px;
+  }
+
+  .gallery-track .gallery-card {
+    flex: 0 0 clamp(118px, 34vw, 165px);
+  }
+
+  .lifestyle-grid {
+    gap: 0.6rem;
   }
 
   .hero-cta {
