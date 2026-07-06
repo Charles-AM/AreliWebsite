@@ -1,3 +1,5 @@
+import { CONTACT_PHONE_INTL } from './products.js';
+
 const CART_KEY = 'areli-cart';
 
 export function getCart() {
@@ -52,6 +54,46 @@ function formatPrice(amount) {
   return `GHS ${amount.toFixed(2)}`;
 }
 
+export function buildCartOrderMessage() {
+  const cart = getCart();
+  if (!cart.length) {
+    return 'Hi Areli! I\'d like to place an order.';
+  }
+
+  const lines = cart.map((item, index) => {
+    const lineTotal = item.price * item.quantity;
+    return `${index + 1}. ${item.name} x ${item.quantity} — ${formatPrice(lineTotal)}`;
+  });
+
+  return [
+    'Hi Areli! I\'d like to order:',
+    '',
+    ...lines,
+    '',
+    `Total: ${formatPrice(getCartTotal())}`,
+  ].join('\n');
+}
+
+export function getWhatsAppCheckoutUrl(includeCart = true) {
+  const message = includeCart ? buildCartOrderMessage() : 'Hi Areli! I\'d like to place an order.';
+  return `https://api.whatsapp.com/send?phone=${CONTACT_PHONE_INTL}&text=${encodeURIComponent(message)}`;
+}
+
+function updateCheckoutButton() {
+  const checkoutBtn = document.querySelector('.cart-checkout');
+  const hasItems = getCart().length > 0;
+  const url = getWhatsAppCheckoutUrl();
+
+  if (checkoutBtn) {
+    checkoutBtn.setAttribute('aria-disabled', hasItems ? 'false' : 'true');
+    checkoutBtn.href = hasItems ? url : '#';
+  }
+
+  document.querySelectorAll('.whatsapp-order').forEach((btn) => {
+    btn.href = url;
+  });
+}
+
 export function updateCartUI() {
   const countEl = document.querySelector('.cart-count');
   const itemsEl = document.querySelector('.cart-items');
@@ -72,6 +114,7 @@ export function updateCartUI() {
     itemsEl.innerHTML = '';
     emptyEl?.classList.remove('hidden');
     if (totalEl) totalEl.textContent = formatPrice(0);
+    updateCheckoutButton();
     return;
   }
 
@@ -94,6 +137,7 @@ export function updateCartUI() {
   `).join('');
 
   if (totalEl) totalEl.textContent = formatPrice(getCartTotal());
+  updateCheckoutButton();
 }
 
 export function openCart() {
@@ -114,6 +158,15 @@ export function initCart() {
   document.querySelector('.cart-toggle')?.addEventListener('click', openCart);
   document.querySelector('.cart-close')?.addEventListener('click', closeCart);
   document.querySelector('.cart-overlay')?.addEventListener('click', closeCart);
+
+  document.querySelector('.cart-checkout')?.addEventListener('click', (e) => {
+    if (!getCart().length) {
+      e.preventDefault();
+      return;
+    }
+    e.preventDefault();
+    window.open(getWhatsAppCheckoutUrl(), '_blank', 'noopener,noreferrer');
+  });
 
   document.querySelector('.cart-items')?.addEventListener('click', (e) => {
     const btn = e.target.closest('button');
