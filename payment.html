@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Contact Areli Jewellery — customer support, orders, and styling advice in Ghana." />
-  <title>Contact — Areli Jewellery</title>
+  <meta name="description" content="Payment and delivery information for Areli Jewellery — MTN Mobile Money and delivery charges in Ghana." />
+  <title>Payment & Delivery — Areli Jewellery</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
@@ -26,8 +26,8 @@
         <li><a href="/">Home</a></li>
         <li><a href="/#collections">Shop</a></li>
         <li><a href="/about.html">About</a></li>
-        <li><a href="/contact.html" class="active">Contact</a></li>
-        <li><a href="/payment.html">Payment & Delivery</a></li>
+        <li><a href="/contact.html">Contact</a></li>
+        <li><a href="/payment.html" class="active">Payment & Delivery</a></li>
       </ul>
       <div class="nav-actions">
         <button class="cart-toggle" aria-label="Open shopping cart">
@@ -64,80 +64,76 @@
   <main>
     <section class="page-hero fade-in">
       <div class="container">
-        <p class="section-label">Get in Touch</p>
-        <h1>Contact Us</h1>
-        <p class="section-subtitle" style="margin:0 auto; text-align:center;">We'd love to hear from you. Reach out for orders, questions, or styling advice.</p>
+        <p class="section-label">Orders</p>
+        <h1>Payment & Delivery</h1>
+        <p class="section-subtitle" style="margin:0 auto; text-align:center;">How to pay and what to expect for delivery on your Areli order.</p>
       </div>
     </section>
 
     <section class="section">
       <div class="container">
-        <div class="contact-grid">
-          <form class="contact-form fade-in-left" onsubmit="event.preventDefault(); alert('Thank you! We will get back to you shortly.');">
-            <div class="form-group">
-              <label for="name">Full Name</label>
-              <input type="text" id="name" name="name" placeholder="Your name" required />
-            </div>
-            <div class="form-group">
-              <label for="phone">Phone Number</label>
-              <input type="tel" id="phone" name="phone" placeholder="e.g. 053 997 4264" required />
-            </div>
-            <div class="form-group">
-              <label for="email">Email (optional)</label>
-              <input type="email" id="email" name="email" placeholder="your@email.com" />
-            </div>
-            <div class="form-group">
-              <label for="subject">Subject</label>
-              <select id="subject" name="subject">
-                <option value="order">Place an Order</option>
-                <option value="question">General Question</option>
-                <option value="custom">Custom Request</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="message">Message</label>
-              <textarea id="message" name="message" placeholder="Tell us how we can help..." required></textarea>
-            </div>
-            <button type="submit" class="btn btn-accent">Send Message</button>
-          </form>
-
-          <div class="fade-in-right">
-            <div class="contact-info-card">
-              <h3>Contact Information</h3>
-              <div class="contact-detail">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-                <div>
-                  <strong>Phone / WhatsApp</strong>
-                  <a href="tel:+233539974264">053 997 4264</a>
-                </div>
+        <div class="payment-section fade-in-up">
+          <div class="payment-card">
+            <h3>Payment Details</h3>
+            <div class="payment-details">
+              <div class="payment-detail-item">
+                <p class="label">Mobile Network</p>
+                <p class="value">MTN Mobile Money</p>
               </div>
-              <div class="contact-detail">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                <div>
-                  <strong>Location</strong>
-                  <span>Ghana</span>
-                </div>
+              <div class="payment-detail-item">
+                <p class="label">Number</p>
+                <p class="value"><a href="tel:+233539974264">0539974264</a></p>
               </div>
-              <div class="contact-detail">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
-                <div>
-                  <strong>Response Time</strong>
-                  <span>Within 24 hours</span>
-                </div>
+              <div class="payment-detail-item">
+                <p class="label">Account Name</p>
+                <p class="value">Charis T</p>
               </div>
             </div>
+          </div>
 
-            <div style="margin-top: 1.5rem; text-align: center;">
-              <a href="https://wa.me/233539974264" target="_blank" rel="noopener" class="btn btn-accent" style="width:100%;">
-                Chat on WhatsApp
-              </a>
+          <div class="payment-card">
+            <h3>Delivery Charges (Apply to orders)</h3>
+            <div class="delivery-table-wrap">
+              <table class="delivery-table">
+                <thead>
+                  <tr>
+                    <th>Order Total (GHS)</th>
+                    <th>Delivery Fee</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Below 60 GHS</td>
+                    <td class="fee">Contact us / Free Pickup</td>
+                  </tr>
+                  <tr>
+                    <td>60 – 99 GHS</td>
+                    <td class="fee">0.50 GHS</td>
+                  </tr>
+                  <tr>
+                    <td>100 – 199 GHS</td>
+                    <td class="fee">1.00 GHS</td>
+                  </tr>
+                  <tr>
+                    <td>200 – 299 GHS</td>
+                    <td class="fee">2.00 GHS</td>
+                  </tr>
+                  <tr>
+                    <td>300+ GHS</td>
+                    <td class="fee">2.00 GHS</td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
+          </div>
 
-            <div style="margin-top: 1rem; text-align: center;">
-              <a href="/payment.html" class="btn btn-outline" style="width:100%;">
-                Payment & Delivery Info
-              </a>
+          <div style="text-align: center; margin-top: 2rem;">
+            <p style="color: var(--grey-dark); margin-bottom: 1.5rem; max-width: 500px; margin-left: auto; margin-right: auto;">
+              After placing your order, send payment to the MTN Mobile Money number above and share your receipt via WhatsApp for confirmation.
+            </p>
+            <a href="https://wa.me/233539974264" target="_blank" rel="noopener" class="btn btn-accent">Order via WhatsApp</a>
+            <div style="margin-top: 1rem;">
+              <a href="/contact.html" class="btn btn-outline">Contact Us</a>
             </div>
           </div>
         </div>
@@ -171,10 +167,11 @@
           </ul>
         </div>
         <div>
-          <h4>Contact</h4>
+          <h4>Payment</h4>
           <ul class="footer-links">
-            <li><a href="tel:+233539974264">053 997 4264</a></li>
-            <li><a href="https://wa.me/233539974264" target="_blank" rel="noopener">WhatsApp</a></li>
+            <li>MTN Mobile Money</li>
+            <li>Charis T</li>
+            <li><a href="tel:+233539974264">0539974264</a></li>
           </ul>
         </div>
       </div>
@@ -213,7 +210,7 @@
     <a href="/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Home</a>
     <a href="/#collections"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 6h15l-1.5 9h-12z"/></svg>Shop</a>
     <a href="/about.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/></svg>About</a>
-    <a href="/contact.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Contact</a>
+    <a href="/contact.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Contact</a>
   </nav>
 
   <script type="module" src="/js/main.js"></script>

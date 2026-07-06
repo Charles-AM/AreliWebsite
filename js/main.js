@@ -7,7 +7,6 @@ import {
   initMobileMenu,
   initLazyImages,
   initCarousel,
-  initContactTabs,
 } from './animations.js';
 
 function resolveImageSrc(localPath, fallback) {
@@ -73,10 +72,7 @@ function renderLifestyle() {
     el.className = `lifestyle-card fade-in-up`;
     el.style.transitionDelay = `${i * 0.1}s`;
     el.innerHTML = `
-      <img src="${item.fallback}" alt="${item.title}" loading="lazy" class="lifestyle-image" data-local="${item.image}" />
-      <div class="lifestyle-overlay">
-        <span>${item.title}</span>
-      </div>
+      <img src="${item.fallback}" alt="Style inspiration" loading="lazy" class="lifestyle-image" data-local="${item.image}" />
     `;
     const img = el.querySelector('img');
     const testImg = new Image();
@@ -180,7 +176,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initCarousel();
   initCart();
   initWishlist();
-  initContactTabs();
   initProductActions();
   initHeroImage();
   initAboutImage();
