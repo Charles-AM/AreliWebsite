@@ -1092,36 +1092,6 @@ h1, h2, h3, h4 {
   object-fit: cover;
 }
 
-.about-models-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1rem;
-}
-
-.about-model-card {
-  aspect-ratio: 3/4;
-  overflow: hidden;
-  border-radius: 6px;
-  background: var(--beige-light);
-  transition: transform var(--transition), box-shadow var(--transition);
-}
-
-.about-model-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lift);
-}
-
-.about-model-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.5s ease;
-}
-
-.about-model-card:hover .about-model-image {
-  transform: scale(1.04);
-}
-
 .about-text h2 {
   font-size: clamp(1.75rem, 3vw, 2.25rem);
   margin-bottom: 1.5rem;
@@ -1816,10 +1786,6 @@ h1, h2, h3, h4 {
     grid-template-columns: 1fr 1fr;
   }
 
-  .about-models-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
   .about-section {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -1869,10 +1835,6 @@ h1, h2, h3, h4 {
 
   .lifestyle-grid {
     grid-template-columns: 1fr;
-  }
-
-  .about-models-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 
   .category-grid {

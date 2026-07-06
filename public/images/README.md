@@ -34,18 +34,14 @@ Recommended: PNG with transparent background, about **200×60px**.
 
 ---
 
-## About page — model photos
+## About page — 2 model photos
 
-Upload model images to `public/images/about/`:
+Upload to `public/images/about/`:
 
-| Filename | Where it appears |
-|----------|------------------|
-| `about-story.jpg` | Main story section (left image, top) |
-| `model-1.jpg` | Our Models gallery — photo 1 |
-| `model-2.jpg` | Story section (right image) + Models gallery — photo 2 |
-| `model-3.jpg` | Our Models gallery — photo 3 |
-| `model-4.jpg` | Our Models gallery — photo 4 |
-| `model-5.jpg` | Our Models gallery — photo 5 |
+| Filename | Section |
+|----------|---------|
+| `about-story.jpg` | **Jewelry for Real Life** — large image on the left |
+| `model-2.jpg` | **Confidence, Every Day** — image on the right |
 
 Recommended: portrait photos, about **800×1000px**.
 

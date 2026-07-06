@@ -213,7 +213,7 @@ function initLogo() {
 }
 
 function initAboutImages() {
-  document.querySelectorAll('.about-image, .about-model-image').forEach((img) => {
+  document.querySelectorAll('.about-image').forEach((img) => {
     const local = img.dataset.local;
     const fallback = img.src;
     if (!local) return;
