@@ -112,7 +112,6 @@ export const categories = [
 ];
 
 export const deliveryTiers = [
-  { range: 'Below 60 GHS', fee: 'Contact us / Free Pickup' },
   { range: '60 – 99 GHS', fee: '0.50 GHS' },
   { range: '100 – 199 GHS', fee: '1.00 GHS' },
   { range: '200 – 299 GHS', fee: '2.00 GHS' },
