@@ -157,16 +157,53 @@ function initProductActions() {
   });
 }
 
+function revealHeroImage(img) {
+  img.classList.add('is-ready');
+}
+
 function initHeroImage() {
   const heroImg = document.querySelector('.hero-image');
   if (!heroImg) return;
-  const local = heroImg.dataset.local;
-  const fallback = heroImg.src;
-  if (!local) return;
-  const testImg = new Image();
-  testImg.onload = () => { heroImg.src = local; };
-  testImg.onerror = () => { heroImg.src = fallback; };
-  testImg.src = local;
+
+  const fallback = heroImg.dataset.fallback;
+  let revealed = false;
+
+  const reveal = () => {
+    if (revealed) return;
+    revealed = true;
+    revealHeroImage(heroImg);
+  };
+
+  if (heroImg.complete && heroImg.naturalWidth > 0) {
+    reveal();
+    return;
+  }
+
+  heroImg.addEventListener('load', reveal, { once: true });
+  heroImg.addEventListener('error', () => {
+    if (fallback && heroImg.src !== fallback) {
+      heroImg.addEventListener('load', reveal, { once: true });
+      heroImg.src = fallback;
+      return;
+    }
+    reveal();
+  }, { once: true });
+}
+
+function refreshHeroImageOnRestore() {
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    const heroImg = document.querySelector('.hero-image');
+    if (!heroImg) return;
+    heroImg.classList.remove('is-ready');
+    const currentSrc = heroImg.getAttribute('src');
+    if (!currentSrc) return;
+    heroImg.src = '';
+    heroImg.src = currentSrc;
+    if (heroImg.complete && heroImg.naturalWidth > 0) {
+      revealHeroImage(heroImg);
+    }
+  });
 }
 
 function initAboutImages() {
@@ -216,6 +253,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCart();
   initProductActions();
   initHeroImage();
+  refreshHeroImageOnRestore();
   initAboutImages();
   initContactLinks();
   initContactForm();
