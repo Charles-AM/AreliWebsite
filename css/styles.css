@@ -596,6 +596,7 @@ h1, h2, h3, h4 {
   padding: 0 0.25rem 0.5rem;
   cursor: grab;
   scroll-padding-inline: 0.5rem;
+  align-items: stretch;
 }
 
 .gallery-track .gallery-card {
@@ -646,6 +647,9 @@ h1, h2, h3, h4 {
    Gallery Cards (scrollable jewelry)
    ============================================ */
 .gallery-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   background: var(--beige-light);
   border-radius: 6px;
   overflow: hidden;
@@ -677,6 +681,9 @@ h1, h2, h3, h4 {
 }
 
 .gallery-info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   padding: 0.6rem 0.5rem 0.75rem;
   text-align: center;
 }
@@ -696,6 +703,7 @@ h1, h2, h3, h4 {
   color: var(--grey-dark);
   line-height: 1.45;
   margin-bottom: 0.25rem;
+  min-height: calc(0.65rem * 1.45 * 2);
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
@@ -707,12 +715,15 @@ h1, h2, h3, h4 {
   font-weight: 600;
   color: var(--accent-gold);
   margin-bottom: 0.5rem;
+  margin-top: auto;
 }
 
 .btn-gallery-cart {
   width: 100%;
   padding: 0.45rem 0.35rem;
   font-size: 0.65rem;
+  margin-top: 0;
+  flex-shrink: 0;
 }
 
 .collection-gallery .carousel-wrapper-fade::before {
