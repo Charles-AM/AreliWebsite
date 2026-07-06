@@ -1,4 +1,4 @@
-import { collections, lifestyleImages, testimonials, categories, getAllCollectionProducts, LOGO_PATH } from './products.js';
+import { collections, lifestyleImages, testimonials, categories, getAllCollectionProducts } from './products.js';
 import { addToCart, initCart, initWishlist } from './cart.js';
 import {
   initScrollAnimations,
@@ -176,19 +176,6 @@ function initHeroImage() {
   testImg.src = local;
 }
 
-function initLogo() {
-  document.querySelectorAll('.logo').forEach((logoEl) => {
-    const img = logoEl.querySelector('.logo-custom');
-    if (!img) return;
-    const test = new Image();
-    test.onload = () => {
-      img.src = LOGO_PATH;
-      logoEl.classList.add('has-custom-logo');
-    };
-    test.src = LOGO_PATH;
-  });
-}
-
 function initAboutImages() {
   document.querySelectorAll('.about-image').forEach((img) => {
     const local = img.dataset.local;
@@ -212,7 +199,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initProductActions();
   initHeroImage();
   initAboutImages();
-  initLogo();
 
   renderCollections();
   renderLifestyle();
