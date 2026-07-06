@@ -109,7 +109,7 @@ function renderTestimonials() {
   if (!track) return;
   testimonials.forEach((t, i) => {
     const el = document.createElement('blockquote');
-    el.className = 'testimonial-card fade-in-up';
+    el.className = 'testimonial-card';
     el.style.transitionDelay = `${i * 0.1}s`;
     el.innerHTML = `
       <div class="testimonial-stars">${'★'.repeat(t.rating)}</div>

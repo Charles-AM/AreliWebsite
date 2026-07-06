@@ -101,7 +101,7 @@ export function initLazyImages() {
 }
 
 export function initCarousel() {
-  document.querySelectorAll('.carousel-track, .lifestyle-grid, .category-grid').forEach((track) => {
+  document.querySelectorAll('.carousel-track, .lifestyle-grid, .category-grid, .why-grid, .testimonials-track').forEach((track) => {
     let isDown = false;
     let startX;
     let scrollLeft;

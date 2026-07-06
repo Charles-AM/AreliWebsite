@@ -1686,12 +1686,6 @@ h1, h2, h3, h4 {
     background: linear-gradient(to top, var(--beige-light) 0%, transparent 40%);
   }
 
-  .why-grid,
-  .testimonials-track {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
   .lifestyle-grid {
     grid-template-columns: repeat(3, 1fr);
   }
@@ -1756,6 +1750,8 @@ h1, h2, h3, h4 {
     max-height: 320px;
   }
 
+  .why-grid,
+  .testimonials-track,
   .lifestyle-grid,
   .category-grid {
     display: flex;
@@ -1771,15 +1767,53 @@ h1, h2, h3, h4 {
     scroll-padding-inline: 0.25rem;
   }
 
+  .why-grid::-webkit-scrollbar,
+  .testimonials-track::-webkit-scrollbar,
   .lifestyle-grid::-webkit-scrollbar,
   .category-grid::-webkit-scrollbar {
     display: none;
   }
 
+  .why-grid.is-dragging,
+  .testimonials-track.is-dragging,
   .lifestyle-grid.is-dragging,
   .category-grid.is-dragging {
     cursor: grabbing;
     scroll-snap-type: none;
+  }
+
+  .why-card {
+    flex: 0 0 calc((100% - 0.75rem) / 2);
+    min-width: calc((100% - 0.75rem) / 2);
+    scroll-snap-align: start;
+    padding: 1.75rem 1rem;
+  }
+
+  .why-icon {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 1rem;
+  }
+
+  .why-card h3 {
+    font-size: 1.05rem;
+  }
+
+  .why-card p {
+    font-size: 0.82rem;
+  }
+
+  .testimonial-card {
+    flex: 0 0 calc((100% - 0.75rem) / 2);
+    min-width: calc((100% - 0.75rem) / 2);
+    scroll-snap-align: start;
+    padding: 1.35rem 1rem;
+  }
+
+  .testimonial-card p {
+    font-size: 0.82rem;
+    line-height: 1.65;
+    margin-bottom: 1rem;
   }
 
   .lifestyle-card {
