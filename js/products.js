@@ -72,8 +72,6 @@ export const collections = [
   },
 ];
 
-export const LOGO_PATH = '/images/logo/logo.png';
-
 export function getAllCollectionProducts() {
   return collections.flatMap((g) => g.categories.flatMap((c) => c.products));
 }
