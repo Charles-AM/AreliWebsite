@@ -11,7 +11,7 @@ import {
 
 function createProductCard(product, showWishlist = true, gallery = false) {
   const card = document.createElement('article');
-  card.className = gallery ? 'gallery-card fade-in-up' : 'product-card fade-in-up';
+  card.className = gallery ? 'gallery-card' : 'product-card fade-in-up';
   card.innerHTML = gallery ? `
     <div class="gallery-image-wrap">
       <img src="${product.fallback}" data-local="${product.image}" alt="${product.name}"
@@ -59,7 +59,7 @@ function renderCollections() {
 
   collections.forEach((group) => {
     const groupEl = document.createElement('div');
-    groupEl.className = 'collection-group fade-in-up';
+    groupEl.className = 'collection-group';
     groupEl.innerHTML = `<h3 class="collection-group-title">${group.group}</h3>`;
 
     group.categories.forEach((category) => {
@@ -205,7 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initStickyNav();
   initMobileMenu();
   initBackToTop();
-  initScrollAnimations();
   initLazyImages();
   initCarousel();
   initCart();
@@ -216,10 +215,9 @@ document.addEventListener('DOMContentLoaded', () => {
   initLogo();
 
   renderCollections();
-  renderBestsellers();
   renderLifestyle();
   renderTestimonials();
   renderCategories();
 
-  setTimeout(initScrollAnimations, 100);
+  initScrollAnimations();
 });

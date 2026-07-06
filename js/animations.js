@@ -1,18 +1,35 @@
+let scrollObserver;
+
+function revealIfInView(el) {
+  const rect = el.getBoundingClientRect();
+  const inView = rect.top < window.innerHeight * 0.92 && rect.bottom > window.innerHeight * 0.08;
+  if (inView) {
+    el.classList.add('visible');
+    scrollObserver?.unobserve(el);
+  }
+}
+
 export function initScrollAnimations() {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
-  );
+  if (!scrollObserver) {
+    scrollObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            scrollObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -20px 0px' }
+    );
+  }
 
   document.querySelectorAll('.fade-in, .fade-in-up, .fade-in-left, .fade-in-right, .stagger-children').forEach((el) => {
-    observer.observe(el);
+    if (el.classList.contains('visible')) return;
+    revealIfInView(el);
+    if (!el.classList.contains('visible')) {
+      scrollObserver.observe(el);
+    }
   });
 }
 
