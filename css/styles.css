@@ -1858,9 +1858,12 @@ h1, h2, h3, h4 {
     text-align: center;
   }
 
-  .carousel-track .product-card,
+  .carousel-track .product-card {
+    flex: 0 0 200px;
+  }
+
   .gallery-track .gallery-card {
-    flex: 0 0 130px;
+    flex: 0 0 min(78vw, 340px);
   }
 
   .contact-tabs {
