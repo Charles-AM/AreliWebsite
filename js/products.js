@@ -78,13 +78,6 @@ export function getAllCollectionProducts() {
   return collections.flatMap((g) => g.categories.flatMap((c) => c.products));
 }
 
-export const bestsellers = [
-  { id: 'necklaces-1', name: 'Necklace 1', price: 85, ...img('necklaces', 'necklace-1.jpg', FALLBACKS.necklace) },
-  { id: 'earrings-rings-1', name: 'Earring / Ring 1', price: 45, ...img('earrings-rings', 'earrings-rings-1.jpg', FALLBACKS.earring) },
-  { id: 'bracelets-bangles-1', name: 'Bracelet / Bangle 1', price: 55, ...img('bracelets-bangles', 'bracelet-1.jpg', FALLBACKS.bracelet) },
-  { id: 'perfume-1', name: 'Perfume 1', price: 45, ...img('perfume', 'perfume-1.jpg', FALLBACKS.perfume) },
-];
-
 export const lifestyleImages = [
   { image: '/images/lifestyle/work.jpg', fallback: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80' },
   { image: '/images/lifestyle/gym.jpg', fallback: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80' },
