@@ -1,4 +1,4 @@
-import { collections, bestsellers, lifestyleImages, testimonials, categories, getAllCollectionProducts, LOGO_PATH } from './products.js';
+import { collections, lifestyleImages, testimonials, categories, getAllCollectionProducts, LOGO_PATH } from './products.js';
 import { addToCart, initCart, initWishlist } from './cart.js';
 import {
   initScrollAnimations,
@@ -85,14 +85,6 @@ function renderCollections() {
   });
 }
 
-function renderBestsellers() {
-  const grid = document.querySelector('.bestsellers-grid');
-  if (!grid) return;
-  bestsellers.forEach((product) => {
-    grid.appendChild(createProductCard(product, false));
-  });
-}
-
 function renderLifestyle() {
   const grid = document.querySelector('.lifestyle-grid');
   if (!grid) return;
@@ -159,8 +151,7 @@ function initProductActions() {
     const btn = e.target.closest('.btn-add-cart');
     if (!btn) return;
     const id = btn.dataset.id;
-    const product = getAllCollectionProducts().find((p) => p.id === id)
-      || bestsellers.find((p) => p.id === id);
+    const product = getAllCollectionProducts().find((p) => p.id === id);
     if (product) {
       addToCart(product);
       btn.textContent = 'Added!';
