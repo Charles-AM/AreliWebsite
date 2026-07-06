@@ -1,4 +1,4 @@
-import { collections, lifestyleImages, testimonials, categories, getAllCollectionProducts } from './products.js';
+import { collections, lifestyleImages, testimonials, categories, getAllCollectionProducts, WHATSAPP_URL } from './products.js';
 import { addToCart, initCart } from './cart.js';
 import {
   initScrollAnimations,
@@ -178,6 +178,14 @@ function initAboutImages() {
   });
 }
 
+function initContactLinks() {
+  document.querySelectorAll('[data-whatsapp], a[href*="api.whatsapp.com/send"]').forEach((el) => {
+    el.href = WHATSAPP_URL;
+    el.target = '_blank';
+    el.rel = 'noopener noreferrer';
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initStickyNav();
   initMobileMenu();
@@ -188,6 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initProductActions();
   initHeroImage();
   initAboutImages();
+  initContactLinks();
 
   renderCollections();
   renderLifestyle();
