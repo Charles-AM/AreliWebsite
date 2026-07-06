@@ -552,9 +552,120 @@ h1, h2, h3, h4 {
   display: none;
 }
 
-.carousel-track .product-card {
-  flex: 0 0 280px;
+.carousel-wrapper-fade {
+  position: relative;
+}
+
+.carousel-wrapper-fade::before,
+.carousel-wrapper-fade::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 1rem;
+  width: 48px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.carousel-wrapper-fade::before {
+  left: 0;
+  background: linear-gradient(to right, var(--white), transparent);
+}
+
+.carousel-wrapper-fade::after {
+  right: 0;
+  background: linear-gradient(to left, var(--white), transparent);
+}
+
+.carousel-track.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
+}
+
+.gallery-track {
+  gap: 1rem;
+  padding: 0.25rem 0 1.25rem;
+  cursor: grab;
+  scroll-padding-left: 1.5rem;
+}
+
+.gallery-track .gallery-card {
+  flex: 0 0 220px;
   scroll-snap-align: start;
+}
+
+.scroll-hint {
+  font-size: 0.8rem;
+  color: var(--grey-mid);
+  margin-top: 0.25rem;
+  letter-spacing: 0.03em;
+}
+
+/* ============================================
+   Gallery Cards (scrollable jewelry)
+   ============================================ */
+.gallery-card {
+  background: var(--beige-light);
+  border-radius: 6px;
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.gallery-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lift);
+}
+
+.gallery-image-wrap {
+  position: relative;
+  aspect-ratio: 3/4;
+  overflow: hidden;
+  background: var(--beige-mid);
+}
+
+.gallery-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+  pointer-events: none;
+}
+
+.gallery-card:hover .gallery-image {
+  transform: scale(1.05);
+}
+
+.gallery-info {
+  padding: 0.85rem 0.75rem 1rem;
+  text-align: center;
+}
+
+.gallery-name {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--grey-charcoal);
+  margin-bottom: 0.2rem;
+}
+
+.gallery-price {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-gold);
+  margin-bottom: 0.65rem;
+}
+
+.btn-gallery-cart {
+  width: 100%;
+  padding: 0.55rem 0.5rem;
+  font-size: 0.7rem;
+}
+
+.collection-gallery .carousel-wrapper-fade::before {
+  background: linear-gradient(to right, var(--white), transparent);
+}
+
+.collection-gallery .carousel-wrapper-fade::after {
+  background: linear-gradient(to left, var(--white), transparent);
 }
 
 /* ============================================
@@ -1715,8 +1826,9 @@ h1, h2, h3, h4 {
     text-align: center;
   }
 
-  .carousel-track .product-card {
-    flex: 0 0 240px;
+  .carousel-track .product-card,
+  .gallery-track .gallery-card {
+    flex: 0 0 200px;
   }
 
   .contact-tabs {

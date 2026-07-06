@@ -90,12 +90,39 @@ export function initCarousel() {
     const next = section.querySelector('.carousel-next');
     if (!track) return;
 
-    const scrollAmount = 320;
+    const scrollAmount = track.classList.contains('gallery-track') ? 240 : 320;
+
     prev?.addEventListener('click', () => {
       track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
     });
     next?.addEventListener('click', () => {
       track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    });
+
+    // Drag to scroll on desktop
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    track.addEventListener('mousedown', (e) => {
+      isDown = true;
+      track.classList.add('is-dragging');
+      startX = e.pageX - track.offsetLeft;
+      scrollLeft = track.scrollLeft;
+    });
+    track.addEventListener('mouseleave', () => {
+      isDown = false;
+      track.classList.remove('is-dragging');
+    });
+    track.addEventListener('mouseup', () => {
+      isDown = false;
+      track.classList.remove('is-dragging');
+    });
+    track.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - track.offsetLeft;
+      track.scrollLeft = scrollLeft - (x - startX) * 1.5;
     });
   });
 }

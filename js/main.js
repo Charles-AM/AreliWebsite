@@ -9,10 +9,25 @@ import {
   initCarousel,
 } from './animations.js';
 
-function createProductCard(product, showWishlist = true) {
+function createProductCard(product, showWishlist = true, gallery = false) {
   const card = document.createElement('article');
-  card.className = 'product-card fade-in-up';
-  card.innerHTML = `
+  card.className = gallery ? 'gallery-card fade-in-up' : 'product-card fade-in-up';
+  card.innerHTML = gallery ? `
+    <div class="gallery-image-wrap">
+      <img src="${product.fallback}" data-local="${product.image}" alt="${product.name}"
+           loading="lazy" class="gallery-image" />
+      ${showWishlist ? `<button class="wishlist-btn" data-id="${product.id}" aria-label="Add to wishlist">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+      </button>` : ''}
+    </div>
+    <div class="gallery-info">
+      <p class="gallery-name">${product.name}</p>
+      <p class="gallery-price">GHS ${product.price.toFixed(2)}</p>
+      <button class="btn btn-accent btn-add-cart btn-gallery-cart" data-id="${product.id}">Add to Cart</button>
+    </div>
+  ` : `
     <div class="product-image-wrap">
       <img src="${product.fallback}" data-local="${product.image}" alt="${product.name}"
            loading="lazy" class="product-image" />
@@ -29,10 +44,10 @@ function createProductCard(product, showWishlist = true) {
     </div>
   `;
 
-  const img = card.querySelector('.product-image');
+  const imgEl = card.querySelector('.gallery-image, .product-image');
   const testImg = new Image();
-  testImg.onload = () => { img.src = product.image; };
-  testImg.onerror = () => { img.src = product.fallback; };
+  testImg.onload = () => { imgEl.src = product.image; };
+  testImg.onerror = () => { imgEl.src = product.fallback; };
   testImg.src = product.image;
 
   return card;
@@ -48,12 +63,16 @@ function renderCollections() {
     groupEl.innerHTML = `<h3 class="collection-group-title">${group.group}</h3>`;
 
     group.categories.forEach((category) => {
+      const isGallery = category.gallery === true;
       const section = document.createElement('div');
-      section.className = 'collection-category';
+      section.className = `collection-category${isGallery ? ' collection-gallery' : ''}`;
       section.id = `collection-${category.id}`;
       section.innerHTML = `
         <div class="collection-category-header">
-          <h4 class="collection-category-title">${category.name}</h4>
+          <div>
+            <h4 class="collection-category-title">${category.name}</h4>
+            ${isGallery ? '<p class="scroll-hint">Scroll to explore →</p>' : ''}
+          </div>
           <div class="carousel-controls">
             <button class="carousel-prev" aria-label="Previous ${category.name} products">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
@@ -63,14 +82,14 @@ function renderCollections() {
             </button>
           </div>
         </div>
-        <div class="carousel-wrapper">
-          <div class="carousel-track" role="list" aria-label="${category.name} products"></div>
+        <div class="carousel-wrapper carousel-wrapper-fade">
+          <div class="carousel-track${isGallery ? ' gallery-track' : ''}" role="list" aria-label="${category.name} products"></div>
         </div>
       `;
 
       const track = section.querySelector('.carousel-track');
       category.products.forEach((product) => {
-        track.appendChild(createProductCard(product));
+        track.appendChild(createProductCard(product, true, isGallery));
       });
 
       groupEl.appendChild(section);

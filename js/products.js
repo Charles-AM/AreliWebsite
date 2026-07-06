@@ -8,36 +8,48 @@ const img = (category, filename, fallback) => ({
   fallback,
 });
 
+const jewelryFallback = 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=80';
+const braceletFallback = 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=600&q=80';
+const necklaceFallback = 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&q=80';
+
+/** Build numbered product slots — upload matching images on GitHub (e.g. jewelry-1.jpg … jewelry-12.jpg) */
+function buildSlots(category, count, fallback, label, basePrice = 75) {
+  return Array.from({ length: count }, (_, i) => {
+    const n = i + 1;
+    return {
+      id: `${category}-${n}`,
+      name: `${label} ${n}`,
+      price: basePrice + (i % 4) * 10,
+      ...img(category, `${category}-${n}.jpg`, fallback),
+    };
+  });
+}
+
 export const collections = [
   {
     group: 'Jewelry',
+    scrollable: true,
     categories: [
       {
         id: 'jewelry',
         name: 'Jewelry',
-        products: [
-          { id: 'jewelry-1', name: 'Everyday Gold Piece', price: 85, ...img('jewelry', 'jewelry-1.jpg', 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=80') },
-          { id: 'jewelry-2', name: 'Classic Stud Set', price: 65, ...img('jewelry', 'jewelry-2.jpg', 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=600&q=80') },
-          { id: 'jewelry-3', name: 'Statement Piece', price: 95, ...img('jewelry', 'jewelry-3.jpg', 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&q=80') },
-        ],
+        gallery: true,
+        imageCount: 12,
+        products: buildSlots('jewelry', 12, jewelryFallback, 'Jewelry Piece', 65),
       },
       {
         id: 'bracelets',
         name: 'Bracelets',
-        products: [
-          { id: 'bracelet-1', name: 'Delicate Chain Bracelet', price: 75, ...img('bracelets', 'bracelet-1.jpg', 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=600&q=80') },
-          { id: 'bracelet-2', name: 'Bold Cuff Bracelet', price: 89, ...img('bracelets', 'bracelet-2.jpg', 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=80') },
-          { id: 'bracelet-3', name: 'Stackable Bracelet Set', price: 55, ...img('bracelets', 'bracelet-3.jpg', 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=600&q=80') },
-        ],
+        gallery: true,
+        imageCount: 8,
+        products: buildSlots('bracelets', 8, braceletFallback, 'Bracelet', 55),
       },
       {
         id: 'necklaces',
         name: 'Necklaces',
-        products: [
-          { id: 'necklace-1', name: 'Minimalist Chain Necklace', price: 95, ...img('necklaces', 'necklace-1.jpg', 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&q=80') },
-          { id: 'necklace-2', name: 'Layered Necklace Set', price: 150, ...img('necklaces', 'necklace-2.jpg', 'https://images.unsplash.com/photo-1506630448388-4e683c67ddb0?w=600&q=80') },
-          { id: 'necklace-3', name: 'Golden Arc Pendant', price: 120, ...img('necklaces', 'necklace-3.jpg', 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=600&q=80') },
-        ],
+        gallery: true,
+        imageCount: 8,
+        products: buildSlots('necklaces', 8, necklaceFallback, 'Necklace', 85),
       },
     ],
   },
@@ -71,9 +83,9 @@ export function getAllCollectionProducts() {
 }
 
 export const bestsellers = [
-  { id: 'necklace-1', name: 'Minimalist Chain Necklace', price: 95, ...img('necklaces', 'necklace-1.jpg', 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&q=80') },
-  { id: 'bracelet-1', name: 'Delicate Chain Bracelet', price: 75, ...img('bracelets', 'bracelet-1.jpg', 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=600&q=80') },
-  { id: 'jewelry-1', name: 'Everyday Gold Piece', price: 85, ...img('jewelry', 'jewelry-1.jpg', 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=80') },
+  { id: 'necklace-1', name: 'Necklace 1', price: 85, ...img('necklaces', 'necklace-1.jpg', necklaceFallback) },
+  { id: 'bracelet-1', name: 'Bracelet 1', price: 55, ...img('bracelets', 'bracelet-1.jpg', braceletFallback) },
+  { id: 'jewelry-1', name: 'Jewelry Piece 1', price: 65, ...img('jewelry', 'jewelry-1.jpg', jewelryFallback) },
   { id: 'perfume-1', name: 'Signature Scent', price: 45, ...img('perfume', 'perfume-1.jpg', 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&q=80') },
 ];
 

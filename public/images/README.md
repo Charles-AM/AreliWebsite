@@ -15,11 +15,13 @@ Upload your images to GitHub in the folders below. The site uses them automatica
 Upload product photos into the matching collection folder:
 
 ### Jewelry
-| Folder | Filenames |
-|--------|-----------|
-| `collections/jewelry/` | `jewelry-1.jpg`, `jewelry-2.jpg`, `jewelry-3.jpg` |
-| `collections/bracelets/` | `bracelet-1.jpg`, `bracelet-2.jpg`, `bracelet-3.jpg` |
-| `collections/necklaces/` | `necklace-1.jpg`, `necklace-2.jpg`, `necklace-3.jpg` |
+| Folder | Filenames (upload as many as you have) |
+|--------|----------------------------------------|
+| `collections/jewelry/` | `jewelry-1.jpg` … `jewelry-12.jpg` |
+| `collections/bracelets/` | `bracelet-1.jpg` … `bracelet-8.jpg` |
+| `collections/necklaces/` | `necklace-1.jpg` … `necklace-8.jpg` |
+
+Jewelry sections scroll horizontally — upload numbered images and they appear in order.
 
 ### Extras
 | Folder | Filenames |
