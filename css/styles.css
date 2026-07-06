@@ -220,6 +220,29 @@ h1, h2, h3, h4 {
   font-weight: 500;
   color: var(--grey-charcoal);
   letter-spacing: 0.05em;
+  min-height: 40px;
+}
+
+.logo-custom {
+  display: none;
+  height: 40px;
+  width: auto;
+  max-width: 140px;
+  object-fit: contain;
+}
+
+.logo.has-custom-logo .logo-custom {
+  display: block;
+}
+
+.logo.has-custom-logo .logo-default {
+  display: none;
+}
+
+.logo-default {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
 }
 
 .logo-icon {
@@ -590,7 +613,7 @@ h1, h2, h3, h4 {
 }
 
 .gallery-track .gallery-card {
-  flex: 0 0 220px;
+  flex: 0 0 150px;
   scroll-snap-align: start;
 }
 
@@ -618,7 +641,7 @@ h1, h2, h3, h4 {
 
 .gallery-image-wrap {
   position: relative;
-  aspect-ratio: 3/4;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
   background: var(--beige-mid);
 }
@@ -636,28 +659,31 @@ h1, h2, h3, h4 {
 }
 
 .gallery-info {
-  padding: 0.85rem 0.75rem 1rem;
+  padding: 0.6rem 0.5rem 0.75rem;
   text-align: center;
 }
 
 .gallery-name {
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 500;
   color: var(--grey-charcoal);
-  margin-bottom: 0.2rem;
+  margin-bottom: 0.15rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .gallery-price {
-  font-size: 0.8rem;
+  font-size: 0.72rem;
   font-weight: 600;
   color: var(--accent-gold);
-  margin-bottom: 0.65rem;
+  margin-bottom: 0.5rem;
 }
 
 .btn-gallery-cart {
   width: 100%;
-  padding: 0.55rem 0.5rem;
-  font-size: 0.7rem;
+  padding: 0.45rem 0.35rem;
+  font-size: 0.65rem;
 }
 
 .collection-gallery .carousel-wrapper-fade::before {
@@ -1348,6 +1374,12 @@ h1, h2, h3, h4 {
   margin-bottom: 1rem;
 }
 
+.footer-brand .logo-custom {
+  max-height: 36px;
+  filter: brightness(0) invert(1);
+  opacity: 0.95;
+}
+
 .footer-brand p {
   font-size: 0.9rem;
   line-height: 1.8;
@@ -1828,7 +1860,7 @@ h1, h2, h3, h4 {
 
   .carousel-track .product-card,
   .gallery-track .gallery-card {
-    flex: 0 0 200px;
+    flex: 0 0 130px;
   }
 
   .contact-tabs {

@@ -90,7 +90,7 @@ export function initCarousel() {
     const next = section.querySelector('.carousel-next');
     if (!track) return;
 
-    const scrollAmount = track.classList.contains('gallery-track') ? 240 : 320;
+    const scrollAmount = track.classList.contains('gallery-track') ? 165 : 320;
 
     prev?.addEventListener('click', () => {
       track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });

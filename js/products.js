@@ -1,26 +1,30 @@
 /**
  * Areli Jewellery — Collections catalog
- * Upload images to public/images/collections/<category>/ on GitHub
+ * Upload images to public/images/collections/<folder>/ on GitHub
  */
 
-const img = (category, filename, fallback) => ({
-  image: `/images/collections/${category}/${filename}`,
+const img = (folder, filename, fallback) => ({
+  image: `/images/collections/${folder}/${filename}`,
   fallback,
 });
 
-const jewelryFallback = 'https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=600&q=80';
-const braceletFallback = 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=600&q=80';
-const necklaceFallback = 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&q=80';
+const FALLBACKS = {
+  necklace: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&q=80',
+  earring: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80',
+  bracelet: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=400&q=80',
+  perfume: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&q=80',
+  crochet: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&q=80',
+};
 
-/** Build numbered product slots — upload matching images on GitHub (e.g. jewelry-1.jpg … jewelry-12.jpg) */
-function buildSlots(category, count, fallback, label, basePrice = 75) {
+/** Build numbered slots — upload e.g. necklace-1.jpg, necklace-2.jpg … on GitHub */
+function buildSlots(folder, filePrefix, count, fallback, label, basePrice = 65) {
   return Array.from({ length: count }, (_, i) => {
     const n = i + 1;
     return {
-      id: `${category}-${n}`,
+      id: `${folder}-${n}`,
       name: `${label} ${n}`,
-      price: basePrice + (i % 4) * 10,
-      ...img(category, `${category}-${n}.jpg`, fallback),
+      price: basePrice + (i % 3) * 15,
+      ...img(folder, `${filePrefix}-${n}.jpg`, fallback),
     };
   });
 }
@@ -28,28 +32,24 @@ function buildSlots(category, count, fallback, label, basePrice = 75) {
 export const collections = [
   {
     group: 'Jewelry',
-    scrollable: true,
     categories: [
-      {
-        id: 'jewelry',
-        name: 'Jewelry',
-        gallery: true,
-        imageCount: 12,
-        products: buildSlots('jewelry', 12, jewelryFallback, 'Jewelry Piece', 65),
-      },
-      {
-        id: 'bracelets',
-        name: 'Bracelets',
-        gallery: true,
-        imageCount: 8,
-        products: buildSlots('bracelets', 8, braceletFallback, 'Bracelet', 55),
-      },
       {
         id: 'necklaces',
         name: 'Necklaces',
         gallery: true,
-        imageCount: 8,
-        products: buildSlots('necklaces', 8, necklaceFallback, 'Necklace', 85),
+        products: buildSlots('necklaces', 'necklace', 5, FALLBACKS.necklace, 'Necklace', 85),
+      },
+      {
+        id: 'earrings-rings',
+        name: 'Earrings & Rings',
+        gallery: true,
+        products: buildSlots('earrings-rings', 'earrings-rings', 5, FALLBACKS.earring, 'Earring / Ring', 45),
+      },
+      {
+        id: 'bracelets-bangles',
+        name: 'Bracelets & Bangles',
+        gallery: true,
+        products: buildSlots('bracelets-bangles', 'bracelet', 5, FALLBACKS.bracelet, 'Bracelet / Bangle', 55),
       },
     ],
   },
@@ -59,34 +59,30 @@ export const collections = [
       {
         id: 'perfume',
         name: 'Perfume',
-        products: [
-          { id: 'perfume-1', name: 'Signature Scent', price: 45, ...img('perfume', 'perfume-1.jpg', 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&q=80') },
-          { id: 'perfume-2', name: 'Everyday Fragrance', price: 55, ...img('perfume', 'perfume-2.jpg', 'https://images.unsplash.com/photo-1592945403244-b3fbafd7f2c4?w=600&q=80') },
-          { id: 'perfume-3', name: 'Luxury Mini Set', price: 70, ...img('perfume', 'perfume-3.jpg', 'https://images.unsplash.com/photo-1587017539504-67cfbddac3ff?w=600&q=80') },
-        ],
+        gallery: true,
+        products: buildSlots('perfume', 'perfume', 5, FALLBACKS.perfume, 'Perfume', 45),
       },
       {
         id: 'crochet',
-        name: 'Crochet',
-        products: [
-          { id: 'crochet-1', name: 'Handmade Crochet Top', price: 80, ...img('crochet', 'crochet-1.jpg', 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=600&q=80') },
-          { id: 'crochet-2', name: 'Crochet Accessory', price: 40, ...img('crochet', 'crochet-2.jpg', 'https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=600&q=80') },
-          { id: 'crochet-3', name: 'Crochet Bag', price: 65, ...img('crochet', 'crochet-3.jpg', 'https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&q=80') },
-        ],
+        name: 'Crochet Items',
+        gallery: true,
+        products: buildSlots('crochet', 'crochet', 5, FALLBACKS.crochet, 'Crochet Item', 60),
       },
     ],
   },
 ];
+
+export const LOGO_PATH = '/images/logo/logo.png';
 
 export function getAllCollectionProducts() {
   return collections.flatMap((g) => g.categories.flatMap((c) => c.products));
 }
 
 export const bestsellers = [
-  { id: 'necklace-1', name: 'Necklace 1', price: 85, ...img('necklaces', 'necklace-1.jpg', necklaceFallback) },
-  { id: 'bracelet-1', name: 'Bracelet 1', price: 55, ...img('bracelets', 'bracelet-1.jpg', braceletFallback) },
-  { id: 'jewelry-1', name: 'Jewelry Piece 1', price: 65, ...img('jewelry', 'jewelry-1.jpg', jewelryFallback) },
-  { id: 'perfume-1', name: 'Signature Scent', price: 45, ...img('perfume', 'perfume-1.jpg', 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=600&q=80') },
+  { id: 'necklaces-1', name: 'Necklace 1', price: 85, ...img('necklaces', 'necklace-1.jpg', FALLBACKS.necklace) },
+  { id: 'earrings-rings-1', name: 'Earring / Ring 1', price: 45, ...img('earrings-rings', 'earrings-rings-1.jpg', FALLBACKS.earring) },
+  { id: 'bracelets-bangles-1', name: 'Bracelet / Bangle 1', price: 55, ...img('bracelets-bangles', 'bracelet-1.jpg', FALLBACKS.bracelet) },
+  { id: 'perfume-1', name: 'Perfume 1', price: 45, ...img('perfume', 'perfume-1.jpg', FALLBACKS.perfume) },
 ];
 
 export const lifestyleImages = [
@@ -117,9 +113,9 @@ export const testimonials = [
 ];
 
 export const categories = [
-  { name: 'Jewelry', icon: 'jewelry', href: '#collection-jewelry' },
-  { name: 'Bracelets', icon: 'bracelet', href: '#collection-bracelets' },
   { name: 'Necklaces', icon: 'necklace', href: '#collection-necklaces' },
+  { name: 'Earrings & Rings', icon: 'earrings', href: '#collection-earrings-rings' },
+  { name: 'Bracelets', icon: 'bracelet', href: '#collection-bracelets-bangles' },
   { name: 'Perfume', icon: 'perfume', href: '#collection-perfume' },
   { name: 'Crochet', icon: 'crochet', href: '#collection-crochet' },
 ];

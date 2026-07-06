@@ -1,4 +1,4 @@
-import { collections, bestsellers, lifestyleImages, testimonials, categories, getAllCollectionProducts } from './products.js';
+import { collections, bestsellers, lifestyleImages, testimonials, categories, getAllCollectionProducts, LOGO_PATH } from './products.js';
 import { addToCart, initCart, initWishlist } from './cart.js';
 import {
   initScrollAnimations,
@@ -149,8 +149,8 @@ function renderCategories() {
   const grid = document.querySelector('.category-grid');
   if (!grid) return;
   const icons = {
-    jewelry: '<path d="M12 2l2 4h5l-4 3 1.5 5L12 12 7.5 14 9 9 5 6h5z" fill="none" stroke="currentColor" stroke-width="1.2"/>',
     necklace: '<path d="M12 2C8 2 5 5 5 9c0 4 3 7 7 13 4-6 7-9 7-13 0-4-3-7-7-7z" fill="none" stroke="currentColor" stroke-width="1.2"/>',
+    earrings: '<circle cx="8" cy="8" r="2" fill="currentColor"/><circle cx="16" cy="8" r="2" fill="currentColor"/><circle cx="12" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.2"/>',
     bracelet: '<ellipse cx="12" cy="12" rx="8" ry="4" fill="none" stroke="currentColor" stroke-width="1.2"/>',
     perfume: '<path d="M9 4h6v3a3 3 0 01-6 0V4zM8 10h8v10H8z" fill="none" stroke="currentColor" stroke-width="1.2"/>',
     crochet: '<path d="M4 6c4 2 8 2 12 0M4 12c4 2 8 2 12 0M4 18c4 2 8 2 12 0" fill="none" stroke="currentColor" stroke-width="1.2"/>',
@@ -199,6 +199,19 @@ function initHeroImage() {
   testImg.src = local;
 }
 
+function initLogo() {
+  document.querySelectorAll('.logo').forEach((logoEl) => {
+    const img = logoEl.querySelector('.logo-custom');
+    if (!img) return;
+    const test = new Image();
+    test.onload = () => {
+      img.src = LOGO_PATH;
+      logoEl.classList.add('has-custom-logo');
+    };
+    test.src = LOGO_PATH;
+  });
+}
+
 function initAboutImage() {
   const aboutImg = document.querySelector('.about-image');
   if (!aboutImg) return;
@@ -223,6 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initProductActions();
   initHeroImage();
   initAboutImage();
+  initLogo();
 
   renderCollections();
   renderBestsellers();
