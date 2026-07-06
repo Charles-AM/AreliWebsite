@@ -701,38 +701,6 @@ h1, h2, h3, h4 {
   transform: scale(1.08);
 }
 
-.wishlist-btn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  width: 40px;
-  height: 40px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--grey-mid);
-  transition: all var(--transition);
-  z-index: 2;
-}
-
-.wishlist-btn svg {
-  width: 20px;
-  height: 20px;
-}
-
-.wishlist-btn:hover,
-.wishlist-btn.active {
-  color: #c45c5c;
-  background: var(--white);
-  transform: scale(1.1);
-}
-
-.wishlist-btn.active svg {
-  fill: #c45c5c;
-}
-
 .product-info {
   padding: 1.25rem;
   text-align: center;
