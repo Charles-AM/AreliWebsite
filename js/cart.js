@@ -128,25 +128,3 @@ export function initCart() {
     }
   });
 }
-
-export function initWishlist() {
-  const wishlist = new Set(JSON.parse(localStorage.getItem('areli-wishlist') || '[]'));
-
-  document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.wishlist-btn');
-    if (!btn) return;
-    const id = btn.dataset.id;
-    if (wishlist.has(id)) {
-      wishlist.delete(id);
-      btn.classList.remove('active');
-    } else {
-      wishlist.add(id);
-      btn.classList.add('active');
-    }
-    localStorage.setItem('areli-wishlist', JSON.stringify([...wishlist]));
-  });
-
-  document.querySelectorAll('.wishlist-btn').forEach((btn) => {
-    if (wishlist.has(btn.dataset.id)) btn.classList.add('active');
-  });
-}
