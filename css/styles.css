@@ -1746,7 +1746,7 @@ h1, h2, h3, h4 {
   }
 
   .lifestyle-grid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 
   .category-grid {
@@ -1809,14 +1809,44 @@ h1, h2, h3, h4 {
     max-height: 320px;
   }
 
-  .lifestyle-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .lifestyle-grid,
+  .category-grid {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
     gap: 0.75rem;
     margin-top: 2rem;
+    padding-bottom: 0.35rem;
+    scrollbar-width: none;
+    cursor: grab;
+    scroll-padding-inline: 0.25rem;
+  }
+
+  .lifestyle-grid::-webkit-scrollbar,
+  .category-grid::-webkit-scrollbar {
+    display: none;
+  }
+
+  .lifestyle-grid.is-dragging,
+  .category-grid.is-dragging {
+    cursor: grabbing;
+    scroll-snap-type: none;
   }
 
   .lifestyle-card {
+    flex: 0 0 calc((100% - 0.75rem) / 2);
+    min-width: calc((100% - 0.75rem) / 2);
+    scroll-snap-align: start;
     aspect-ratio: 4 / 5;
+  }
+
+  .category-card {
+    flex: 0 0 calc((100% - 0.75rem) / 2);
+    min-width: calc((100% - 0.75rem) / 2);
+    scroll-snap-align: start;
+    padding: 1.75rem 0.75rem;
   }
 
   .collections-fullbleed {
@@ -1857,10 +1887,6 @@ h1, h2, h3, h4 {
   .about-image-wrap {
     max-width: 280px;
     margin-inline: auto;
-  }
-
-  .category-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 
   .bestsellers-grid {
@@ -1908,10 +1934,6 @@ h1, h2, h3, h4 {
 
   .gallery-track .gallery-card {
     flex: 0 0 clamp(118px, 34vw, 165px);
-  }
-
-  .lifestyle-grid {
-    gap: 0.6rem;
   }
 
   .hero-cta {
