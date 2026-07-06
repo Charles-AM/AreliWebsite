@@ -1,9 +1,20 @@
 /**
  * Areli Jewellery — Collections catalog
- * Upload images to public/images/collections/<folder>/ on GitHub
+ *
+ * HOW TO ADD / UPDATE PRODUCTS (live stock):
+ * 1. Upload your photo to public/images/collections/<folder>/ on GitHub
+ *    (any filename, e.g. pearl-layer-necklace.jpg)
+ * 2. Add or edit a product() entry below with matching name, description, price
+ * 3. Commit — Netlify redeploys in ~1–2 min
+ *
+ * Rows stay scrollable with any number of products — add as many as you have in stock.
  */
 
-const img = (folder, filename, fallback) => ({
+const product = (id, folder, filename, fallback, name, price, description = '') => ({
+  id,
+  name,
+  description,
+  price,
   image: `/images/collections/${folder}/${filename}`,
   fallback,
 });
@@ -16,19 +27,6 @@ const FALLBACKS = {
   crochet: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&q=80',
 };
 
-/** Build numbered slots — upload e.g. necklace-1.jpg, necklace-2.jpg … on GitHub */
-function buildSlots(folder, filePrefix, count, fallback, label, basePrice = 65) {
-  return Array.from({ length: count }, (_, i) => {
-    const n = i + 1;
-    return {
-      id: `${folder}-${n}`,
-      name: `${label} ${n}`,
-      price: basePrice + (i % 3) * 15,
-      ...img(folder, `${filePrefix}-${n}.jpg`, fallback),
-    };
-  });
-}
-
 export const collections = [
   {
     group: 'Jewelry',
@@ -37,19 +35,32 @@ export const collections = [
         id: 'necklaces',
         name: 'Necklaces',
         gallery: true,
-        products: buildSlots('necklaces', 'necklace', 5, FALLBACKS.necklace, 'Necklace', 85),
+        products: [
+          product('necklace-1', 'necklaces', 'necklace-1.jpg', FALLBACKS.necklace, 'Gold Layer Necklace', 85, 'Waterproof layered chain for everyday wear'),
+          product('necklace-2', 'necklaces', 'necklace-2.jpg', FALLBACKS.necklace, 'Pearl Drop Necklace', 100, 'Elegant pearl accent on hypoallergenic chain'),
+          product('necklace-3', 'necklaces', 'necklace-3.jpg', FALLBACKS.necklace, 'Snake Chain Necklace', 95, 'Sleek tarnish-free snake chain'),
+          // Add more in-stock necklaces below — copy a line and update id, filename, name, price, description
+        ],
       },
       {
         id: 'earrings-rings',
         name: 'Earrings & Rings',
         gallery: true,
-        products: buildSlots('earrings-rings', 'earrings-rings', 5, FALLBACKS.earring, 'Earring / Ring', 45),
+        products: [
+          product('earrings-rings-1', 'earrings-rings', 'earrings-rings-1.jpg', FALLBACKS.earring, 'Hoop Earrings', 45, 'Classic gold hoops, lightweight and waterproof'),
+          product('earrings-rings-2', 'earrings-rings', 'earrings-rings-2.jpg', FALLBACKS.earring, 'Stud Earrings', 40, 'Minimal studs for daily wear'),
+          product('earrings-rings-3', 'earrings-rings', 'earrings-rings-3.jpg', FALLBACKS.earring, 'Stackable Ring Set', 55, 'Tarnish-free rings, mix and match'),
+        ],
       },
       {
         id: 'bracelets-bangles',
         name: 'Bracelets & Bangles',
         gallery: true,
-        products: buildSlots('bracelets-bangles', 'bracelet', 5, FALLBACKS.bracelet, 'Bracelet / Bangle', 55),
+        products: [
+          product('bracelet-1', 'bracelets-bangles', 'bracelet-1.jpg', FALLBACKS.bracelet, 'Cuban Link Bracelet', 55, 'Bold chain bracelet, waterproof finish'),
+          product('bracelet-2', 'bracelets-bangles', 'bracelet-2.jpg', FALLBACKS.bracelet, 'Tennis Bracelet', 70, 'Sparkling stones on durable band'),
+          product('bracelet-3', 'bracelets-bangles', 'bracelet-3.jpg', FALLBACKS.bracelet, 'Bangle Set', 60, 'Stackable bangles for any outfit'),
+        ],
       },
     ],
   },
@@ -60,13 +71,19 @@ export const collections = [
         id: 'perfume',
         name: 'Perfume',
         gallery: true,
-        products: buildSlots('perfume', 'perfume', 5, FALLBACKS.perfume, 'Perfume', 45),
+        products: [
+          product('perfume-1', 'perfume', 'perfume-1.jpg', FALLBACKS.perfume, 'Floral Mist', 45, 'Light everyday fragrance'),
+          product('perfume-2', 'perfume', 'perfume-2.jpg', FALLBACKS.perfume, 'Vanilla Glow', 50, 'Warm sweet scent'),
+        ],
       },
       {
         id: 'crochet',
         name: 'Crochet Items',
         gallery: true,
-        products: buildSlots('crochet', 'crochet', 5, FALLBACKS.crochet, 'Crochet Item', 60),
+        products: [
+          product('crochet-1', 'crochet', 'crochet-1.jpg', FALLBACKS.crochet, 'Crochet Top', 60, 'Handmade crochet piece'),
+          product('crochet-2', 'crochet', 'crochet-2.jpg', FALLBACKS.crochet, 'Crochet Bag', 75, 'Unique handmade accessory'),
+        ],
       },
     ],
   },
