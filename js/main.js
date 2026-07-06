@@ -57,7 +57,10 @@ function renderCollections() {
       section.className = 'collection-category collection-gallery';
       section.id = `collection-${category.id}`;
       section.innerHTML = `
-        <h4 class="collection-category-title">${category.name}</h4>
+        <div class="collection-category-head">
+          <h4 class="collection-category-title">${category.name}</h4>
+          <span class="scroll-hint">Swipe for more</span>
+        </div>
         <div class="carousel-wrapper carousel-wrapper-fade">
           <div class="carousel-track gallery-track" role="list" aria-label="${category.name} products"></div>
         </div>
