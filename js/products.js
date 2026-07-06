@@ -39,7 +39,8 @@ export const collections = [
           product('necklace-1', 'necklaces', 'necklace-1.jpg', FALLBACKS.necklace, 'Gold Layer Necklace', 85, 'Waterproof layered chain for everyday wear'),
           product('necklace-2', 'necklaces', 'necklace-2.jpg', FALLBACKS.necklace, 'Pearl Drop Necklace', 100, 'Elegant pearl accent on hypoallergenic chain'),
           product('necklace-3', 'necklaces', 'necklace-3.jpg', FALLBACKS.necklace, 'Snake Chain Necklace', 95, 'Sleek tarnish-free snake chain'),
-          // Add more in-stock necklaces below — copy a line and update id, filename, name, price, description
+          product('necklace-4', 'necklaces', 'necklace-4.jpg', FALLBACKS.necklace, 'Necklace 4', 110, 'Edit name, price & description in js/products.js'),
+          product('necklace-5', 'necklaces', 'necklace-5.jpg', FALLBACKS.necklace, 'Necklace 5', 125, 'Edit name, price & description in js/products.js'),
         ],
       },
       {
@@ -50,6 +51,8 @@ export const collections = [
           product('earrings-rings-1', 'earrings-rings', 'earrings-rings-1.jpg', FALLBACKS.earring, 'Hoop Earrings', 45, 'Classic gold hoops, lightweight and waterproof'),
           product('earrings-rings-2', 'earrings-rings', 'earrings-rings-2.jpg', FALLBACKS.earring, 'Stud Earrings', 40, 'Minimal studs for daily wear'),
           product('earrings-rings-3', 'earrings-rings', 'earrings-rings-3.jpg', FALLBACKS.earring, 'Stackable Ring Set', 55, 'Tarnish-free rings, mix and match'),
+          product('earrings-rings-4', 'earrings-rings', 'earrings-rings-4.jpg', FALLBACKS.earring, 'Earring / Ring 4', 50, 'Edit name, price & description in js/products.js'),
+          product('earrings-rings-5', 'earrings-rings', 'earrings-rings-5.jpg', FALLBACKS.earring, 'Earring / Ring 5', 60, 'Edit name, price & description in js/products.js'),
         ],
       },
       {
@@ -60,6 +63,8 @@ export const collections = [
           product('bracelet-1', 'bracelets-bangles', 'bracelet-1.jpg', FALLBACKS.bracelet, 'Cuban Link Bracelet', 55, 'Bold chain bracelet, waterproof finish'),
           product('bracelet-2', 'bracelets-bangles', 'bracelet-2.jpg', FALLBACKS.bracelet, 'Tennis Bracelet', 70, 'Sparkling stones on durable band'),
           product('bracelet-3', 'bracelets-bangles', 'bracelet-3.jpg', FALLBACKS.bracelet, 'Bangle Set', 60, 'Stackable bangles for any outfit'),
+          product('bracelet-4', 'bracelets-bangles', 'bracelet-4.jpg', FALLBACKS.bracelet, 'Bracelet / Bangle 4', 65, 'Edit name, price & description in js/products.js'),
+          product('bracelet-5', 'bracelets-bangles', 'bracelet-5.jpg', FALLBACKS.bracelet, 'Bracelet / Bangle 5', 75, 'Edit name, price & description in js/products.js'),
         ],
       },
     ],
@@ -74,6 +79,9 @@ export const collections = [
         products: [
           product('perfume-1', 'perfume', 'perfume-1.jpg', FALLBACKS.perfume, 'Floral Mist', 45, 'Light everyday fragrance'),
           product('perfume-2', 'perfume', 'perfume-2.jpg', FALLBACKS.perfume, 'Vanilla Glow', 50, 'Warm sweet scent'),
+          product('perfume-3', 'perfume', 'perfume-3.jpg', FALLBACKS.perfume, 'Perfume 3', 48, 'Edit name, price & description in js/products.js'),
+          product('perfume-4', 'perfume', 'perfume-4.jpg', FALLBACKS.perfume, 'Perfume 4', 52, 'Edit name, price & description in js/products.js'),
+          product('perfume-5', 'perfume', 'perfume-5.jpg', FALLBACKS.perfume, 'Perfume 5', 55, 'Edit name, price & description in js/products.js'),
         ],
       },
       {
@@ -83,6 +91,9 @@ export const collections = [
         products: [
           product('crochet-1', 'crochet', 'crochet-1.jpg', FALLBACKS.crochet, 'Crochet Top', 60, 'Handmade crochet piece'),
           product('crochet-2', 'crochet', 'crochet-2.jpg', FALLBACKS.crochet, 'Crochet Bag', 75, 'Unique handmade accessory'),
+          product('crochet-3', 'crochet', 'crochet-3.jpg', FALLBACKS.crochet, 'Crochet Item 3', 65, 'Edit name, price & description in js/products.js'),
+          product('crochet-4', 'crochet', 'crochet-4.jpg', FALLBACKS.crochet, 'Crochet Item 4', 70, 'Edit name, price & description in js/products.js'),
+          product('crochet-5', 'crochet', 'crochet-5.jpg', FALLBACKS.crochet, 'Crochet Item 5', 80, 'Edit name, price & description in js/products.js'),
         ],
       },
     ],
