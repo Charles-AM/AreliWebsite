@@ -68,72 +68,128 @@
 
   <main>
     <!-- Hero -->
-    <section class="hero hero--editorial texture-bg" aria-label="Hero">
-      <div class="hero-media">
+    <section class="hero texture-bg" aria-label="Hero">
+      <div class="hero-content fade-in-left">
+        <p class="hero-eyebrow">Areli Jewellery · Ghana</p>
+        <h1>Designed for Everyday Wear</h1>
+        <p class="hero-tagline">Low-maintenance luxury where style meets practicality.</p>
+        <div class="hero-features">
+          <span class="hero-feature">Hypoallergenic</span>
+          <span class="hero-feature">Tarnish-Free</span>
+          <span class="hero-feature">Waterproof</span>
+        </div>
+        <div class="hero-cta">
+          <a href="#collections" class="btn btn-accent">Shop Collections</a>
+          <a href="/about.html" class="btn btn-outline">Our Story</a>
+        </div>
+      </div>
+      <div class="hero-image-wrap">
         <img
           class="hero-image"
-          src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=1400&q=85"
+          src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=1200&q=85"
           data-local="/images/hero/hero-main.jpg"
-          alt="Model wearing Areli jewelry"
+          alt="Model wearing Areli statement jewelry piece"
           loading="eager"
         />
-        <div class="hero-overlay"></div>
-      </div>
-      <div class="container hero-content fade-in-up">
-        <p class="hero-eyebrow">Areli · Ghana</p>
-        <h1>Designed for <em>Everyday</em> Wear</h1>
-        <p class="hero-tagline">Low-maintenance luxury where style meets practicality.</p>
-        <div class="hero-cta">
-          <a href="#collections" class="btn btn-accent">Shop Now</a>
-          <a href="/about.html" class="btn btn-ghost">Our Story</a>
-        </div>
       </div>
     </section>
 
-    <!-- Quick category nav -->
-    <nav class="category-pills-wrap" aria-label="Browse collections">
-      <div class="container">
-        <div class="category-pills scroll-row"></div>
-      </div>
-    </nav>
-
     <!-- Collections -->
-    <section id="collections" class="section section--tight collections-section">
+    <section id="collections" class="section collections-section">
       <div class="container">
-        <div class="section-head fade-in-up">
+        <div class="fade-in-up" style="margin-bottom: 3rem;">
+          <p class="section-label">Shop</p>
           <h2 class="section-title">Collections</h2>
         </div>
         <div id="collections-container"></div>
       </div>
     </section>
 
-    <!-- Style Inspiration -->
-    <section class="section section--tight lifestyle-section">
+    <!-- Why Areli -->
+    <section class="section why-areli">
       <div class="container">
-        <div class="section-head section-head--inline fade-in-up">
+        <div class="fade-in-up" style="text-align:center; max-width:600px; margin:0 auto;">
+          <p class="section-label">Why Choose Us</p>
+          <h2 class="section-title">Why Areli</h2>
+          <p class="section-subtitle" style="margin:0 auto;">Jewelry that keeps up with your life — beautiful, durable, and effortlessly low-maintenance.</p>
+        </div>
+        <div class="why-grid stagger-children">
+          <div class="why-card">
+            <div class="why-icon">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M24 4l4 8h9l-7 6 3 9-9-6-9 6 3-9-7-6h9z"/>
+                <circle cx="24" cy="36" r="8"/>
+              </svg>
+            </div>
+            <h3>Hypoallergenic</h3>
+            <p>Gentle on sensitive skin. Wear all day without irritation or discomfort.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M8 20c0-8 8-14 16-14s16 6 16 14v4c0 10-8 18-16 18S8 34 8 24v-4z"/>
+                <path d="M16 28c2 4 6 6 8 6s6-2 8-6"/>
+              </svg>
+            </div>
+            <h3>Waterproof</h3>
+            <p>Shower, swim, sweat — your pieces stay stunning through it all.</p>
+          </div>
+          <div class="why-card">
+            <div class="why-icon">
+              <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+                <circle cx="24" cy="24" r="18"/>
+                <path d="M16 24h16M24 16v16"/>
+                <path d="M12 12l4 4M32 12l-4 4M12 36l4-4M32 36l-4-4" opacity="0.5"/>
+              </svg>
+            </div>
+            <h3>Tarnish-Free</h3>
+            <p>No polishing needed. Your jewelry maintains its shine day after day.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Style Inspiration -->
+    <section class="section">
+      <div class="container">
+        <div class="fade-in-up">
+          <p class="section-label">Style Inspiration</p>
           <h2 class="section-title">Let Areli Style You...</h2>
         </div>
         <div class="lifestyle-grid"></div>
       </div>
     </section>
 
-    <!-- Bestsellers -->
-    <section class="section section--tight bestsellers">
+    <!-- Shop by Category -->
+    <section class="section" style="background: var(--beige-mid);">
       <div class="container">
-        <div class="section-head fade-in-up">
+        <div class="fade-in-up" style="text-align:center;">
+          <p class="section-label">Collections</p>
+          <h2 class="section-title">Shop by Category</h2>
+        </div>
+        <div class="category-grid"></div>
+      </div>
+    </section>
+
+    <!-- Bestsellers -->
+    <section class="section bestsellers">
+      <div class="container">
+        <div class="fade-in-up">
+          <p class="section-label">Customer Favorites</p>
           <h2 class="section-title">Bestsellers</h2>
+          <p class="section-subtitle">Our most-loved pieces — affordable luxury you can wear every single day.</p>
         </div>
-        <div class="scroll-row-wrap carousel-wrapper-fade">
-          <div class="scroll-row gallery-track bestsellers-scroll" role="list" aria-label="Bestsellers"></div>
-        </div>
+        <div class="bestsellers-grid"></div>
       </div>
     </section>
 
     <!-- Testimonials -->
-    <section class="section section--tight testimonials texture-bg">
+    <section class="section testimonials texture-bg">
       <div class="container">
-        <div class="section-head section-head--center fade-in-up">
+        <div class="fade-in-up" style="text-align:center; max-width:600px; margin:0 auto;">
+          <p class="section-label">What Our Customers Say</p>
           <h2 class="section-title">Loved & Trusted</h2>
+          <p class="section-subtitle" style="margin:0 auto;">Real reviews from women who wear Areli every day.</p>
         </div>
         <div class="testimonials-track"></div>
       </div>
