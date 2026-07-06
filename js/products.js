@@ -124,3 +124,29 @@ export const CONTACT_PHONE_LOCAL = '0500409107';
 export const CONTACT_PHONE_INTL = '233500409107';
 export const WHATSAPP_URL = `https://api.whatsapp.com/send?phone=${CONTACT_PHONE_INTL}`;
 export const TEL_URL = `tel:+${CONTACT_PHONE_INTL}`;
+
+const CONTACT_SUBJECTS = {
+  order: 'Place an Order',
+  question: 'General Question',
+  custom: 'Custom Request',
+  other: 'Other',
+};
+
+export function buildContactWhatsAppUrl({ name, phone, email, subject, message }) {
+  const lines = [
+    'Hi Areli! New message from your website:',
+    '',
+    `Name: ${name}`,
+    `Phone: ${phone}`,
+  ];
+
+  if (email) lines.push(`Email: ${email}`);
+  lines.push(
+    `Subject: ${CONTACT_SUBJECTS[subject] || subject}`,
+    '',
+    'Message:',
+    message,
+  );
+
+  return `${WHATSAPP_URL}&text=${encodeURIComponent(lines.join('\n'))}`;
+}

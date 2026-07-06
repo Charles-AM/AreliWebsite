@@ -438,7 +438,7 @@ h1, h2, h3, h4 {
 .hero-tagline {
   font-size: 1.15rem;
   color: var(--grey-dark);
-  margin-bottom: 1rem;
+  margin-bottom: 2.5rem;
   font-style: italic;
 }
 
@@ -1107,6 +1107,61 @@ h1, h2, h3, h4 {
   to { opacity: 1; transform: translateY(0); }
 }
 
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.contact-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+  color: var(--grey-dark);
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 1.5px solid var(--beige-dark);
+  border-radius: 2px;
+  background: var(--white);
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--grey-charcoal);
+  transition: border-color var(--transition);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+}
+
+.form-group textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.contact-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .contact-content {
   max-width: 420px;
   margin: 0 auto;
@@ -1656,6 +1711,11 @@ h1, h2, h3, h4 {
 
   .about-section.reverse {
     direction: ltr;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
   .payment-details {
