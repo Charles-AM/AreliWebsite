@@ -556,8 +556,8 @@ h1, h2, h3, h4 {
 
 .carousel-wrapper {
   overflow: hidden;
-  margin: 0 -1.5rem;
-  padding: 0 1.5rem;
+  margin: 0;
+  padding: 0;
 }
 
 .carousel-track {
@@ -584,8 +584,8 @@ h1, h2, h3, h4 {
   content: '';
   position: absolute;
   top: 0;
-  bottom: 1rem;
-  width: 48px;
+  bottom: 0.5rem;
+  width: 28px;
   z-index: 2;
   pointer-events: none;
 }
@@ -606,22 +606,19 @@ h1, h2, h3, h4 {
 }
 
 .gallery-track {
-  gap: 1rem;
-  padding: 0.25rem 0 1.25rem;
+  gap: 0.65rem;
+  padding: 0 0.25rem 0.5rem;
   cursor: grab;
-  scroll-padding-left: 1.5rem;
+  scroll-padding-inline: 0.5rem;
 }
 
 .gallery-track .gallery-card {
-  flex: 0 0 150px;
+  flex: 0 0 clamp(210px, 44vw, 340px);
   scroll-snap-align: start;
 }
 
 .scroll-hint {
-  font-size: 0.8rem;
-  color: var(--grey-mid);
-  margin-top: 0.25rem;
-  letter-spacing: 0.03em;
+  display: none;
 }
 
 /* ============================================
@@ -641,7 +638,7 @@ h1, h2, h3, h4 {
 
 .gallery-image-wrap {
   position: relative;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   background: var(--beige-mid);
 }
@@ -889,46 +886,49 @@ h1, h2, h3, h4 {
    ============================================ */
 .collections-section {
   background: var(--white);
+  padding-bottom: 2rem;
+}
+
+.section--compact {
+  padding-top: 2.5rem;
+  padding-bottom: 0;
+}
+
+.section-head-compact {
+  margin-bottom: 1.25rem;
+}
+
+.collections-fullbleed {
+  padding: 0 max(1rem, calc((100vw - 1280px) / 2 + 1rem));
 }
 
 .collection-group {
-  margin-bottom: 4rem;
-}
-
-.collection-group:last-child {
-  margin-bottom: 0;
+  margin-bottom: 2rem;
 }
 
 .collection-group-title {
   font-family: var(--font-serif);
-  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-size: 1.2rem;
   color: var(--accent-gold);
-  margin-bottom: 2rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--beige-dark);
+  margin-bottom: 1rem;
+  padding: 0 0.5rem 0.5rem;
+  border-bottom: 1px solid var(--beige-mid);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .collection-category {
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.75rem;
   scroll-margin-top: calc(var(--nav-height) + 1rem);
-}
-
-.collection-category:last-child {
-  margin-bottom: 0;
-}
-
-.collection-category-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.25rem;
-  gap: 1rem;
 }
 
 .collection-category-title {
   font-family: var(--font-serif);
-  font-size: 1.35rem;
+  font-size: 1.1rem;
   color: var(--grey-charcoal);
+  margin-bottom: 0.65rem;
+  padding: 0 0.5rem;
+  font-weight: 500;
 }
 
 .category-card {

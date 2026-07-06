@@ -63,33 +63,19 @@ function renderCollections() {
     groupEl.innerHTML = `<h3 class="collection-group-title">${group.group}</h3>`;
 
     group.categories.forEach((category) => {
-      const isGallery = category.gallery === true;
       const section = document.createElement('div');
-      section.className = `collection-category${isGallery ? ' collection-gallery' : ''}`;
+      section.className = 'collection-category collection-gallery';
       section.id = `collection-${category.id}`;
       section.innerHTML = `
-        <div class="collection-category-header">
-          <div>
-            <h4 class="collection-category-title">${category.name}</h4>
-            ${isGallery ? '<p class="scroll-hint">Scroll to explore →</p>' : ''}
-          </div>
-          <div class="carousel-controls">
-            <button class="carousel-prev" aria-label="Previous ${category.name} products">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-            </button>
-            <button class="carousel-next" aria-label="Next ${category.name} products">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
-          </div>
-        </div>
+        <h4 class="collection-category-title">${category.name}</h4>
         <div class="carousel-wrapper carousel-wrapper-fade">
-          <div class="carousel-track${isGallery ? ' gallery-track' : ''}" role="list" aria-label="${category.name} products"></div>
+          <div class="carousel-track gallery-track" role="list" aria-label="${category.name} products"></div>
         </div>
       `;
 
       const track = section.querySelector('.carousel-track');
       category.products.forEach((product) => {
-        track.appendChild(createProductCard(product, true, isGallery));
+        track.appendChild(createProductCard(product, true, true));
       });
 
       groupEl.appendChild(section);

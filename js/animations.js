@@ -86,25 +86,14 @@ export function initLazyImages() {
 export function initCarousel() {
   document.querySelectorAll('.collection-category, .carousel-section').forEach((section) => {
     const track = section.querySelector('.carousel-track');
-    const prev = section.querySelector('.carousel-prev');
-    const next = section.querySelector('.carousel-next');
     if (!track) return;
 
-    const scrollAmount = track.classList.contains('gallery-track') ? 165 : 320;
-
-    prev?.addEventListener('click', () => {
-      track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    });
-    next?.addEventListener('click', () => {
-      track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    });
-
-    // Drag to scroll on desktop
     let isDown = false;
     let startX;
     let scrollLeft;
 
     track.addEventListener('mousedown', (e) => {
+      if (e.target.closest('button')) return;
       isDown = true;
       track.classList.add('is-dragging');
       startX = e.pageX - track.offsetLeft;
