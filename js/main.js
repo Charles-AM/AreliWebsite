@@ -1,4 +1,4 @@
-import { collections, lifestyleImages, testimonials, categories, getAllCollectionProducts, WHATSAPP_URL } from './products.js';
+import { collections, lifestyleImages, testimonials, categories, getAllCollectionProducts, WHATSAPP_URL, buildContactWhatsAppUrl } from './products.js';
 import { addToCart, initCart } from './cart.js';
 import {
   initScrollAnimations,
@@ -186,6 +186,24 @@ function initContactLinks() {
   });
 }
 
+function initContactForm() {
+  const form = document.getElementById('contact-form');
+  if (!form) return;
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const url = buildContactWhatsAppUrl({
+      name: data.get('name').trim(),
+      phone: data.get('phone').trim(),
+      email: data.get('email').trim(),
+      subject: data.get('subject'),
+      message: data.get('message').trim(),
+    });
+    window.open(url, '_blank', 'noopener,noreferrer');
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   initStickyNav();
   initMobileMenu();
@@ -197,6 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroImage();
   initAboutImages();
   initContactLinks();
+  initContactForm();
 
   renderCollections();
   renderLifestyle();
