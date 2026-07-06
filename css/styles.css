@@ -1713,17 +1713,57 @@ h1, h2, h3, h4 {
     direction: ltr;
   }
 
-  .contact-grid {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
   .payment-details {
     grid-template-columns: 1fr;
   }
 }
 
-@media (max-width: 768px) {
+/* Tablet — iPad portrait & landscape */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .nav-links {
+    gap: 1.5rem;
+  }
+
+  .nav-links a {
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+  }
+
+  .hero-image-wrap {
+    min-height: 48vh;
+    max-height: 520px;
+  }
+
+  .hero-content {
+    padding: 2.5rem 2rem;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .testimonials-track {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .about-section {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    padding: 3rem 0;
+  }
+
+  .about-image-wrap {
+    max-height: 420px;
+  }
+
+  .cart-panel {
+    max-width: 420px;
+  }
+}
+
+@media (max-width: 767px) {
   .nav-links {
     display: none;
   }
@@ -1916,6 +1956,11 @@ h1, h2, h3, h4 {
   main > section.about-band {
     padding-top: 0;
     padding-bottom: 0;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
 
   .bestsellers-grid {
