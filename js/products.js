@@ -118,9 +118,9 @@ export const deliveryTiers = [
   { range: '300+ GHS', fee: '2.00 GHS' },
 ];
 
-/** Ghana: 053 997 4264 → international 233539974264 (no + in WhatsApp URLs) */
-export const CONTACT_PHONE_DISPLAY = '053 997 4264';
-export const CONTACT_PHONE_LOCAL = '0539974264';
-export const CONTACT_PHONE_INTL = '233539974264';
+/** Ghana: 050 040 9107 → international 233500409107 (no + in WhatsApp URLs) */
+export const CONTACT_PHONE_DISPLAY = '050 040 9107';
+export const CONTACT_PHONE_LOCAL = '0500409107';
+export const CONTACT_PHONE_INTL = '233500409107';
 export const WHATSAPP_URL = `https://api.whatsapp.com/send?phone=${CONTACT_PHONE_INTL}`;
 export const TEL_URL = `tel:+${CONTACT_PHONE_INTL}`;
