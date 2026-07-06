@@ -34,13 +34,27 @@ Recommended: PNG with transparent background, about **200×60px**.
 
 ---
 
+## About page — model photos
+
+Upload model images to `public/images/about/`:
+
+| Filename | Where it appears |
+|----------|------------------|
+| `about-story.jpg` | Main story section (left image, top) |
+| `model-1.jpg` | Our Models gallery — photo 1 |
+| `model-2.jpg` | Story section (right image) + Models gallery — photo 2 |
+| `model-3.jpg` | Our Models gallery — photo 3 |
+| `model-4.jpg` | Our Models gallery — photo 4 |
+| `model-5.jpg` | Our Models gallery — photo 5 |
+
+Recommended: portrait photos, about **800×1000px**.
+
 ## Other site images
 
 | Folder | Filenames |
 |--------|-----------|
 | `hero/` | `hero-main.jpg` |
 | `lifestyle/` | `work.jpg`, `gym.jpg`, `night-out.jpg` |
-| `about/` | `about-story.jpg` |
 
 ---
 

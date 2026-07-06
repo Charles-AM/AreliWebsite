@@ -212,16 +212,16 @@ function initLogo() {
   });
 }
 
-function initAboutImage() {
-  const aboutImg = document.querySelector('.about-image');
-  if (!aboutImg) return;
-  const local = aboutImg.dataset.local;
-  const fallback = aboutImg.src;
-  if (!local) return;
-  const testImg = new Image();
-  testImg.onload = () => { aboutImg.src = local; };
-  testImg.onerror = () => { aboutImg.src = fallback; };
-  testImg.src = local;
+function initAboutImages() {
+  document.querySelectorAll('.about-image, .about-model-image').forEach((img) => {
+    const local = img.dataset.local;
+    const fallback = img.src;
+    if (!local) return;
+    const testImg = new Image();
+    testImg.onload = () => { img.src = local; };
+    testImg.onerror = () => { img.src = fallback; };
+    testImg.src = local;
+  });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initWishlist();
   initProductActions();
   initHeroImage();
-  initAboutImage();
+  initAboutImages();
   initLogo();
 
   renderCollections();
