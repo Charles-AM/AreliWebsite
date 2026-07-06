@@ -7,6 +7,8 @@ import {
   initMobileMenu,
   initLazyImages,
   initCarousel,
+  initHeroParallax,
+  initCategoryPills,
 } from './animations.js';
 
 function createProductCard(product, showWishlist = true, gallery = false) {
@@ -68,22 +70,9 @@ function renderCollections() {
       section.className = `collection-category${isGallery ? ' collection-gallery' : ''}`;
       section.id = `collection-${category.id}`;
       section.innerHTML = `
-        <div class="collection-category-header">
-          <div>
-            <h4 class="collection-category-title">${category.name}</h4>
-            ${isGallery ? '<p class="scroll-hint">Scroll to explore →</p>' : ''}
-          </div>
-          <div class="carousel-controls">
-            <button class="carousel-prev" aria-label="Previous ${category.name} products">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
-            </button>
-            <button class="carousel-next" aria-label="Next ${category.name} products">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
-            </button>
-          </div>
-        </div>
+        <h4 class="collection-category-title">${category.name}</h4>
         <div class="carousel-wrapper carousel-wrapper-fade">
-          <div class="carousel-track${isGallery ? ' gallery-track' : ''}" role="list" aria-label="${category.name} products"></div>
+          <div class="carousel-track gallery-track" role="list" aria-label="${category.name} products"></div>
         </div>
       `;
 
@@ -100,10 +89,22 @@ function renderCollections() {
 }
 
 function renderBestsellers() {
-  const grid = document.querySelector('.bestsellers-grid');
-  if (!grid) return;
+  const track = document.querySelector('.bestsellers-scroll');
+  if (!track) return;
   bestsellers.forEach((product) => {
-    grid.appendChild(createProductCard(product, false));
+    track.appendChild(createProductCard(product, false, true));
+  });
+}
+
+function renderCategoryPills() {
+  const pills = document.querySelector('.category-pills');
+  if (!pills) return;
+  categories.forEach((cat) => {
+    const a = document.createElement('a');
+    a.href = cat.href;
+    a.className = 'category-pill';
+    a.textContent = cat.name;
+    pills.appendChild(a);
   });
 }
 
@@ -146,26 +147,7 @@ function renderTestimonials() {
 }
 
 function renderCategories() {
-  const grid = document.querySelector('.category-grid');
-  if (!grid) return;
-  const icons = {
-    necklace: '<path d="M12 2C8 2 5 5 5 9c0 4 3 7 7 13 4-6 7-9 7-13 0-4-3-7-7-7z" fill="none" stroke="currentColor" stroke-width="1.2"/>',
-    earrings: '<circle cx="8" cy="8" r="2" fill="currentColor"/><circle cx="16" cy="8" r="2" fill="currentColor"/><circle cx="12" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.2"/>',
-    bracelet: '<ellipse cx="12" cy="12" rx="8" ry="4" fill="none" stroke="currentColor" stroke-width="1.2"/>',
-    perfume: '<path d="M9 4h6v3a3 3 0 01-6 0V4zM8 10h8v10H8z" fill="none" stroke="currentColor" stroke-width="1.2"/>',
-    crochet: '<path d="M4 6c4 2 8 2 12 0M4 12c4 2 8 2 12 0M4 18c4 2 8 2 12 0" fill="none" stroke="currentColor" stroke-width="1.2"/>',
-  };
-  categories.forEach((cat, i) => {
-    const el = document.createElement('a');
-    el.href = cat.href;
-    el.className = 'category-card fade-in-up';
-    el.style.transitionDelay = `${i * 0.08}s`;
-    el.innerHTML = `
-      <svg viewBox="0 0 24 24" class="category-icon">${icons[cat.icon]}</svg>
-      <span>${cat.name}</span>
-    `;
-    grid.appendChild(el);
-  });
+  /* removed from home page */
 }
 
 function initProductActions() {
@@ -231,6 +213,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollAnimations();
   initLazyImages();
   initCarousel();
+  initHeroParallax();
+  initCategoryPills();
   initCart();
   initWishlist();
   initProductActions();
@@ -242,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
   renderBestsellers();
   renderLifestyle();
   renderTestimonials();
-  renderCategories();
+  renderCategoryPills();
 
   setTimeout(initScrollAnimations, 100);
 });

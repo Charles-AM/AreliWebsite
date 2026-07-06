@@ -84,27 +84,16 @@ export function initLazyImages() {
 }
 
 export function initCarousel() {
-  document.querySelectorAll('.collection-category, .carousel-section').forEach((section) => {
-    const track = section.querySelector('.carousel-track');
-    const prev = section.querySelector('.carousel-prev');
-    const next = section.querySelector('.carousel-next');
+  document.querySelectorAll('.collection-category, .scroll-row-wrap').forEach((section) => {
+    const track = section.querySelector('.carousel-track, .scroll-row');
     if (!track) return;
 
-    const scrollAmount = track.classList.contains('gallery-track') ? 165 : 320;
-
-    prev?.addEventListener('click', () => {
-      track.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-    });
-    next?.addEventListener('click', () => {
-      track.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-    });
-
-    // Drag to scroll on desktop
     let isDown = false;
     let startX;
     let scrollLeft;
 
     track.addEventListener('mousedown', (e) => {
+      if (e.target.closest('button')) return;
       isDown = true;
       track.classList.add('is-dragging');
       startX = e.pageX - track.offsetLeft;
@@ -127,15 +116,35 @@ export function initCarousel() {
   });
 }
 
-export function initContactTabs() {
-  const tabs = document.querySelectorAll('.contact-tab');
-  const panels = document.querySelectorAll('.contact-panel');
+export function initHeroParallax() {
+  const hero = document.querySelector('.hero--editorial');
+  const img = hero?.querySelector('.hero-image');
+  if (!hero || !img) return;
 
-  tabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      const target = tab.dataset.tab;
-      tabs.forEach((t) => t.classList.toggle('active', t === tab));
-      panels.forEach((p) => p.classList.toggle('active', p.dataset.panel === target));
+  window.addEventListener('scroll', () => {
+    const rect = hero.getBoundingClientRect();
+    if (rect.bottom > 0) {
+      const offset = window.scrollY * 0.12;
+      img.style.transform = `scale(1.06) translateY(${offset * 0.3}px)`;
+    }
+  }, { passive: true });
+}
+
+export function initCategoryPills() {
+  const pills = document.querySelector('.category-pills');
+  if (!pills) return;
+
+  const links = pills.querySelectorAll('a');
+  const sections = [...links].map((a) => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const id = `#${entry.target.id}`;
+        links.forEach((link) => link.classList.toggle('active', link.getAttribute('href') === id));
+      }
     });
-  });
+  }, { rootMargin: '-40% 0px -50% 0px' });
+
+  sections.forEach((s) => observer.observe(s));
 }
