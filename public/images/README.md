@@ -15,22 +15,40 @@ Recommended: PNG with transparent background, about **200×60px**.
 
 ---
 
-## Collections (5 images each — scrollable rows)
+## Collections (scrollable product rows)
 
-### Jewelry
+Each product needs **two things**:
+1. **Photo** — upload to the folder on GitHub
+2. **Details** — edit `js/products.js` with name, description, and price
 
-| Folder on GitHub | Upload these filenames |
-|------------------|------------------------|
-| `collections/necklaces/` | `necklace-1.jpg`, `necklace-2.jpg`, `necklace-3.jpg`, `necklace-4.jpg`, `necklace-5.jpg` |
-| `collections/earrings-rings/` | `earrings-rings-1.jpg`, `earrings-rings-2.jpg`, `earrings-rings-3.jpg`, `earrings-rings-4.jpg`, `earrings-rings-5.jpg` |
-| `collections/bracelets-bangles/` | `bracelet-1.jpg`, `bracelet-2.jpg`, `bracelet-3.jpg`, `bracelet-4.jpg`, `bracelet-5.jpg` |
+Rows scroll horizontally — add as many products as you have in stock (no limit).
 
-### Extras
+### Example — add a new necklace
 
-| Folder on GitHub | Upload these filenames |
-|------------------|------------------------|
-| `collections/perfume/` | `perfume-1.jpg` … `perfume-5.jpg` |
-| `collections/crochet/` | `crochet-1.jpg` … `crochet-5.jpg` |
+**Step 1:** Upload `pearl-layer-necklace.jpg` to `public/images/collections/necklaces/`
+
+**Step 2:** Open `js/products.js` and add inside the Necklaces `products` list:
+
+```js
+product('pearl-layer', 'necklaces', 'pearl-layer-necklace.jpg', FALLBACKS.necklace,
+  'Pearl Layer Necklace', 120, 'Waterproof layered chain with pearl detail'),
+```
+
+**Step 3:** Commit both changes on GitHub. Wait 1–2 min, refresh the site.
+
+### Image folders
+
+| Folder on GitHub | Category |
+|------------------|----------|
+| `collections/necklaces/` | Necklaces |
+| `collections/earrings-rings/` | Earrings & Rings |
+| `collections/bracelets-bangles/` | Bracelets & Bangles |
+| `collections/perfume/` | Perfume |
+| `collections/crochet/` | Crochet Items |
+
+You can use **any filename** — just make sure it matches the filename in `js/products.js`.
+
+To remove sold-out items, delete their `product()` line from `js/products.js` (and optionally delete the image).
 
 ---
 
