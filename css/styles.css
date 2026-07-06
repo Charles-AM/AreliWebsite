@@ -407,6 +407,7 @@ h1, h2, h3, h4 {
    ============================================ */
 .hero {
   min-height: 100vh;
+  max-height: 100vh;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
@@ -467,7 +468,8 @@ h1, h2, h3, h4 {
 .hero-image-wrap {
   position: relative;
   height: 100%;
-  min-height: 500px;
+  min-height: 400px;
+  max-height: calc(100vh - var(--nav-height));
   overflow: hidden;
 }
 
@@ -590,7 +592,7 @@ h1, h2, h3, h4 {
 }
 
 .gallery-track .gallery-card {
-  flex: 0 0 clamp(210px, 44vw, 340px);
+  flex: 0 0 clamp(175px, 28vw, 260px);
   scroll-snap-align: start;
 }
 
@@ -776,14 +778,33 @@ h1, h2, h3, h4 {
    Lifestyle Grid
    ============================================ */
 .lifestyle-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-top: 3rem;
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  gap: 1rem;
+  margin-top: 2.5rem;
+  padding-bottom: 0.5rem;
+  scrollbar-width: none;
+  cursor: grab;
+  scroll-padding-inline: 0.5rem;
+}
+
+.lifestyle-grid::-webkit-scrollbar {
+  display: none;
+}
+
+.lifestyle-grid.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
 }
 
 .lifestyle-card {
   position: relative;
+  flex: 0 0 clamp(180px, 20vw, 240px);
+  min-width: clamp(180px, 20vw, 240px);
+  scroll-snap-align: start;
   aspect-ratio: 3/4;
   overflow: hidden;
   border-radius: 4px;
@@ -1684,15 +1705,12 @@ h1, h2, h3, h4 {
 
   .hero-image-wrap {
     order: 1;
-    min-height: 60vh;
+    min-height: 50vh;
+    max-height: 460px;
   }
 
   .hero-image-wrap::before {
     background: linear-gradient(to top, var(--beige-light) 0%, transparent 40%);
-  }
-
-  .lifestyle-grid {
-    grid-template-columns: repeat(3, 1fr);
   }
 
   .category-grid {
@@ -1763,6 +1781,42 @@ h1, h2, h3, h4 {
   }
 }
 
+/* Laptop / desktop — tighter homepage imagery */
+@media (min-width: 1025px) {
+  .hero {
+    min-height: auto;
+    max-height: 82vh;
+  }
+
+  .hero-content {
+    padding: 3rem 2.5rem 3rem max(1.5rem, calc((100vw - 1280px) / 2 + 1.5rem));
+  }
+
+  .hero h1 {
+    font-size: clamp(2.25rem, 3.5vw, 3.25rem);
+    margin-bottom: 1.25rem;
+  }
+
+  .hero-tagline {
+    font-size: 1.05rem;
+    margin-bottom: 2rem;
+  }
+
+  .hero-image-wrap {
+    min-height: 320px;
+    max-height: calc(82vh - var(--nav-height));
+  }
+
+  .lifestyle-card {
+    flex: 0 0 clamp(170px, 16vw, 220px);
+    min-width: clamp(170px, 16vw, 220px);
+  }
+
+  .gallery-track .gallery-card {
+    flex: 0 0 clamp(165px, 18vw, 240px);
+  }
+}
+
 @media (max-width: 767px) {
   .nav-links {
     display: none;
@@ -1809,7 +1863,6 @@ h1, h2, h3, h4 {
 
   .why-grid,
   .testimonials-track,
-  .lifestyle-grid,
   .category-grid {
     display: flex;
     overflow-x: auto;
@@ -1826,14 +1879,12 @@ h1, h2, h3, h4 {
 
   .why-grid::-webkit-scrollbar,
   .testimonials-track::-webkit-scrollbar,
-  .lifestyle-grid::-webkit-scrollbar,
   .category-grid::-webkit-scrollbar {
     display: none;
   }
 
   .why-grid.is-dragging,
   .testimonials-track.is-dragging,
-  .lifestyle-grid.is-dragging,
   .category-grid.is-dragging {
     cursor: grabbing;
     scroll-snap-type: none;
