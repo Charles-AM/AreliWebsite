@@ -66,13 +66,4 @@ npm run build
 
 Then drag the `dist` folder onto [app.netlify.com/drop](https://app.netlify.com/drop).
 
-## Tech Stack
 
-- [Vite](https://vitejs.dev/) — Build tool
-- Vanilla HTML, CSS, JavaScript
-- Google Fonts — Playfair Display & Inter
-
-## Contact
-
-- Phone: 053 997 4264
-- Payment: MTN Mobile Money — Charis T — 0539974264
