@@ -1107,52 +1107,28 @@ h1, h2, h3, h4 {
   to { opacity: 1; transform: translateY(0); }
 }
 
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+.contact-panel {
+  max-width: 420px;
+  margin: 0 auto;
 }
 
-.contact-form {
+.contact-intro {
+  font-size: 0.95rem;
+  color: var(--grey-dark);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.contact-actions {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
 }
 
-.form-group label {
-  display: block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  margin-bottom: 0.5rem;
-  color: var(--grey-dark);
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select {
+.contact-actions .btn {
   width: 100%;
-  padding: 0.85rem 1rem;
-  border: 1.5px solid var(--beige-dark);
-  border-radius: 2px;
-  background: var(--white);
-  font-family: inherit;
-  font-size: 1rem;
-  color: var(--grey-charcoal);
-  transition: border-color var(--transition);
-}
-
-.form-group input:focus,
-.form-group textarea:focus,
-.form-group select:focus {
-  outline: none;
-  border-color: var(--accent-gold);
-}
-
-.form-group textarea {
-  min-height: 140px;
-  resize: vertical;
+  text-align: center;
 }
 
 .contact-info-card {
@@ -1163,7 +1139,7 @@ h1, h2, h3, h4 {
 
 .contact-info-card h3 {
   font-size: 1.25rem;
-  margin-bottom: 1.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .contact-detail {
@@ -1680,10 +1656,6 @@ h1, h2, h3, h4 {
 
   .about-section.reverse {
     direction: ltr;
-  }
-
-  .contact-grid {
-    grid-template-columns: 1fr;
   }
 
   .payment-details {
