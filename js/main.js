@@ -19,7 +19,7 @@ function createProductCard(product, gallery = false) {
     </div>
     <div class="gallery-info">
       <p class="gallery-name">${product.name}</p>
-      ${product.description ? `<p class="gallery-desc">${product.description}</p>` : ''}
+      <p class="gallery-desc">${product.description || ''}</p>
       <p class="gallery-price">GHS ${product.price.toFixed(2)}</p>
       <button class="btn btn-accent btn-add-cart btn-gallery-cart" data-id="${product.id}">Add to Cart</button>
     </div>
