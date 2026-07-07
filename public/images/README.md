@@ -68,7 +68,7 @@ Recommended: portrait photos, about **800×1000px**.
 | Folder | Filenames |
 |--------|-----------|
 | `hero/` | `hero-main.jpg` |
-| `lifestyle/` | `work.jpg`, `gym.jpg`, `night-out.jpg` |
+| `lifestyle/` | `work.jpg`, `gym.jpg`, `night-out.jpg`, `brunch.jpg`, `casual.jpg`, `travel.jpg` |
 
 ---
 
