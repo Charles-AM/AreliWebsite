@@ -109,6 +109,8 @@ export const lifestyleImages = [
   { image: '/images/lifestyle/gym.jpg', fallback: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80' },
   { image: '/images/lifestyle/night-out.jpg', fallback: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80' },
   { image: '/images/lifestyle/brunch.jpg', fallback: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80' },
+  { image: '/images/lifestyle/casual.jpg', fallback: 'https://images.unsplash.com/photo-1483985988350-763728e1935b?w=800&q=80' },
+  { image: '/images/lifestyle/travel.jpg', fallback: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80' },
 ];
 
 export const testimonials = [
