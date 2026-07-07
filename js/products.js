@@ -143,10 +143,9 @@ export const categories = [
 ];
 
 export const deliveryTiers = [
-  { location: 'Accra', fee: '0.50 GHS' },
-  { location: 'Tema', fee: '1.00 GHS' },
-  { location: 'Kumasi', fee: '2.00 GHS' },
-  { location: 'Other Locations', fee: '2.00 GHS' },
+  { location: 'Within Accra', fee: '20 – 50 GHS' },
+  { location: 'Outskirts of Accra', fee: '45 – 65 GHS' },
+  { location: 'Other Regions', fee: '45 – 50 GHS' },
 ];
 
 /** Ghana: 050 040 9107 → international 233500409107 (no + in WhatsApp URLs) */

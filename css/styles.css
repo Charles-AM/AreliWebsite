@@ -1448,10 +1448,11 @@ h1, h2, h3, h4 {
   padding: 1rem 1.5rem;
   text-align: left;
   font-family: var(--font-sans);
-  font-size: 0.8rem;
+  font-size: 0.68rem;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 
 .delivery-table td {
@@ -1893,10 +1894,25 @@ h1, h2, h3, h4 {
     padding: 0.75rem 1rem;
   }
 
-  .delivery-table th,
+  .delivery-table th {
+    padding: 0.7rem 0.65rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.03em;
+  }
+
   .delivery-table td {
-    padding: 0.85rem 1rem;
-    font-size: 0.88rem;
+    padding: 0.75rem 0.65rem;
+    font-size: 0.8rem;
+  }
+
+  .delivery-table td:first-child {
+    font-size: 0.76rem;
+    line-height: 1.4;
+  }
+
+  .delivery-table .fee {
+    font-size: 0.78rem;
+    white-space: nowrap;
   }
 }
 
