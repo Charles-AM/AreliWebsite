@@ -115,21 +115,21 @@ export const lifestyleImages = [
 
 export const testimonials = [
   {
-    name: 'Ama K.',
-    location: 'Accra, Ghana',
-    text: 'I wear my Areli pieces every single day — to work, to the gym, everywhere. They still look brand new after months. And the price? Unbeatable for this quality.',
+    name: 'Bella',
+    location: 'Ghana',
+    text: 'Received all the accessories for my birthday shoot and I love them! Thank you so much.',
     rating: 5,
   },
   {
-    name: 'Efua M.',
-    location: 'Kumasi, Ghana',
-    text: 'Finally, jewelry that doesn\'t irritate my skin! Hypoallergenic and gorgeous. I\'ve recommended Areli to all my friends.',
+    name: 'Appiah',
+    location: 'Ghana',
+    text: 'Two years later, my 2024 pieces from Areli are still the first accessories I grab whenever I\'m heading out.',
     rating: 5,
   },
   {
-    name: 'Nana A.',
-    location: 'Tema, Ghana',
-    text: 'Affordable luxury is real. My necklace survived rain, sweat, and daily wear without tarnishing. Areli delivers on every promise.',
+    name: 'Kris',
+    location: 'Ghana',
+    text: 'Just wanted to say thank you so much, I really appreciate the work you did for me. I\'m grateful!',
     rating: 5,
   },
 ];
