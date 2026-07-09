@@ -206,8 +206,10 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
       </button>
     </div>
-    <div class="cart-items" role="list"></div>
-    <p class="cart-empty">Your cart is empty. Discover our beautiful pieces!</p>
+    <div class="cart-main">
+      <div class="cart-items" role="list"></div>
+      <p class="cart-empty">Your cart is empty. Discover our beautiful pieces!</p>
+    </div>
     <div class="cart-footer">
       <div class="cart-total">
         <span>Total</span>
@@ -215,7 +217,7 @@
       </div>
       <div class="cart-actions">
         <a href="#" class="btn btn-accent cart-checkout" target="_blank" rel="noopener noreferrer">Send Order via WhatsApp</a>
-        <button type="button" class="btn btn-outline cart-clear" aria-disabled="true" disabled>Clear Cart</button>
+        <button type="button" class="btn btn-outline cart-clear hidden" aria-disabled="true" disabled>Clear Cart</button>
       </div>
       <p class="cart-note">Cart items &amp; total sent to Areli on WhatsApp · Pay via MTN Mobile Money</p>
     </div>

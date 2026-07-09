@@ -95,6 +95,7 @@ function updateCartFooterButtons() {
   }
 
   if (clearBtn) {
+    clearBtn.classList.toggle('hidden', !hasItems);
     clearBtn.disabled = !hasItems;
     clearBtn.setAttribute('aria-disabled', hasItems ? 'false' : 'true');
   }
