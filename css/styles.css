@@ -1033,9 +1033,13 @@ h1, h2, h3, h4 {
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin-top: 3rem;
+  align-items: stretch;
 }
 
 .testimonial-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1055,17 +1059,25 @@ h1, h2, h3, h4 {
 }
 
 .testimonial-card p {
+  flex: 1;
   font-size: 0.95rem;
   line-height: 1.8;
   margin-bottom: 1.5rem;
   font-style: italic;
   color: var(--beige-mid);
+  min-height: calc(0.95rem * 1.8 * 4);
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .testimonial-card footer {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
+  margin-top: auto;
+  flex-shrink: 0;
 }
 
 .testimonial-card footer strong {
@@ -2049,6 +2061,7 @@ h1, h2, h3, h4 {
   .testimonials-track,
   .category-grid {
     display: flex;
+    align-items: stretch;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
@@ -2100,12 +2113,16 @@ h1, h2, h3, h4 {
     min-width: calc((100% - 0.75rem) / 2);
     scroll-snap-align: start;
     padding: 1.35rem 1rem;
+    height: auto;
+    min-height: 200px;
   }
 
   .testimonial-card p {
     font-size: 0.82rem;
     line-height: 1.65;
     margin-bottom: 1rem;
+    min-height: calc(0.82rem * 1.65 * 4);
+    -webkit-line-clamp: 5;
   }
 
   .lifestyle-card {
