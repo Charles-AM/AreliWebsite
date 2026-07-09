@@ -32,6 +32,10 @@ export function removeFromCart(id) {
   saveCart(getCart().filter((item) => item.id !== id));
 }
 
+export function clearCart() {
+  saveCart([]);
+}
+
 export function updateQuantity(id, delta) {
   const cart = getCart().map((item) => {
     if (item.id === id) {
@@ -79,14 +83,20 @@ export function getWhatsAppCheckoutUrl(includeCart = true) {
   return `https://api.whatsapp.com/send?phone=${CONTACT_PHONE_INTL}&text=${encodeURIComponent(message)}`;
 }
 
-function updateCheckoutButton() {
+function updateCartFooterButtons() {
   const checkoutBtn = document.querySelector('.cart-checkout');
+  const clearBtn = document.querySelector('.cart-clear');
   const hasItems = getCart().length > 0;
   const url = getWhatsAppCheckoutUrl();
 
   if (checkoutBtn) {
     checkoutBtn.setAttribute('aria-disabled', hasItems ? 'false' : 'true');
     checkoutBtn.href = hasItems ? url : '#';
+  }
+
+  if (clearBtn) {
+    clearBtn.disabled = !hasItems;
+    clearBtn.setAttribute('aria-disabled', hasItems ? 'false' : 'true');
   }
 
   document.querySelectorAll('.whatsapp-order').forEach((btn) => {
@@ -114,7 +124,7 @@ export function updateCartUI() {
     itemsEl.innerHTML = '';
     emptyEl?.classList.remove('hidden');
     if (totalEl) totalEl.textContent = formatPrice(0);
-    updateCheckoutButton();
+    updateCartFooterButtons();
     return;
   }
 
@@ -137,7 +147,7 @@ export function updateCartUI() {
   `).join('');
 
   if (totalEl) totalEl.textContent = formatPrice(getCartTotal());
-  updateCheckoutButton();
+  updateCartFooterButtons();
 }
 
 export function openCart() {
@@ -166,6 +176,10 @@ export function initCart() {
     }
     e.preventDefault();
     window.open(getWhatsAppCheckoutUrl(), '_blank', 'noopener,noreferrer');
+  });
+
+  document.querySelector('.cart-clear')?.addEventListener('click', () => {
+    if (getCart().length) clearCart();
   });
 
   document.querySelector('.cart-items')?.addEventListener('click', (e) => {
