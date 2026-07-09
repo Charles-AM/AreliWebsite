@@ -19,7 +19,7 @@ const product = (id, folder, filename, fallback, name, price, description = '') 
   fallback,
 });
 
-/** Five placeholder slots per category — replace names & prices when stock is ready */
+/** Placeholder slots — full product name + GHS price (update when stock is ready) */
 function placeholderProducts(folder, filePrefix, fallback, label, basePrice = 65) {
   return Array.from({ length: 5 }, (_, i) => {
     const n = i + 1;
@@ -30,7 +30,7 @@ function placeholderProducts(folder, filePrefix, fallback, label, basePrice = 65
       fallback,
       `${label} ${n}`,
       basePrice + i * 5,
-      'Placeholder item',
+      '',
     );
   });
 }
@@ -74,13 +74,26 @@ export const collections = [
         id: 'perfume',
         name: 'Perfume',
         gallery: true,
-        products: placeholderProducts('perfume', 'perfume', FALLBACKS.perfume, 'Perfume', 45),
+        products: [
+          product('perfume-1', 'perfume', 'perfume-1.jpg', FALLBACKS.perfume, "Victoria's Secret Amber Romance", 160, ''),
+          product('perfume-2', 'perfume', 'perfume-2.jpg', FALLBACKS.perfume, "Victoria's Secret Vanilla Lace", 160, ''),
+          product('perfume-3', 'perfume', 'perfume-3.jpg', FALLBACKS.perfume, "Victoria's Secret Pure Seduction Joy", 160, ''),
+          product('perfume-4a', 'perfume', 'perfume-4.jpg', FALLBACKS.perfume, "Victoria's Secret Velvet Petals Joy", 160, 'Paired scents — select one'),
+          product('perfume-4b', 'perfume', 'perfume-4.jpg', FALLBACKS.perfume, "Victoria's Secret Love Spell Joy", 160, 'Paired scents — select one'),
+          product('perfume-5', 'perfume', 'perfume-5.jpg', FALLBACKS.perfume, "Victoria's Secret Camelia Sunset", 160, ''),
+        ],
       },
       {
         id: 'crochet',
         name: 'Crochet Items',
         gallery: true,
-        products: placeholderProducts('crochet', 'crochet', FALLBACKS.crochet, 'Crochet Item', 60),
+        products: [
+          product('crochet-1', 'crochet', 'crochet-1.jpg', FALLBACKS.crochet, 'Blue Crochet Mat', 50, ''),
+          product('crochet-2a', 'crochet', 'crochet-2.jpg', FALLBACKS.crochet, 'Crochet Mat — Style 1', 50, 'GHS 50 each · 3 styles in photo'),
+          product('crochet-2b', 'crochet', 'crochet-2.jpg', FALLBACKS.crochet, 'Crochet Mat — Style 2', 50, 'GHS 50 each · 3 styles in photo'),
+          product('crochet-2c', 'crochet', 'crochet-2.jpg', FALLBACKS.crochet, 'Crochet Mat — Style 3', 50, 'GHS 50 each · 3 styles in photo'),
+          product('crochet-3', 'crochet', 'crochet-3.jpg', FALLBACKS.crochet, 'Pink Crochet Mat', 50, ''),
+        ],
       },
     ],
   },
