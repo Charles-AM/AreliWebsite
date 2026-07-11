@@ -979,79 +979,37 @@ h1, h2, h3, h4 {
   animation: fadeIn 0.4s ease;
 }
 
-.collection-panel-intro {
-  font-size: 0.95rem;
-  color: var(--grey-dark);
-  line-height: 1.65;
-  max-width: 36rem;
-  margin: 0 0 1.5rem;
-  padding: 0 0.5rem;
-}
-
 .collection-panel-body {
   padding-bottom: 0.5rem;
 }
 
-.collection-panel[data-panel="crochet"] {
-  background: linear-gradient(180deg, rgba(245, 240, 232, 0.65) 0%, transparent 100%);
-  margin: 0 -0.35rem;
-  padding: 0.25rem 0.35rem 1rem;
-  border-radius: 8px;
+.gallery-track--uniform {
+  --collection-cols: 5;
+  --collection-gap: 0.65rem;
 }
 
-.product-grid {
-  display: grid;
-  gap: 0.85rem;
+.gallery-track--uniform .gallery-card {
+  flex: 0 0 calc((100% - (var(--collection-cols) - 1) * var(--collection-gap)) / var(--collection-cols));
+  min-width: calc((100% - (var(--collection-cols) - 1) * var(--collection-gap)) / var(--collection-cols));
+  scroll-snap-align: start;
 }
 
-.product-grid--jewelry {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+.gallery-card--uniform .gallery-info {
+  padding: 0.5rem 0.4rem 0.6rem;
 }
 
-.product-grid--crochet {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
+.gallery-card--uniform .gallery-name {
+  font-size: 0.72rem;
 }
 
-.collection-category--jewelry,
-.collection-category--crochet,
-.collection-category--splashes {
-  scroll-margin-top: calc(var(--nav-height) + 5.5rem);
+.gallery-card--uniform .gallery-price {
+  font-size: 0.7rem;
+  margin-bottom: 0.4rem;
 }
 
-.collection-category--jewelry {
-  margin-bottom: 2.25rem;
-}
-
-.collection-category--jewelry:last-child,
-.collection-category--crochet:last-child {
-  margin-bottom: 0;
-}
-
-.collection-category--crochet .collection-category-title {
-  margin-bottom: 1rem;
-}
-
-.gallery-card--grid,
-.gallery-card--crochet {
-  height: auto;
-}
-
-.gallery-card--crochet {
-  background: var(--white);
-  border: 1px solid var(--beige-dark);
-}
-
-.gallery-card--crochet .gallery-image-wrap {
-  aspect-ratio: 1;
-}
-
-.gallery-card--splash .gallery-image-wrap {
-  aspect-ratio: 2 / 3;
-}
-
-.gallery-track--splashes .gallery-card {
-  flex: 0 0 clamp(140px, 22vw, 200px);
+.gallery-card--uniform .btn-gallery-cart {
+  padding: 0.4rem 0.3rem;
+  font-size: 0.62rem;
 }
 
 .gallery-desc:empty {
@@ -1075,7 +1033,7 @@ h1, h2, h3, h4 {
 
 .collection-category {
   margin-bottom: 1.75rem;
-  scroll-margin-top: calc(var(--nav-height) + 1rem);
+  scroll-margin-top: calc(var(--nav-height) + 5.5rem);
 }
 
 .collection-category-title {
@@ -2120,12 +2078,6 @@ h1, h2, h3, h4 {
   .cart-panel {
     max-width: 420px;
   }
-
-  .product-grid--jewelry,
-  .product-grid--crochet {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
-  }
 }
 
 /* Laptop / desktop — tighter homepage imagery */
@@ -2162,10 +2114,6 @@ h1, h2, h3, h4 {
   .gallery-track .gallery-card {
     flex: 0 0 clamp(165px, 18vw, 240px);
   }
-
-  .product-grid--jewelry {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
 }
 
 @media (max-width: 767px) {
@@ -2178,9 +2126,8 @@ h1, h2, h3, h4 {
     font-size: 0.72rem;
   }
 
-  .collection-panel-intro {
-    font-size: 0.88rem;
-    margin-bottom: 1.25rem;
+  .gallery-track--uniform {
+    --collection-cols: 2;
   }
 
   .nav-links {

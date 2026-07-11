@@ -1,5 +1,4 @@
 import {
-  collections,
   collectionTabs,
   lifestyleImages,
   testimonials,
@@ -20,12 +19,7 @@ import {
   initCarousel,
 } from './animations.js';
 
-const CARD_VARIANTS = {
-  grid: 'gallery-card gallery-card--grid',
-  splash: 'gallery-card gallery-card--splash',
-  crochet: 'gallery-card gallery-card--crochet',
-  gallery: 'gallery-card',
-};
+const CARD_CLASS = 'gallery-card gallery-card--uniform';
 
 function loadProductImage(imgEl, product) {
   const testImg = new Image();
@@ -34,9 +28,9 @@ function loadProductImage(imgEl, product) {
   testImg.src = product.image;
 }
 
-function createProductCard(product, variant = 'gallery') {
+function createProductCard(product) {
   const card = document.createElement('article');
-  card.className = CARD_VARIANTS[variant] || CARD_VARIANTS.gallery;
+  card.className = CARD_CLASS;
   const descHtml = product.description
     ? `<p class="gallery-desc">${product.description}</p>`
     : '';
@@ -58,66 +52,26 @@ function createProductCard(product, variant = 'gallery') {
   return card;
 }
 
-function renderJewelryCategory(category) {
+function renderCarouselCategory(category) {
   const section = document.createElement('div');
-  section.className = 'collection-category collection-category--jewelry';
-  section.id = `collection-${category.id}`;
-  section.innerHTML = `
-    <h4 class="collection-category-title">${category.name}</h4>
-    <div class="product-grid product-grid--jewelry" role="list" aria-label="${category.name}"></div>
-  `;
-
-  const grid = section.querySelector('.product-grid');
-  category.products.forEach((product) => {
-    grid.appendChild(createProductCard(product, 'grid'));
-  });
-
-  return section;
-}
-
-function renderSplashesCategory(category) {
-  const section = document.createElement('div');
-  section.className = 'collection-category collection-category--splashes';
+  section.className = 'collection-category';
   section.id = `collection-${category.id}`;
   section.innerHTML = `
     <div class="collection-category-head">
       <h4 class="collection-category-title">${category.name}</h4>
       <span class="scroll-hint">Swipe for more</span>
     </div>
-    <div class="carousel-wrapper carousel-wrapper-fade collection-layout--splashes">
-      <div class="carousel-track gallery-track gallery-track--splashes" role="list" aria-label="${category.name}"></div>
+    <div class="carousel-wrapper carousel-wrapper-fade">
+      <div class="carousel-track gallery-track gallery-track--uniform" role="list" aria-label="${category.name}"></div>
     </div>
   `;
 
   const track = section.querySelector('.carousel-track');
   category.products.forEach((product) => {
-    track.appendChild(createProductCard(product, 'splash'));
+    track.appendChild(createProductCard(product));
   });
 
   return section;
-}
-
-function renderCrochetCategory(category) {
-  const section = document.createElement('div');
-  section.className = 'collection-category collection-category--crochet';
-  section.id = `collection-${category.id}`;
-  section.innerHTML = `
-    <h4 class="collection-category-title">${category.name}</h4>
-    <div class="product-grid product-grid--crochet" role="list" aria-label="${category.name}"></div>
-  `;
-
-  const grid = section.querySelector('.product-grid');
-  category.products.forEach((product) => {
-    grid.appendChild(createProductCard(product, 'crochet'));
-  });
-
-  return section;
-}
-
-function renderCategoryForTab(tabId, category) {
-  if (tabId === 'jewelry') return renderJewelryCategory(category);
-  if (tabId === 'splashes') return renderSplashesCategory(category);
-  return renderCrochetCategory(category);
 }
 
 function renderCollectionTabs(tabsHost) {
@@ -158,15 +112,13 @@ function renderCollections() {
     panel.setAttribute('aria-labelledby', `collection-tab-${tab.id}`);
     if (index !== 0) panel.hidden = true;
 
-    panel.innerHTML = `<p class="collection-panel-intro">${tab.intro}</p>`;
-
     const body = document.createElement('div');
     body.className = 'collection-panel-body';
 
     tab.categoryIds.forEach((categoryId) => {
       const category = getCategoryById(categoryId);
       if (category) {
-        body.appendChild(renderCategoryForTab(tab.id, category));
+        body.appendChild(renderCarouselCategory(category));
       }
     });
 
@@ -179,8 +131,8 @@ function resolveCollectionHash() {
   const hash = window.location.hash;
   if (!hash) return { tabId: 'jewelry', sectionId: null };
 
-  if (hash === '#collections-splashes') {
-    return { tabId: 'splashes', sectionId: null };
+  if (hash === '#collections-perfume' || hash === '#collections-splashes') {
+    return { tabId: 'perfume', sectionId: null };
   }
   if (hash === '#collections-crochet') {
     return { tabId: 'crochet', sectionId: null };
