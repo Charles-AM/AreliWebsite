@@ -51,7 +51,13 @@ export const collections = [
         id: 'necklaces',
         name: 'Necklaces',
         gallery: true,
-        products: placeholderProducts('necklaces', 'necklace', FALLBACKS.necklace, 'Necklace', 85),
+        products: [
+          product('necklaces-1', 'necklaces', 'necklace-1.jpg', FALLBACKS.necklace, 'Necklace 1', 85, ''),
+          product('necklaces-2', 'necklaces', 'necklace-2.jpg', FALLBACKS.necklace, 'Flutter Charm Necklace', 45, ''),
+          product('necklaces-3', 'necklaces', 'necklace-3.jpg', FALLBACKS.necklace, 'Necklace 3', 95, ''),
+          product('necklaces-4', 'necklaces', 'necklace-4.jpg', FALLBACKS.necklace, 'Necklace 4', 100, ''),
+          product('necklaces-5', 'necklaces', 'necklace-5.jpg', FALLBACKS.necklace, '316 L Necklace', 120, ''),
+        ],
       },
       {
         id: 'earrings-rings',
@@ -59,7 +65,7 @@ export const collections = [
         gallery: true,
         products: [
           product('earrings-rings-1', 'earrings-rings', 'earrings-rings-1.jpg', FALLBACKS.earring, 'Spherina Earrings', 50, ''),
-          product('earrings-rings-2', 'earrings-rings', 'earrings-rings-2.jpg', FALLBACKS.earring, 'Earring / Ring 2', 50, ''),
+          product('earrings-rings-2', 'earrings-rings', 'earrings-rings-2.jpg', FALLBACKS.earring, 'Black Petal', 45, ''),
           product('earrings-rings-3', 'earrings-rings', 'earrings-rings-3.jpg', FALLBACKS.earring, 'Luna Earrings', 50, ''),
           product('earrings-rings-4', 'earrings-rings', 'earrings-rings-4.jpg', FALLBACKS.earring, 'Octavia Earrings', 50, ''),
           product('earrings-rings-5', 'earrings-rings', 'earrings-rings-5.jpg', FALLBACKS.earring, 'Earring / Ring 5', 65, ''),
