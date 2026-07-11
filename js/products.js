@@ -52,7 +52,7 @@ export const collections = [
         name: 'Necklaces',
         gallery: true,
         products: [
-          product('necklaces-1', 'necklaces', 'necklace-1.jpg', FALLBACKS.necklace, 'Necklace 1', 85, ''),
+          product('necklaces-1', 'necklaces', 'necklace-1.jpg', FALLBACKS.necklace, 'Rosalia Necklace', 65, ''),
           product('necklaces-2', 'necklaces', 'necklace-2.jpg', FALLBACKS.necklace, 'Flutter Charm Necklace', 45, ''),
           product('necklaces-3', 'necklaces', 'necklace-3.jpg', FALLBACKS.necklace, 'Necklace 3', 95, ''),
           product('necklaces-4', 'necklaces', 'necklace-4.jpg', FALLBACKS.necklace, 'Necklace 4', 100, ''),
@@ -76,7 +76,7 @@ export const collections = [
         name: 'Bracelets & Bangles',
         gallery: true,
         products: [
-          product('bracelets-bangles-1', 'bracelets-bangles', 'bracelet-1.jpg', FALLBACKS.bracelet, 'Bracelet / Bangle 1', 55, ''),
+          product('bracelets-bangles-1', 'bracelets-bangles', 'bracelet-1.jpg', FALLBACKS.bracelet, 'Butterfly Bangle', 65, ''),
           product('bracelets-bangles-2', 'bracelets-bangles', 'bracelet-2.jpg', FALLBACKS.bracelet, 'Bracelet / Bangle 2', 60, ''),
           product('bracelets-bangles-3', 'bracelets-bangles', 'bracelet-3.jpg', FALLBACKS.bracelet, 'Chana Bangle', 65, ''),
           product('bracelets-bangles-4', 'bracelets-bangles', 'bracelet-4.jpg', FALLBACKS.bracelet, 'Bracelet / Bangle 4', 70, ''),
