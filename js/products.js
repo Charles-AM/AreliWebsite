@@ -117,6 +117,40 @@ export const collections = [
   },
 ];
 
+export const collectionTabs = [
+  {
+    id: 'jewelry',
+    label: 'Jewelry',
+    intro: 'Waterproof, tarnish-free pieces made for everyday wear.',
+    categoryIds: ['necklaces', 'earrings-rings', 'bracelets-bangles'],
+  },
+  {
+    id: 'splashes',
+    label: 'Splashes',
+    intro: "Victoria's Secret body splashes — light, fresh, and easy to layer.",
+    categoryIds: ['perfume'],
+  },
+  {
+    id: 'crochet',
+    label: 'Crochet',
+    intro: 'Handmade mats and sets, stitched with care.',
+    categoryIds: ['crochet'],
+  },
+];
+
+export function getCategoryById(id) {
+  for (const group of collections) {
+    const category = group.categories.find((c) => c.id === id);
+    if (category) return category;
+  }
+  return null;
+}
+
+export function getTabForCategory(categoryId) {
+  const tab = collectionTabs.find((t) => t.categoryIds.includes(categoryId));
+  return tab?.id ?? 'jewelry';
+}
+
 export function getAllCollectionProducts() {
   return collections.flatMap((g) => g.categories.flatMap((c) => c.products));
 }
@@ -152,11 +186,11 @@ export const testimonials = [
 ];
 
 export const categories = [
-  { name: 'Necklaces', icon: 'necklace', href: '#collection-necklaces' },
-  { name: 'Earrings & Rings', icon: 'earrings', href: '#collection-earrings-rings' },
-  { name: 'Bracelets', icon: 'bracelet', href: '#collection-bracelets-bangles' },
-  { name: "Victoria's Secret Splashes", icon: 'perfume', href: '#collection-perfume' },
-  { name: 'Crochet', icon: 'crochet', href: '#collection-crochet' },
+  { id: 'necklaces', name: 'Necklaces', icon: 'necklace', tab: 'jewelry' },
+  { id: 'earrings-rings', name: 'Earrings & Rings', icon: 'earrings', tab: 'jewelry' },
+  { id: 'bracelets-bangles', name: 'Bracelets', icon: 'bracelet', tab: 'jewelry' },
+  { id: 'perfume', name: "Victoria's Secret Splashes", icon: 'perfume', tab: 'splashes' },
+  { id: 'crochet', name: 'Crochet', icon: 'crochet', tab: 'crochet' },
 ];
 
 export const deliveryTiers = [
