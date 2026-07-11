@@ -57,13 +57,25 @@ export const collections = [
         id: 'earrings-rings',
         name: 'Earrings & Rings',
         gallery: true,
-        products: placeholderProducts('earrings-rings', 'earrings-rings', FALLBACKS.earring, 'Earring / Ring', 45),
+        products: [
+          product('earrings-rings-1', 'earrings-rings', 'earrings-rings-1.jpg', FALLBACKS.earring, 'Spherina Earrings', 50, ''),
+          product('earrings-rings-2', 'earrings-rings', 'earrings-rings-2.jpg', FALLBACKS.earring, 'Earring / Ring 2', 50, ''),
+          product('earrings-rings-3', 'earrings-rings', 'earrings-rings-3.jpg', FALLBACKS.earring, 'Luna Earrings', 50, ''),
+          product('earrings-rings-4', 'earrings-rings', 'earrings-rings-4.jpg', FALLBACKS.earring, 'Octavia Earrings', 50, ''),
+          product('earrings-rings-5', 'earrings-rings', 'earrings-rings-5.jpg', FALLBACKS.earring, 'Earring / Ring 5', 65, ''),
+        ],
       },
       {
         id: 'bracelets-bangles',
         name: 'Bracelets & Bangles',
         gallery: true,
-        products: placeholderProducts('bracelets-bangles', 'bracelet', FALLBACKS.bracelet, 'Bracelet / Bangle', 55),
+        products: [
+          product('bracelets-bangles-1', 'bracelets-bangles', 'bracelet-1.jpg', FALLBACKS.bracelet, 'Bracelet / Bangle 1', 55, ''),
+          product('bracelets-bangles-2', 'bracelets-bangles', 'bracelet-2.jpg', FALLBACKS.bracelet, 'Bracelet / Bangle 2', 60, ''),
+          product('bracelets-bangles-3', 'bracelets-bangles', 'bracelet-3.jpg', FALLBACKS.bracelet, 'Chana Bangle', 65, ''),
+          product('bracelets-bangles-4', 'bracelets-bangles', 'bracelet-4.jpg', FALLBACKS.bracelet, 'Bracelet / Bangle 4', 70, ''),
+          product('bracelets-bangles-5', 'bracelets-bangles', 'bracelet-5.jpg', FALLBACKS.bracelet, 'Bracelet / Bangle 5', 75, ''),
+        ],
       },
     ],
   },
@@ -72,7 +84,7 @@ export const collections = [
     categories: [
       {
         id: 'perfume',
-        name: 'Victoria Secret Splashes',
+        name: "Victoria's Secret Splashes",
         gallery: true,
         products: [
           product('perfume-1', 'perfume', 'perfume-1.jpg', FALLBACKS.perfume, 'Amber Romance', 160, ''),
@@ -137,7 +149,7 @@ export const categories = [
   { name: 'Necklaces', icon: 'necklace', href: '#collection-necklaces' },
   { name: 'Earrings & Rings', icon: 'earrings', href: '#collection-earrings-rings' },
   { name: 'Bracelets', icon: 'bracelet', href: '#collection-bracelets-bangles' },
-  { name: 'Victoria Secret Splashes', icon: 'perfume', href: '#collection-perfume' },
+  { name: "Victoria's Secret Splashes", icon: 'perfume', href: '#collection-perfume' },
   { name: 'Crochet', icon: 'crochet', href: '#collection-crochet' },
 ];
 
