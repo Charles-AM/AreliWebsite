@@ -31,10 +31,6 @@ function loadProductImage(imgEl, product) {
 function createProductCard(product) {
   const card = document.createElement('article');
   card.className = CARD_CLASS;
-  const descHtml = product.description
-    ? `<p class="gallery-desc">${product.description}</p>`
-    : '';
-
   card.innerHTML = `
     <div class="gallery-image-wrap">
       <img src="${product.fallback}" data-local="${product.image}" alt="${product.name}"
@@ -42,7 +38,7 @@ function createProductCard(product) {
     </div>
     <div class="gallery-info">
       <p class="gallery-name">${product.name}</p>
-      ${descHtml}
+      <p class="gallery-desc">${product.description || ''}</p>
       <p class="gallery-price">GHS ${product.price.toFixed(2)}</p>
       <button class="btn btn-accent btn-add-cart btn-gallery-cart" data-id="${product.id}">Add to Cart</button>
     </div>
