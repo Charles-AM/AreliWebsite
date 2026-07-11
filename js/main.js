@@ -1,4 +1,15 @@
-import { collections, lifestyleImages, testimonials, categories, getAllCollectionProducts, WHATSAPP_URL, buildContactWhatsAppUrl } from './products.js';
+import {
+  collections,
+  collectionTabs,
+  lifestyleImages,
+  testimonials,
+  categories,
+  getAllCollectionProducts,
+  getCategoryById,
+  getTabForCategory,
+  WHATSAPP_URL,
+  buildContactWhatsAppUrl,
+} from './products.js';
 import { addToCart, initCart } from './cart.js';
 import {
   initScrollAnimations,
@@ -9,73 +20,236 @@ import {
   initCarousel,
 } from './animations.js';
 
-function createProductCard(product, gallery = false) {
+const CARD_VARIANTS = {
+  grid: 'gallery-card gallery-card--grid',
+  splash: 'gallery-card gallery-card--splash',
+  crochet: 'gallery-card gallery-card--crochet',
+  gallery: 'gallery-card',
+};
+
+function loadProductImage(imgEl, product) {
+  const testImg = new Image();
+  testImg.onload = () => { imgEl.src = product.image; };
+  testImg.onerror = () => { imgEl.src = product.fallback; };
+  testImg.src = product.image;
+}
+
+function createProductCard(product, variant = 'gallery') {
   const card = document.createElement('article');
-  card.className = gallery ? 'gallery-card' : 'product-card fade-in-up';
-  card.innerHTML = gallery ? `
+  card.className = CARD_VARIANTS[variant] || CARD_VARIANTS.gallery;
+  const descHtml = product.description
+    ? `<p class="gallery-desc">${product.description}</p>`
+    : '';
+
+  card.innerHTML = `
     <div class="gallery-image-wrap">
       <img src="${product.fallback}" data-local="${product.image}" alt="${product.name}"
            loading="lazy" class="gallery-image" />
     </div>
     <div class="gallery-info">
       <p class="gallery-name">${product.name}</p>
-      <p class="gallery-desc">${product.description || ''}</p>
+      ${descHtml}
       <p class="gallery-price">GHS ${product.price.toFixed(2)}</p>
       <button class="btn btn-accent btn-add-cart btn-gallery-cart" data-id="${product.id}">Add to Cart</button>
     </div>
-  ` : `
-    <div class="product-image-wrap">
-      <img src="${product.fallback}" data-local="${product.image}" alt="${product.name}"
-           loading="lazy" class="product-image" />
+  `;
+
+  loadProductImage(card.querySelector('.gallery-image'), product);
+  return card;
+}
+
+function renderJewelryCategory(category) {
+  const section = document.createElement('div');
+  section.className = 'collection-category collection-category--jewelry';
+  section.id = `collection-${category.id}`;
+  section.innerHTML = `
+    <h4 class="collection-category-title">${category.name}</h4>
+    <div class="product-grid product-grid--jewelry" role="list" aria-label="${category.name}"></div>
+  `;
+
+  const grid = section.querySelector('.product-grid');
+  category.products.forEach((product) => {
+    grid.appendChild(createProductCard(product, 'grid'));
+  });
+
+  return section;
+}
+
+function renderSplashesCategory(category) {
+  const section = document.createElement('div');
+  section.className = 'collection-category collection-category--splashes';
+  section.id = `collection-${category.id}`;
+  section.innerHTML = `
+    <div class="collection-category-head">
+      <h4 class="collection-category-title">${category.name}</h4>
+      <span class="scroll-hint">Swipe for more</span>
     </div>
-    <div class="product-info">
-      <h3>${product.name}</h3>
-      <p class="product-price">GHS ${product.price.toFixed(2)}</p>
-      <button class="btn btn-accent btn-add-cart" data-id="${product.id}">Add to Cart</button>
+    <div class="carousel-wrapper carousel-wrapper-fade collection-layout--splashes">
+      <div class="carousel-track gallery-track gallery-track--splashes" role="list" aria-label="${category.name}"></div>
     </div>
   `;
 
-  const imgEl = card.querySelector('.gallery-image, .product-image');
-  const testImg = new Image();
-  testImg.onload = () => { imgEl.src = product.image; };
-  testImg.onerror = () => { imgEl.src = product.fallback; };
-  testImg.src = product.image;
+  const track = section.querySelector('.carousel-track');
+  category.products.forEach((product) => {
+    track.appendChild(createProductCard(product, 'splash'));
+  });
 
-  return card;
+  return section;
+}
+
+function renderCrochetCategory(category) {
+  const section = document.createElement('div');
+  section.className = 'collection-category collection-category--crochet';
+  section.id = `collection-${category.id}`;
+  section.innerHTML = `
+    <h4 class="collection-category-title">${category.name}</h4>
+    <div class="product-grid product-grid--crochet" role="list" aria-label="${category.name}"></div>
+  `;
+
+  const grid = section.querySelector('.product-grid');
+  category.products.forEach((product) => {
+    grid.appendChild(createProductCard(product, 'crochet'));
+  });
+
+  return section;
+}
+
+function renderCategoryForTab(tabId, category) {
+  if (tabId === 'jewelry') return renderJewelryCategory(category);
+  if (tabId === 'splashes') return renderSplashesCategory(category);
+  return renderCrochetCategory(category);
+}
+
+function renderCollectionTabs(tabsHost) {
+  const tabsEl = document.createElement('div');
+  tabsEl.className = 'collection-tabs';
+  tabsEl.setAttribute('role', 'tablist');
+  tabsEl.setAttribute('aria-label', 'Shop collections');
+
+  collectionTabs.forEach((tab, index) => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = `collection-tab${index === 0 ? ' active' : ''}`;
+    button.dataset.tab = tab.id;
+    button.id = `collection-tab-${tab.id}`;
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
+    button.setAttribute('aria-controls', `collection-panel-${tab.id}`);
+    button.textContent = tab.label;
+    tabsEl.appendChild(button);
+  });
+
+  tabsHost.appendChild(tabsEl);
 }
 
 function renderCollections() {
   const container = document.getElementById('collections-container');
-  if (!container) return;
+  const tabsHost = document.querySelector('.collection-tabs-host');
+  if (!container || !tabsHost) return;
 
-  collections.forEach((group) => {
-    const groupEl = document.createElement('div');
-    groupEl.className = 'collection-group';
-    groupEl.innerHTML = `<h3 class="collection-group-title">${group.group}</h3>`;
+  renderCollectionTabs(tabsHost);
 
-    group.categories.forEach((category) => {
-      const section = document.createElement('div');
-      section.className = 'collection-category collection-gallery';
-      section.id = `collection-${category.id}`;
-      section.innerHTML = `
-        <div class="collection-category-head">
-          <h4 class="collection-category-title">${category.name}</h4>
-          <span class="scroll-hint">Swipe for more</span>
-        </div>
-        <div class="carousel-wrapper carousel-wrapper-fade">
-          <div class="carousel-track gallery-track" role="list" aria-label="${category.name} products"></div>
-        </div>
-      `;
+  collectionTabs.forEach((tab, index) => {
+    const panel = document.createElement('div');
+    panel.className = `collection-panel${index === 0 ? ' active' : ''}`;
+    panel.dataset.panel = tab.id;
+    panel.id = `collection-panel-${tab.id}`;
+    panel.setAttribute('role', 'tabpanel');
+    panel.setAttribute('aria-labelledby', `collection-tab-${tab.id}`);
+    if (index !== 0) panel.hidden = true;
 
-      const track = section.querySelector('.carousel-track');
-      category.products.forEach((product) => {
-        track.appendChild(createProductCard(product, true));
-      });
+    panel.innerHTML = `<p class="collection-panel-intro">${tab.intro}</p>`;
 
-      groupEl.appendChild(section);
+    const body = document.createElement('div');
+    body.className = 'collection-panel-body';
+
+    tab.categoryIds.forEach((categoryId) => {
+      const category = getCategoryById(categoryId);
+      if (category) {
+        body.appendChild(renderCategoryForTab(tab.id, category));
+      }
     });
 
-    container.appendChild(groupEl);
+    panel.appendChild(body);
+    container.appendChild(panel);
+  });
+}
+
+function resolveCollectionHash() {
+  const hash = window.location.hash;
+  if (!hash) return { tabId: 'jewelry', sectionId: null };
+
+  if (hash === '#collections-splashes') {
+    return { tabId: 'splashes', sectionId: null };
+  }
+  if (hash === '#collections-crochet') {
+    return { tabId: 'crochet', sectionId: null };
+  }
+  if (hash.startsWith('#collection-')) {
+    const categoryId = hash.slice('#collection-'.length);
+    return {
+      tabId: getTabForCategory(categoryId),
+      sectionId: `collection-${categoryId}`,
+    };
+  }
+
+  return { tabId: 'jewelry', sectionId: null };
+}
+
+function initCollectionTabs() {
+  const tabs = document.querySelectorAll('.collection-tab');
+  const panels = document.querySelectorAll('.collection-panel');
+  if (!tabs.length) return;
+
+  const activate = (tabId, sectionId = null) => {
+    tabs.forEach((tab) => {
+      const isActive = tab.dataset.tab === tabId;
+      tab.classList.toggle('active', isActive);
+      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    panels.forEach((panel) => {
+      const isActive = panel.dataset.panel === tabId;
+      panel.classList.toggle('active', isActive);
+      panel.hidden = !isActive;
+    });
+
+    if (sectionId) {
+      requestAnimationFrame(() => {
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+
+    initCarousel();
+    initScrollAnimations();
+  };
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      activate(tab.dataset.tab);
+      const nextHash = tab.dataset.tab === 'jewelry' ? '#collections' : `#collections-${tab.dataset.tab}`;
+      if (window.location.hash !== nextHash) {
+        history.replaceState(null, '', nextHash);
+      }
+    });
+  });
+
+  document.querySelectorAll('.category-card[data-collection-tab]').forEach((card) => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      const sectionId = card.dataset.collectionSection;
+      activate(card.dataset.collectionTab, sectionId);
+      history.replaceState(null, '', `#${sectionId}`);
+      document.getElementById('collections')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  const { tabId, sectionId } = resolveCollectionHash();
+  activate(tabId, sectionId);
+
+  window.addEventListener('hashchange', () => {
+    const resolved = resolveCollectionHash();
+    activate(resolved.tabId, resolved.sectionId);
   });
 }
 
@@ -84,7 +258,7 @@ function renderLifestyle() {
   if (!grid) return;
   lifestyleImages.forEach((item, i) => {
     const el = document.createElement('div');
-    el.className = `lifestyle-card fade-in-up`;
+    el.className = 'lifestyle-card fade-in-up';
     el.style.transitionDelay = `${i * 0.1}s`;
     el.innerHTML = `
       <img src="${item.fallback}" alt="Style inspiration" loading="lazy" class="lifestyle-image" data-local="${item.image}" />
@@ -129,8 +303,10 @@ function renderCategories() {
   };
   categories.forEach((cat, i) => {
     const el = document.createElement('a');
-    el.href = cat.href;
+    el.href = `#collection-${cat.id}`;
     el.className = 'category-card fade-in-up';
+    el.dataset.collectionTab = cat.tab;
+    el.dataset.collectionSection = `collection-${cat.id}`;
     el.style.transitionDelay = `${i * 0.08}s`;
     el.innerHTML = `
       <svg viewBox="0 0 24 24" class="category-icon">${icons[cat.icon]}</svg>
@@ -260,6 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
 
   renderCollections();
+  initCollectionTabs();
   renderLifestyle();
   renderTestimonials();
   renderCategories();
