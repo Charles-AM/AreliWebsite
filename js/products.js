@@ -72,15 +72,15 @@ export const collections = [
     categories: [
       {
         id: 'perfume',
-        name: 'Perfume',
+        name: 'Victoria Secret Splashes',
         gallery: true,
         products: [
-          product('perfume-1', 'perfume', 'perfume-1.jpg', FALLBACKS.perfume, "Victoria's Secret Amber Romance", 160, ''),
-          product('perfume-2', 'perfume', 'perfume-2.jpg', FALLBACKS.perfume, "Victoria's Secret Vanilla Lace", 160, ''),
-          product('perfume-3', 'perfume', 'perfume-3.jpg', FALLBACKS.perfume, "Victoria's Secret Pure Seduction Joy", 160, ''),
-          product('perfume-4a', 'perfume', 'perfume-4.jpg', FALLBACKS.perfume, "Victoria's Secret Velvet Petals (Left)", 160, ''),
-          product('perfume-4b', 'perfume', 'perfume-4.jpg', FALLBACKS.perfume, "Victoria's Secret Love Spell (Right)", 160, ''),
-          product('perfume-5', 'perfume', 'perfume-5.jpg', FALLBACKS.perfume, "Victoria's Secret Camelia Sunset", 160, ''),
+          product('perfume-1', 'perfume', 'perfume-1.jpg', FALLBACKS.perfume, 'Amber Romance', 160, ''),
+          product('perfume-2', 'perfume', 'perfume-2.jpg', FALLBACKS.perfume, 'Vanilla Lace', 160, ''),
+          product('perfume-3', 'perfume', 'perfume-3.jpg', FALLBACKS.perfume, 'Pure Seduction Joy', 160, ''),
+          product('perfume-4a', 'perfume', 'perfume-4.jpg', FALLBACKS.perfume, 'Velvet Petals (Left)', 160, ''),
+          product('perfume-4b', 'perfume', 'perfume-4.jpg', FALLBACKS.perfume, 'Love Spell (Right)', 160, ''),
+          product('perfume-5', 'perfume', 'perfume-5.jpg', FALLBACKS.perfume, 'Camelia Sunset', 160, ''),
         ],
       },
       {
@@ -137,7 +137,7 @@ export const categories = [
   { name: 'Necklaces', icon: 'necklace', href: '#collection-necklaces' },
   { name: 'Earrings & Rings', icon: 'earrings', href: '#collection-earrings-rings' },
   { name: 'Bracelets', icon: 'bracelet', href: '#collection-bracelets-bangles' },
-  { name: 'Perfume', icon: 'perfume', href: '#collection-perfume' },
+  { name: 'Victoria Secret Splashes', icon: 'perfume', href: '#collection-perfume' },
   { name: 'Crochet', icon: 'crochet', href: '#collection-crochet' },
 ];
 
