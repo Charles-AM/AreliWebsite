@@ -186,7 +186,7 @@ export const categories = [
   { id: 'necklaces', name: 'Necklaces', icon: 'necklace', tab: 'jewelry' },
   { id: 'earrings-rings', name: 'Earrings & Rings', icon: 'earrings', tab: 'jewelry' },
   { id: 'bracelets-bangles', name: 'Bracelets', icon: 'bracelet', tab: 'jewelry' },
-  { id: 'perfume', name: "Victoria's Secret Splashes", icon: 'perfume', tab: 'perfume' },
+  { id: 'perfume', name: 'Perfume', icon: 'perfume', tab: 'perfume' },
   { id: 'crochet', name: 'Crochet', icon: 'crochet', tab: 'crochet' },
 ];
 
