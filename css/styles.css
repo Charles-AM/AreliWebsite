@@ -1013,6 +1013,26 @@ h1, h2, h3, h4 {
   gap: 0.65rem;
 }
 
+.collections-show-all {
+  display: block;
+  width: 100%;
+  max-width: 16rem;
+  margin: 1rem auto 0;
+  min-height: 2.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.collections-show-all.hidden {
+  display: none;
+}
+
+.shop-grid--landing .shop-card-image-wrap {
+  aspect-ratio: 3 / 4.2;
+}
+
 .shop-empty {
   text-align: center;
   padding: 2rem 1rem;
@@ -2329,6 +2349,11 @@ h1, h2, h3, h4 {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 0.65rem;
   }
+
+  .shop-grid--landing {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.85rem;
+  }
 }
 @media (min-width: 1025px) {
   .hero {
@@ -2368,6 +2393,19 @@ h1, h2, h3, h4 {
     grid-template-columns: repeat(5, minmax(0, 1fr));
     gap: 0.7rem;
   }
+
+  .shop-grid--landing {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .shop-grid--landing .shop-card-name {
+    font-size: 0.74rem;
+  }
+
+  .shop-grid--landing .shop-card-cart {
+    font-size: 0.74rem;
+  }
 }
 
 @media (max-width: 767px) {
@@ -2387,6 +2425,10 @@ h1, h2, h3, h4 {
   .shop-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.55rem;
+  }
+
+  .shop-grid--landing {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .shop-card-name {

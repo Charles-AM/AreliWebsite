@@ -4,7 +4,8 @@ import {
   testimonials,
   categories,
   getAllCollectionProducts,
-  getShopProducts,
+  getProductsForFilter,
+  SHOP_LANDING_LIMITS,
   WHATSAPP_URL,
   buildContactWhatsAppUrl,
 } from './products.js';
@@ -65,22 +66,40 @@ function createProductCard(product) {
 }
 
 let activeShopFilter = 'all';
+let showFullCatalog = false;
+
+function isDesktopShopView() {
+  return window.matchMedia('(min-width: 768px)').matches;
+}
+
+function getLandingLimit() {
+  return isDesktopShopView() ? SHOP_LANDING_LIMITS.desktop : SHOP_LANDING_LIMITS.mobile;
+}
 
 function getFilterLabel(filterId) {
   return shopFilters.find((filter) => filter.id === filterId)?.label ?? 'All';
 }
 
-function renderShopGrid(filterId = 'all') {
+function renderShopGrid(filterId = activeShopFilter, options = {}) {
+  const { expandAll = false } = options;
   const container = document.getElementById('collections-container');
   const emptyEl = document.getElementById('collections-empty');
   const activeLabel = document.getElementById('collections-active-filter');
+  const showAllBtn = document.getElementById('collections-show-all');
   if (!container) return;
 
   activeShopFilter = filterId;
-  const products = getShopProducts().filter(
-    (product) => filterId === 'all' || product.categoryId === filterId,
-  );
+  if (filterId !== 'all') {
+    showFullCatalog = false;
+  } else if (expandAll) {
+    showFullCatalog = true;
+  }
 
+  const allProducts = getProductsForFilter(filterId);
+  const shouldLimit = filterId === 'all' && !showFullCatalog;
+  const products = shouldLimit ? allProducts.slice(0, getLandingLimit()) : allProducts;
+
+  container.classList.toggle('shop-grid--landing', shouldLimit);
   container.innerHTML = '';
   products.forEach((product) => {
     container.appendChild(createProductCard(product));
@@ -90,10 +109,20 @@ function renderShopGrid(filterId = 'all') {
     emptyEl.classList.toggle('hidden', products.length > 0);
   }
 
+  if (showAllBtn) {
+    const hiddenCount = allProducts.length - products.length;
+    showAllBtn.classList.toggle('hidden', hiddenCount <= 0);
+    showAllBtn.textContent = `View all ${allProducts.length} products`;
+  }
+
   if (activeLabel) {
-    activeLabel.textContent = filterId === 'all'
-      ? `Showing all ${products.length} products`
-      : `${getFilterLabel(filterId)} · ${products.length} item${products.length === 1 ? '' : 's'}`;
+    if (filterId === 'all') {
+      activeLabel.textContent = shouldLimit
+        ? `Showing ${products.length} of ${allProducts.length} products`
+        : `Showing all ${allProducts.length} products`;
+    } else {
+      activeLabel.textContent = `${getFilterLabel(filterId)} · ${products.length} item${products.length === 1 ? '' : 's'}`;
+    }
   }
 
   document.querySelectorAll('.collections-filter-option').forEach((option) => {
@@ -159,6 +188,22 @@ function initShopFilter() {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closeFilterMenu();
   });
+
+  document.getElementById('collections-show-all')?.addEventListener('click', () => {
+    renderShopGrid('all', { expandAll: true });
+  });
+}
+
+function initShopLandingResize() {
+  let lastLimit = getLandingLimit();
+  window.addEventListener('resize', () => {
+    if (activeShopFilter !== 'all' || showFullCatalog) return;
+    const nextLimit = getLandingLimit();
+    if (nextLimit !== lastLimit) {
+      lastLimit = nextLimit;
+      renderShopGrid('all');
+    }
+  });
 }
 
 function applyShopFilter(filterId) {
@@ -169,6 +214,7 @@ function applyShopFilter(filterId) {
 function renderCollections() {
   renderShopGrid('all');
   initShopFilter();
+  initShopLandingResize();
 
   const hash = window.location.hash;
   if (hash.startsWith('#collection-')) {
