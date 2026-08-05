@@ -3,10 +3,12 @@
  *
  * HOW TO ADD / UPDATE PRODUCTS (live stock):
  * 1. Upload your photo to public/images/collections/<folder>/ on GitHub
- * 2. Add or edit a product() entry in the matching category below
- *    (necklaces, earrings-rings, bracelets-bangles, perfume, or crochet)
- * 3. New items appear in that category filter and in the mixed All view
+ * 2. For named products, add or edit a product() entry in the matching category below
+ * 3. New image files are picked up automatically on the next deploy (see collection-manifest.json)
+ * 4. Replace an existing filename to update that product photo without code changes
  */
+
+import collectionManifest from '../public/collection-manifest.json';
 
 const product = (id, folder, filename, fallback, name, price, description = '') => ({
   id,
@@ -41,7 +43,55 @@ const FALLBACKS = {
   crochet: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&q=80',
 };
 
-export const collections = [
+const CATEGORY_DEFAULTS = {
+  necklaces: { fallback: FALLBACKS.necklace, price: 65 },
+  'earrings-rings': { fallback: FALLBACKS.earring, price: 50 },
+  'bracelets-bangles': { fallback: FALLBACKS.bracelet, price: 65 },
+  perfume: { fallback: FALLBACKS.perfume, price: 160 },
+  crochet: { fallback: FALLBACKS.crochet, price: 50 },
+};
+
+function slugFromFilename(filename) {
+  return filename.replace(/\.[^.]+$/, '').replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+}
+
+function humanizeFilename(filename) {
+  return filename
+    .replace(/\.[^.]+$/, '')
+    .replace(/[-_]+/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+}
+
+function withDiscoveredProducts(categories) {
+  return categories.map((category) => {
+    const manifestFiles = collectionManifest[category.id] ?? [];
+    const usedFiles = new Set(
+      category.products.map((item) => item.image.split('/').pop()),
+    );
+
+    const discovered = manifestFiles
+      .filter((filename) => !usedFiles.has(filename))
+      .map((filename) => {
+        const defaults = CATEGORY_DEFAULTS[category.id];
+        return product(
+          `${category.id}-disc-${slugFromFilename(filename)}`,
+          category.id,
+          filename,
+          defaults.fallback,
+          humanizeFilename(filename),
+          defaults.price,
+          '',
+        );
+      });
+
+    return {
+      ...category,
+      products: [...category.products, ...discovered],
+    };
+  });
+}
+
+const baseCollections = [
   {
     group: 'Jewelry',
     categories: [
@@ -77,7 +127,7 @@ export const collections = [
         gallery: true,
         products: [
           product('bracelets-bangles-1', 'bracelets-bangles', 'bracelet-1.jpg', FALLBACKS.bracelet, 'Butterfly Bangle', 65, ''),
-          product('bracelets-bangles-2', 'bracelets-bangles', 'bracelet-2.jpg', FALLBACKS.bracelet, 'Bracelet / Bangle 2', 60, ''),
+          product('bracelets-bangles-2', 'bracelets-bangles', 'bracelet-2.jpg', FALLBACKS.bracelet, 'Orbi Bangle', 60, ''),
           product('bracelets-bangles-3', 'bracelets-bangles', 'bracelet-3.jpg', FALLBACKS.bracelet, 'Chana Bangle', 65, ''),
           product('bracelets-bangles-4', 'bracelets-bangles', 'bracelet-4.jpg', FALLBACKS.bracelet, 'Bracelet / Bangle 4', 70, ''),
           product('bracelets-bangles-5', 'bracelets-bangles', 'bracelet-5.jpg', FALLBACKS.bracelet, 'Bracelet / Bangle 5', 75, ''),
@@ -116,6 +166,11 @@ export const collections = [
     ],
   },
 ];
+
+export const collections = baseCollections.map((group) => ({
+  ...group,
+  categories: withDiscoveredProducts(group.categories),
+}));
 
 export const shopFilters = [
   { id: 'all', label: 'All' },
@@ -167,10 +222,7 @@ export function getProductsForFilter(filterId) {
   return category.products.map((item) => ({ ...item, categoryId: filterId }));
 }
 
-export const SHOP_LANDING_LIMITS = {
-  mobile: 14,
-  desktop: 10,
-};
+export const SHOP_FILTER_LIMIT = 12;
 
 export function getAllCollectionProducts() {
   return getShopProducts();
