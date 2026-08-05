@@ -3,11 +3,9 @@
  *
  * HOW TO ADD / UPDATE PRODUCTS (live stock):
  * 1. Upload your photo to public/images/collections/<folder>/ on GitHub
- *    (any filename, e.g. pearl-layer-necklace.jpg)
- * 2. Add or edit a product() entry below with matching name, description, price
- * 3. Commit — Netlify redeploys in ~1–2 min
- *
- * Rows stay scrollable with any number of products — add as many as you have in stock.
+ * 2. Add or edit a product() entry in the matching category below
+ *    (necklaces, earrings-rings, bracelets-bangles, perfume, or crochet)
+ * 3. New items appear in that category filter and in the mixed All view
  */
 
 const product = (id, folder, filename, fallback, name, price, description = '') => ({
@@ -54,7 +52,7 @@ export const collections = [
         products: [
           product('necklaces-7', 'necklaces', 'necklace-7.jpg', FALLBACKS.necklace, 'Halo Set', 130, ''),
           product('necklaces-6', 'necklaces', 'necklace-6.jpg', FALLBACKS.necklace, 'Sea Pearl Set', 125, ''),
-          product('necklaces-4', 'necklaces', 'necklace-4.jpg', FALLBACKS.necklace, 'Linea Heart Necklace', 65, 'Gold, silver & rose gold'),
+          product('necklaces-4', 'necklaces', 'necklace-4.jpg', FALLBACKS.necklace, 'Linea Heart Necklace', 65, ''),
           product('necklaces-1', 'necklaces', 'necklace-1.jpg', FALLBACKS.necklace, 'Rosalia Necklace', 65, ''),
           product('necklaces-2', 'necklaces', 'necklace-2.jpg', FALLBACKS.necklace, 'Flutter Charm Necklace', 45, ''),
           product('necklaces-3', 'necklaces', 'necklace-3.jpg', FALLBACKS.necklace, 'Roseraie Set', 125, ''),
@@ -141,6 +139,38 @@ export function getShopProducts() {
     category.products.map((item) => ({ ...item, categoryId: category.id })),
   );
 }
+
+/** Mix products from every category (round-robin) for the All view */
+export function getMixedShopProducts() {
+  const buckets = getAllCategories().map((category) =>
+    category.products.map((item) => ({ ...item, categoryId: category.id })),
+  );
+
+  const mixed = [];
+  let index = 0;
+  const total = buckets.reduce((count, bucket) => count + bucket.length, 0);
+
+  while (mixed.length < total) {
+    buckets.forEach((bucket) => {
+      if (bucket[index]) mixed.push(bucket[index]);
+    });
+    index += 1;
+  }
+
+  return mixed;
+}
+
+export function getProductsForFilter(filterId) {
+  if (filterId === 'all') return getMixedShopProducts();
+  const category = getCategoryById(filterId);
+  if (!category) return [];
+  return category.products.map((item) => ({ ...item, categoryId: filterId }));
+}
+
+export const SHOP_LANDING_LIMITS = {
+  mobile: 14,
+  desktop: 10,
+};
 
 export function getAllCollectionProducts() {
   return getShopProducts();
