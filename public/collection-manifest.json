@@ -1,0 +1,40 @@
+{
+  "necklaces": [
+    "necklace-1.jpg",
+    "necklace-2.jpg",
+    "necklace-3.jpg",
+    "necklace-4.jpg",
+    "necklace-5.jpg",
+    "necklace-6.jpg",
+    "necklace-7.jpg"
+  ],
+  "earrings-rings": [
+    "47ecc350-0699-47c8-8693-48bdc0f9e00d.JPG",
+    "earrings-rings-1.jpg",
+    "earrings-rings-2.jpg",
+    "earrings-rings-3.jpg",
+    "earrings-rings-4.jpg",
+    "earrings-rings-5.jpg"
+  ],
+  "bracelets-bangles": [
+    "bracelet-1.jpg",
+    "bracelet-2.jpg",
+    "bracelet-3.jpg",
+    "bracelet-4.jpg",
+    "bracelet-5.jpg"
+  ],
+  "perfume": [
+    "perfume-1.jpg",
+    "perfume-2.jpg",
+    "perfume-3.jpg",
+    "perfume-4.jpg",
+    "perfume-5.jpg"
+  ],
+  "crochet": [
+    "crochet-1.jpg",
+    "crochet-2.jpg",
+    "crochet-3.jpg",
+    "crochet-4.jpg",
+    "crochet-5.jpg"
+  ]
+}
