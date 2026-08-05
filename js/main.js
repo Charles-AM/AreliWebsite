@@ -1,11 +1,10 @@
 import {
-  collectionTabs,
+  shopFilters,
   lifestyleImages,
   testimonials,
   categories,
   getAllCollectionProducts,
-  getCategoryById,
-  getTabForCategory,
+  getShopProducts,
   WHATSAPP_URL,
   buildContactWhatsAppUrl,
 } from './products.js';
@@ -19,7 +18,7 @@ import {
   initCarousel,
 } from './animations.js';
 
-const CARD_CLASS = 'gallery-card gallery-card--uniform';
+const CARD_CLASS = 'shop-card';
 
 function loadProductImage(imgEl, product) {
   const testImg = new Image();
@@ -31,174 +30,138 @@ function loadProductImage(imgEl, product) {
 function createProductCard(product) {
   const card = document.createElement('article');
   card.className = CARD_CLASS;
+  card.dataset.category = product.categoryId;
+  card.setAttribute('role', 'listitem');
   card.innerHTML = `
-    <div class="gallery-image-wrap">
+    <div class="shop-card-image-wrap">
       <img src="${product.fallback}" data-local="${product.image}" alt="${product.name}"
-           loading="lazy" class="gallery-image" />
+           loading="lazy" class="shop-card-image" />
     </div>
-    <div class="gallery-info">
-      <p class="gallery-name">${product.name}</p>
-      <p class="gallery-desc">${product.description || ''}</p>
-      <p class="gallery-price">GHS ${product.price.toFixed(2)}</p>
-      <button class="btn btn-accent btn-add-cart btn-gallery-cart" data-id="${product.id}">Add to Cart</button>
+    <div class="shop-card-info">
+      <p class="shop-card-name">${product.name}</p>
+      <p class="shop-card-desc">${product.description || ''}</p>
+      <p class="shop-card-price">GHS ${product.price.toFixed(2)}</p>
+      <button type="button" class="btn btn-accent btn-add-cart shop-card-cart" data-id="${product.id}">Add to Cart</button>
     </div>
   `;
 
-  loadProductImage(card.querySelector('.gallery-image'), product);
+  loadProductImage(card.querySelector('.shop-card-image'), product);
   return card;
 }
 
-function renderCarouselCategory(category) {
-  const section = document.createElement('div');
-  section.className = 'collection-category';
-  section.id = `collection-${category.id}`;
-  section.innerHTML = `
-    <div class="collection-category-head">
-      <h4 class="collection-category-title">${category.name}</h4>
-      <span class="scroll-hint">Swipe for more</span>
-    </div>
-    <div class="carousel-wrapper carousel-wrapper-fade">
-      <div class="carousel-track gallery-track gallery-track--uniform" role="list" aria-label="${category.name}"></div>
-    </div>
-  `;
+let activeShopFilter = 'all';
 
-  const track = section.querySelector('.carousel-track');
-  category.products.forEach((product) => {
-    track.appendChild(createProductCard(product));
-  });
-
-  return section;
+function getFilterLabel(filterId) {
+  return shopFilters.find((filter) => filter.id === filterId)?.label ?? 'All';
 }
 
-function renderCollectionTabs(tabsHost) {
-  const tabsEl = document.createElement('div');
-  tabsEl.className = 'collection-tabs';
-  tabsEl.setAttribute('role', 'tablist');
-  tabsEl.setAttribute('aria-label', 'Shop collections');
+function renderShopGrid(filterId = 'all') {
+  const container = document.getElementById('collections-container');
+  const emptyEl = document.getElementById('collections-empty');
+  const activeLabel = document.getElementById('collections-active-filter');
+  if (!container) return;
 
-  collectionTabs.forEach((tab, index) => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = `collection-tab${index === 0 ? ' active' : ''}`;
-    button.dataset.tab = tab.id;
-    button.id = `collection-tab-${tab.id}`;
-    button.setAttribute('role', 'tab');
-    button.setAttribute('aria-selected', index === 0 ? 'true' : 'false');
-    button.setAttribute('aria-controls', `collection-panel-${tab.id}`);
-    button.textContent = tab.label;
-    tabsEl.appendChild(button);
+  activeShopFilter = filterId;
+  const products = getShopProducts().filter(
+    (product) => filterId === 'all' || product.categoryId === filterId,
+  );
+
+  container.innerHTML = '';
+  products.forEach((product) => {
+    container.appendChild(createProductCard(product));
   });
 
-  tabsHost.appendChild(tabsEl);
+  if (emptyEl) {
+    emptyEl.classList.toggle('hidden', products.length > 0);
+  }
+
+  if (activeLabel) {
+    activeLabel.textContent = filterId === 'all'
+      ? `Showing all ${products.length} products`
+      : `${getFilterLabel(filterId)} · ${products.length} item${products.length === 1 ? '' : 's'}`;
+  }
+
+  document.querySelectorAll('.collections-filter-option').forEach((option) => {
+    const isActive = option.dataset.filter === filterId;
+    option.classList.toggle('active', isActive);
+    option.setAttribute('aria-selected', isActive ? 'true' : 'false');
+  });
+
+  initScrollAnimations();
+}
+
+function closeFilterMenu() {
+  const menu = document.getElementById('collections-filter-menu');
+  const toggle = document.getElementById('collections-filter-toggle');
+  if (!menu || !toggle) return;
+  menu.hidden = true;
+  toggle.setAttribute('aria-expanded', 'false');
+}
+
+function openFilterMenu() {
+  const menu = document.getElementById('collections-filter-menu');
+  const toggle = document.getElementById('collections-filter-toggle');
+  if (!menu || !toggle) return;
+  menu.hidden = false;
+  toggle.setAttribute('aria-expanded', 'true');
+}
+
+function initShopFilter() {
+  const menu = document.getElementById('collections-filter-menu');
+  const toggle = document.getElementById('collections-filter-toggle');
+  if (!menu || !toggle) return;
+
+  menu.innerHTML = shopFilters.map((filter) => `
+    <button
+      type="button"
+      class="collections-filter-option${filter.id === activeShopFilter ? ' active' : ''}"
+      data-filter="${filter.id}"
+      role="option"
+      aria-selected="${filter.id === activeShopFilter ? 'true' : 'false'}"
+    >${filter.label}</button>
+  `).join('');
+
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    if (isOpen) closeFilterMenu();
+    else openFilterMenu();
+  });
+
+  menu.addEventListener('click', (e) => {
+    const option = e.target.closest('.collections-filter-option');
+    if (!option) return;
+    renderShopGrid(option.dataset.filter);
+    closeFilterMenu();
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.collections-filter-wrap')) {
+      closeFilterMenu();
+    }
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeFilterMenu();
+  });
+}
+
+function applyShopFilter(filterId) {
+  renderShopGrid(filterId);
+  document.getElementById('collections')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function renderCollections() {
-  const container = document.getElementById('collections-container');
-  const tabsHost = document.querySelector('.collection-tabs-host');
-  if (!container || !tabsHost) return;
+  renderShopGrid('all');
+  initShopFilter();
 
-  renderCollectionTabs(tabsHost);
-
-  collectionTabs.forEach((tab, index) => {
-    const panel = document.createElement('div');
-    panel.className = `collection-panel${index === 0 ? ' active' : ''}`;
-    panel.dataset.panel = tab.id;
-    panel.id = `collection-panel-${tab.id}`;
-    panel.setAttribute('role', 'tabpanel');
-    panel.setAttribute('aria-labelledby', `collection-tab-${tab.id}`);
-    if (index !== 0) panel.hidden = true;
-
-    const body = document.createElement('div');
-    body.className = 'collection-panel-body';
-
-    tab.categoryIds.forEach((categoryId) => {
-      const category = getCategoryById(categoryId);
-      if (category) {
-        body.appendChild(renderCarouselCategory(category));
-      }
-    });
-
-    panel.appendChild(body);
-    container.appendChild(panel);
-  });
-}
-
-function resolveCollectionHash() {
   const hash = window.location.hash;
-  if (!hash) return { tabId: 'jewelry', sectionId: null };
-
-  if (hash === '#collections-perfume' || hash === '#collections-splashes') {
-    return { tabId: 'perfume', sectionId: null };
-  }
-  if (hash === '#collections-crochet') {
-    return { tabId: 'crochet', sectionId: null };
-  }
   if (hash.startsWith('#collection-')) {
     const categoryId = hash.slice('#collection-'.length);
-    return {
-      tabId: getTabForCategory(categoryId),
-      sectionId: `collection-${categoryId}`,
-    };
-  }
-
-  return { tabId: 'jewelry', sectionId: null };
-}
-
-function initCollectionTabs() {
-  const tabs = document.querySelectorAll('.collection-tab');
-  const panels = document.querySelectorAll('.collection-panel');
-  if (!tabs.length) return;
-
-  const activate = (tabId, sectionId = null) => {
-    tabs.forEach((tab) => {
-      const isActive = tab.dataset.tab === tabId;
-      tab.classList.toggle('active', isActive);
-      tab.setAttribute('aria-selected', isActive ? 'true' : 'false');
-    });
-
-    panels.forEach((panel) => {
-      const isActive = panel.dataset.panel === tabId;
-      panel.classList.toggle('active', isActive);
-      panel.hidden = !isActive;
-    });
-
-    if (sectionId) {
-      requestAnimationFrame(() => {
-        document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      });
+    if (shopFilters.some((filter) => filter.id === categoryId)) {
+      renderShopGrid(categoryId);
     }
-
-    initCarousel();
-    initScrollAnimations();
-  };
-
-  tabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      activate(tab.dataset.tab);
-      const nextHash = tab.dataset.tab === 'jewelry' ? '#collections' : `#collections-${tab.dataset.tab}`;
-      if (window.location.hash !== nextHash) {
-        history.replaceState(null, '', nextHash);
-      }
-    });
-  });
-
-  document.querySelectorAll('.category-card[data-collection-tab]').forEach((card) => {
-    card.addEventListener('click', (e) => {
-      e.preventDefault();
-      const sectionId = card.dataset.collectionSection;
-      activate(card.dataset.collectionTab, sectionId);
-      history.replaceState(null, '', `#${sectionId}`);
-      document.getElementById('collections')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  });
-
-  const { tabId, sectionId } = resolveCollectionHash();
-  activate(tabId, sectionId);
-
-  window.addEventListener('hashchange', () => {
-    const resolved = resolveCollectionHash();
-    activate(resolved.tabId, resolved.sectionId);
-  });
+  }
 }
 
 function renderLifestyle() {
@@ -251,16 +214,22 @@ function renderCategories() {
   };
   categories.forEach((cat, i) => {
     const el = document.createElement('a');
-    el.href = `#collection-${cat.id}`;
+    el.href = '#collections';
     el.className = 'category-card fade-in-up';
-    el.dataset.collectionTab = cat.tab;
-    el.dataset.collectionSection = `collection-${cat.id}`;
+    el.dataset.shopFilter = cat.filter;
     el.style.transitionDelay = `${i * 0.08}s`;
     el.innerHTML = `
       <svg viewBox="0 0 24 24" class="category-icon">${icons[cat.icon]}</svg>
       <span>${cat.name}</span>
     `;
     grid.appendChild(el);
+  });
+
+  grid.querySelectorAll('.category-card[data-shop-filter]').forEach((card) => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      applyShopFilter(card.dataset.shopFilter);
+    });
   });
 }
 
@@ -384,7 +353,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initContactForm();
 
   renderCollections();
-  initCollectionTabs();
   renderLifestyle();
   renderTestimonials();
   renderCategories();
