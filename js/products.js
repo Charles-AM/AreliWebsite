@@ -63,7 +63,7 @@ export const collections = [
       },
       {
         id: 'earrings-rings',
-        name: 'Earrings & Rings',
+        name: 'Earrings',
         gallery: true,
         products: [
           product('earrings-rings-1', 'earrings-rings', 'earrings-rings-1.jpg', FALLBACKS.earring, 'Spherina Earrings', 50, ''),
@@ -75,7 +75,7 @@ export const collections = [
       },
       {
         id: 'bracelets-bangles',
-        name: 'Bracelets & Bangles',
+        name: 'Bracelets',
         gallery: true,
         products: [
           product('bracelets-bangles-1', 'bracelets-bangles', 'bracelet-1.jpg', FALLBACKS.bracelet, 'Butterfly Bangle', 65, ''),
@@ -105,7 +105,7 @@ export const collections = [
       },
       {
         id: 'crochet',
-        name: 'Crochet Items',
+        name: 'Crochet',
         gallery: true,
         products: [
           product('crochet-1', 'crochet', 'crochet-1.jpg', FALLBACKS.crochet, 'Blue Crochet Mat', 50, ''),
@@ -119,39 +119,31 @@ export const collections = [
   },
 ];
 
-export const collectionTabs = [
-  {
-    id: 'jewelry',
-    label: 'Jewelry',
-    categoryIds: ['necklaces', 'earrings-rings', 'bracelets-bangles'],
-  },
-  {
-    id: 'perfume',
-    label: 'Perfume',
-    categoryIds: ['perfume'],
-  },
-  {
-    id: 'crochet',
-    label: 'Crochet',
-    categoryIds: ['crochet'],
-  },
+export const shopFilters = [
+  { id: 'all', label: 'All' },
+  { id: 'necklaces', label: 'Necklaces' },
+  { id: 'earrings-rings', label: 'Earrings' },
+  { id: 'bracelets-bangles', label: 'Bracelets' },
+  { id: 'perfume', label: 'Perfume' },
+  { id: 'crochet', label: 'Crochet' },
 ];
 
-export function getCategoryById(id) {
-  for (const group of collections) {
-    const category = group.categories.find((c) => c.id === id);
-    if (category) return category;
-  }
-  return null;
+export function getAllCategories() {
+  return collections.flatMap((group) => group.categories);
 }
 
-export function getTabForCategory(categoryId) {
-  const tab = collectionTabs.find((t) => t.categoryIds.includes(categoryId));
-  return tab?.id ?? 'jewelry';
+export function getCategoryById(id) {
+  return getAllCategories().find((category) => category.id === id) ?? null;
+}
+
+export function getShopProducts() {
+  return getAllCategories().flatMap((category) =>
+    category.products.map((item) => ({ ...item, categoryId: category.id })),
+  );
 }
 
 export function getAllCollectionProducts() {
-  return collections.flatMap((g) => g.categories.flatMap((c) => c.products));
+  return getShopProducts();
 }
 
 export const lifestyleImages = [
@@ -185,11 +177,11 @@ export const testimonials = [
 ];
 
 export const categories = [
-  { id: 'necklaces', name: 'Necklaces', icon: 'necklace', tab: 'jewelry' },
-  { id: 'earrings-rings', name: 'Earrings & Rings', icon: 'earrings', tab: 'jewelry' },
-  { id: 'bracelets-bangles', name: 'Bracelets', icon: 'bracelet', tab: 'jewelry' },
-  { id: 'perfume', name: 'Perfume', icon: 'perfume', tab: 'perfume' },
-  { id: 'crochet', name: 'Crochet', icon: 'crochet', tab: 'crochet' },
+  { id: 'necklaces', name: 'Necklaces', icon: 'necklace', filter: 'necklaces' },
+  { id: 'earrings-rings', name: 'Earrings', icon: 'earrings', filter: 'earrings-rings' },
+  { id: 'bracelets-bangles', name: 'Bracelets', icon: 'bracelet', filter: 'bracelets-bangles' },
+  { id: 'perfume', name: 'Perfume', icon: 'perfume', filter: 'perfume' },
+  { id: 'crochet', name: 'Crochet', icon: 'crochet', filter: 'crochet' },
 ];
 
 export const deliveryTiers = [

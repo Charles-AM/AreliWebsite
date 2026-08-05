@@ -83,14 +83,28 @@
 
     <!-- Collections -->
     <section id="collections" class="section section--compact collections-section">
-      <div class="container">
-        <div class="section-head-compact fade-in-up">
+      <div class="container collections-shop">
+        <div class="collections-toolbar fade-in-up">
           <h2 class="section-title">Collections</h2>
+          <div class="collections-filter-wrap">
+            <button
+              type="button"
+              class="collections-filter-toggle"
+              id="collections-filter-toggle"
+              aria-expanded="false"
+              aria-controls="collections-filter-menu"
+            >
+              <span>Filter</span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M4 6h16M7 12h10M10 18h4"/>
+              </svg>
+            </button>
+            <div id="collections-filter-menu" class="collections-filter-menu" hidden></div>
+          </div>
         </div>
-        <div class="collection-tabs-host"></div>
-      </div>
-      <div class="collections-fullbleed">
-        <div id="collections-container"></div>
+        <div id="collections-active-filter" class="collections-active-filter" aria-live="polite"></div>
+        <div id="collections-container" class="shop-grid" role="list"></div>
+        <p id="collections-empty" class="shop-empty hidden">No products in this category.</p>
       </div>
     </section>
 
