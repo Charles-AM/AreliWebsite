@@ -127,12 +127,12 @@ function renderShopGrid(filterId = activeShopFilter, options = {}) {
   }
 
   if (activeLabel) {
-    if (shouldLimit) {
-      activeLabel.textContent = `Showing ${products.length} of ${catalogTotal} products`;
-    } else if (filterId === 'all') {
-      activeLabel.textContent = `Showing all ${catalogTotal} products`;
+    if (filterId === 'all') {
+      activeLabel.textContent = shouldLimit
+        ? `Showing ${products.length} of ${catalogTotal} products`
+        : `Showing all ${catalogTotal} products`;
     } else {
-      activeLabel.textContent = `${getFilterLabel(filterId)} · ${products.length} item${products.length === 1 ? '' : 's'}`;
+      activeLabel.textContent = `${getFilterLabel(filterId)} · ${catalogTotal} item${catalogTotal === 1 ? '' : 's'}`;
     }
   }
 
