@@ -2222,10 +2222,12 @@ h1, h2, h3, h4 {
   .hero {
     grid-template-columns: 1fr;
     min-height: auto;
+    max-height: none;
+    overflow: visible;
   }
 
   .hero-content {
-    padding: 3rem 1.5rem;
+    padding: 2.5rem 1.5rem 3rem;
     order: 2;
   }
 
@@ -2700,9 +2702,11 @@ h1, h2, h3, h4 {
 
   .hero-cta {
     flex-direction: column;
+    gap: 0.75rem;
   }
 
   .hero-cta .btn {
     width: 100%;
+    min-height: 2.75rem;
   }
 }
