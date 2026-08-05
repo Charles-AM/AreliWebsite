@@ -20,11 +20,26 @@ import {
 
 const CARD_CLASS = 'shop-card';
 
-function loadProductImage(imgEl, product) {
-  const testImg = new Image();
-  testImg.onload = () => { imgEl.src = product.image; };
-  testImg.onerror = () => { imgEl.src = product.fallback; };
-  testImg.src = product.image;
+function initShopCardImage(imgEl, product) {
+  const reveal = () => imgEl.classList.add('is-ready');
+
+  const useFallback = () => {
+    if (imgEl.dataset.fallbackApplied === 'true') {
+      reveal();
+      return;
+    }
+    imgEl.dataset.fallbackApplied = 'true';
+    imgEl.addEventListener('load', reveal, { once: true });
+    imgEl.src = product.fallback;
+  };
+
+  imgEl.addEventListener('load', reveal, { once: true });
+  imgEl.addEventListener('error', useFallback, { once: true });
+  imgEl.src = product.image;
+
+  if (imgEl.complete && imgEl.naturalWidth > 0) {
+    reveal();
+  }
 }
 
 function createProductCard(product) {
@@ -34,8 +49,8 @@ function createProductCard(product) {
   card.setAttribute('role', 'listitem');
   card.innerHTML = `
     <div class="shop-card-image-wrap">
-      <img src="${product.fallback}" data-local="${product.image}" alt="${product.name}"
-           loading="lazy" class="shop-card-image" />
+      <img src="${product.image}" alt="${product.name}"
+           loading="lazy" decoding="async" class="shop-card-image" />
     </div>
     <div class="shop-card-info">
       <p class="shop-card-name">${product.name}</p>
@@ -45,7 +60,7 @@ function createProductCard(product) {
     </div>
   `;
 
-  loadProductImage(card.querySelector('.shop-card-image'), product);
+  initShopCardImage(card.querySelector('.shop-card-image'), product);
   return card;
 }
 
@@ -251,6 +266,23 @@ function initProductActions() {
   });
 }
 
+function refreshShopImagesOnRestore() {
+  window.addEventListener('pageshow', (event) => {
+    if (!event.persisted) return;
+    document.querySelectorAll('.shop-card-image').forEach((img) => {
+      const currentSrc = img.getAttribute('src');
+      if (!currentSrc) return;
+      img.classList.remove('is-ready');
+      img.removeAttribute('data-fallback-applied');
+      img.src = '';
+      img.src = currentSrc;
+      if (img.complete && img.naturalWidth > 0) {
+        img.classList.add('is-ready');
+      }
+    });
+  });
+}
+
 function revealHeroImage(img) {
   img.classList.add('is-ready');
 }
@@ -348,6 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initProductActions();
   initHeroImage();
   refreshHeroImageOnRestore();
+  refreshShopImagesOnRestore();
   initAboutImages();
   initContactLinks();
   initContactForm();
