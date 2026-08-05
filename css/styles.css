@@ -2497,7 +2497,6 @@ h1, h2, h3, h4 {
   .hero-image-wrap {
     min-height: 50vh;
     max-height: 380px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   }
 
   .why-grid,
