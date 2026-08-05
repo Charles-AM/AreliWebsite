@@ -204,10 +204,34 @@ export function getShopProducts() {
   );
 }
 
+/** Original necklaces shown in the home landing mix (All view) */
+const LANDING_NECKLACE_IDS = [
+  'necklaces-7',
+  'necklaces-6',
+  'necklaces-4',
+  'necklaces-1',
+  'necklaces-2',
+  'necklaces-3',
+  'necklaces-5',
+];
+
+function getLandingCategoryProducts(category) {
+  if (category.id !== 'necklaces') {
+    return category.products.map((item) => ({ ...item, categoryId: category.id }));
+  }
+
+  return LANDING_NECKLACE_IDS
+    .map((id) => category.products.find((item) => item.id === id))
+    .filter(Boolean)
+    .map((item) => ({ ...item, categoryId: category.id }));
+}
+
 /** Mix products from every category (round-robin) for the All view */
-export function getMixedShopProducts() {
+export function getMixedShopProducts({ landing = false } = {}) {
   const buckets = getAllCategories().map((category) =>
-    category.products.map((item) => ({ ...item, categoryId: category.id })),
+    landing
+      ? getLandingCategoryProducts(category)
+      : category.products.map((item) => ({ ...item, categoryId: category.id })),
   );
 
   const mixed = [];
@@ -224,8 +248,8 @@ export function getMixedShopProducts() {
   return mixed;
 }
 
-export function getProductsForFilter(filterId) {
-  if (filterId === 'all') return getMixedShopProducts();
+export function getProductsForFilter(filterId, options = {}) {
+  if (filterId === 'all') return getMixedShopProducts(options);
   const category = getCategoryById(filterId);
   if (!category) return [];
   return category.products.map((item) => ({ ...item, categoryId: filterId }));
