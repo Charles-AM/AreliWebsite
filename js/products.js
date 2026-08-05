@@ -222,7 +222,10 @@ export function getProductsForFilter(filterId) {
   return category.products.map((item) => ({ ...item, categoryId: filterId }));
 }
 
-export const SHOP_FILTER_LIMIT = 12;
+export const SHOP_FILTER_LIMITS = {
+  mobile: 12,
+  desktop: 10,
+};
 
 export function getAllCollectionProducts() {
   return getShopProducts();
