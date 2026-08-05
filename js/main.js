@@ -96,10 +96,16 @@ function renderShopGrid(filterId = activeShopFilter, options = {}) {
     showFullCatalog = false;
   }
 
-  const allProducts = getProductsForFilter(filterId);
+  const fullCatalog = filterId === 'all'
+    ? getProductsForFilter('all', { landing: false })
+    : getProductsForFilter(filterId);
+  const sourceProducts = filterId === 'all' && !showFullCatalog
+    ? getProductsForFilter('all', { landing: true })
+    : fullCatalog;
   const filterLimit = getShopFilterLimit();
-  const shouldLimit = !showFullCatalog && allProducts.length > filterLimit;
-  const products = shouldLimit ? allProducts.slice(0, filterLimit) : allProducts;
+  const shouldLimit = !showFullCatalog && sourceProducts.length > filterLimit;
+  const products = shouldLimit ? sourceProducts.slice(0, filterLimit) : sourceProducts;
+  const catalogTotal = filterId === 'all' ? fullCatalog.length : sourceProducts.length;
 
   container.innerHTML = '';
   products.forEach((product) => {
@@ -111,20 +117,20 @@ function renderShopGrid(filterId = activeShopFilter, options = {}) {
   }
 
   if (showAllBtn) {
-    const hiddenCount = allProducts.length - products.length;
+    const hiddenCount = showFullCatalog ? 0 : catalogTotal - products.length;
     showAllBtn.classList.toggle('hidden', hiddenCount <= 0);
     if (filterId === 'all') {
-      showAllBtn.textContent = `View all ${allProducts.length} products`;
+      showAllBtn.textContent = `View all ${catalogTotal} products`;
     } else {
-      showAllBtn.textContent = `View all ${allProducts.length} ${getFilterLabel(filterId).toLowerCase()}`;
+      showAllBtn.textContent = `View all ${catalogTotal} ${getFilterLabel(filterId).toLowerCase()}`;
     }
   }
 
   if (activeLabel) {
     if (shouldLimit) {
-      activeLabel.textContent = `Showing ${products.length} of ${allProducts.length} products`;
+      activeLabel.textContent = `Showing ${products.length} of ${catalogTotal} products`;
     } else if (filterId === 'all') {
-      activeLabel.textContent = `Showing all ${allProducts.length} products`;
+      activeLabel.textContent = `Showing all ${catalogTotal} products`;
     } else {
       activeLabel.textContent = `${getFilterLabel(filterId)} · ${products.length} item${products.length === 1 ? '' : 's'}`;
     }
