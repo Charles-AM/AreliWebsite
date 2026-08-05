@@ -5,7 +5,7 @@ import {
   categories,
   getAllCollectionProducts,
   getProductsForFilter,
-  SHOP_FILTER_LIMIT,
+  SHOP_FILTER_LIMITS,
   WHATSAPP_URL,
   buildContactWhatsAppUrl,
 } from './products.js';
@@ -68,6 +68,14 @@ function createProductCard(product) {
 let activeShopFilter = 'all';
 let showFullCatalog = false;
 
+function isDesktopShopView() {
+  return window.matchMedia('(min-width: 768px)').matches;
+}
+
+function getShopFilterLimit() {
+  return isDesktopShopView() ? SHOP_FILTER_LIMITS.desktop : SHOP_FILTER_LIMITS.mobile;
+}
+
 function getFilterLabel(filterId) {
   return shopFilters.find((filter) => filter.id === filterId)?.label ?? 'All';
 }
@@ -89,8 +97,9 @@ function renderShopGrid(filterId = activeShopFilter, options = {}) {
   }
 
   const allProducts = getProductsForFilter(filterId);
-  const shouldLimit = !showFullCatalog && allProducts.length > SHOP_FILTER_LIMIT;
-  const products = shouldLimit ? allProducts.slice(0, SHOP_FILTER_LIMIT) : allProducts;
+  const filterLimit = getShopFilterLimit();
+  const shouldLimit = !showFullCatalog && allProducts.length > filterLimit;
+  const products = shouldLimit ? allProducts.slice(0, filterLimit) : allProducts;
 
   container.innerHTML = '';
   products.forEach((product) => {
@@ -195,9 +204,22 @@ function applyShopFilter(filterId) {
   document.getElementById('collections')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
+function initShopFilterResize() {
+  let lastLimit = getShopFilterLimit();
+  window.addEventListener('resize', () => {
+    if (showFullCatalog) return;
+    const nextLimit = getShopFilterLimit();
+    if (nextLimit !== lastLimit) {
+      lastLimit = nextLimit;
+      renderShopGrid(activeShopFilter);
+    }
+  });
+}
+
 function renderCollections() {
   renderShopGrid('all');
   initShopFilter();
+  initShopFilterResize();
 
   const hash = window.location.hash;
   if (hash.startsWith('#collection-')) {
