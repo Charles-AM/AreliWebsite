@@ -71,6 +71,7 @@ function withDiscoveredProducts(categories) {
 
     const discovered = manifestFiles
       .filter((filename) => !usedFiles.has(filename))
+      .filter((filename) => !/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\./i.test(filename))
       .map((filename) => {
         const defaults = CATEGORY_DEFAULTS[category.id];
         return product(
@@ -101,21 +102,21 @@ const baseCollections = [
         gallery: true,
         products: [
           product('necklaces-16', 'necklaces', 'necklace-16.jpg', FALLBACKS.necklace, 'Pulse Necklace', 65, ''),
+          product('necklaces-7', 'necklaces', 'necklace-7.jpg', FALLBACKS.necklace, 'Halo Set', 130, ''),
           product('necklaces-15', 'necklaces', 'necklace-15.jpg', FALLBACKS.necklace, 'Aurora Necklace', 65, ''),
+          product('necklaces-6', 'necklaces', 'necklace-6.jpg', FALLBACKS.necklace, 'Sea Pearl Set', 125, ''),
           product('necklaces-14', 'necklaces', 'necklace-14.jpg', FALLBACKS.necklace, 'Isla Necklace', 65, ''),
+          product('necklaces-4', 'necklaces', 'necklace-4.jpg', FALLBACKS.necklace, 'Linea Heart Necklace', 65, ''),
           product('necklaces-13', 'necklaces', 'necklace-13.jpg', FALLBACKS.necklace, 'Stella Necklace', 65, ''),
+          product('necklaces-1', 'necklaces', 'necklace-1.jpg', FALLBACKS.necklace, 'Rosalia Necklace', 65, ''),
           product('necklaces-12', 'necklaces', 'necklace-12.jpg', FALLBACKS.necklace, 'Aria Necklace', 65, ''),
+          product('necklaces-2', 'necklaces', 'necklace-2.jpg', FALLBACKS.necklace, 'Flutter Charm Necklace', 45, ''),
           product('necklaces-11', 'necklaces', 'necklace-11.jpg', FALLBACKS.necklace, 'Vienna Necklace', 65, ''),
+          product('necklaces-3', 'necklaces', 'necklace-3.jpg', FALLBACKS.necklace, 'Roseraie Set', 125, ''),
           product('necklaces-10', 'necklaces', 'necklace-10.jpg', FALLBACKS.necklace, 'Nova Necklace', 65, ''),
+          product('necklaces-5', 'necklaces', 'necklace-5.jpg', FALLBACKS.necklace, '316 L Necklace', 120, ''),
           product('necklaces-9', 'necklaces', 'necklace-9.jpg', FALLBACKS.necklace, 'Wisteria Necklace', 65, ''),
           product('necklaces-8', 'necklaces', 'necklace-8.jpg', FALLBACKS.necklace, 'Celeste Necklace', 70, ''),
-          product('necklaces-7', 'necklaces', 'necklace-7.jpg', FALLBACKS.necklace, 'Halo Set', 130, ''),
-          product('necklaces-6', 'necklaces', 'necklace-6.jpg', FALLBACKS.necklace, 'Sea Pearl Set', 125, ''),
-          product('necklaces-4', 'necklaces', 'necklace-4.jpg', FALLBACKS.necklace, 'Linea Heart Necklace', 65, ''),
-          product('necklaces-1', 'necklaces', 'necklace-1.jpg', FALLBACKS.necklace, 'Rosalia Necklace', 65, ''),
-          product('necklaces-2', 'necklaces', 'necklace-2.jpg', FALLBACKS.necklace, 'Flutter Charm Necklace', 45, ''),
-          product('necklaces-3', 'necklaces', 'necklace-3.jpg', FALLBACKS.necklace, 'Roseraie Set', 125, ''),
-          product('necklaces-5', 'necklaces', 'necklace-5.jpg', FALLBACKS.necklace, '316 L Necklace', 120, ''),
         ],
       },
       {
