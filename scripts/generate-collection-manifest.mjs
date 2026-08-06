@@ -16,6 +16,7 @@ const CATEGORIES = [
 ];
 
 const IMAGE_EXT = /\.(jpe?g|png|webp)$/i;
+const IGNORED_IMAGE_PATTERN = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\./i;
 
 const manifest = {};
 
@@ -28,7 +29,7 @@ for (const categoryId of CATEGORIES) {
 
   manifest[categoryId] = fs
     .readdirSync(dir)
-    .filter((filename) => IMAGE_EXT.test(filename))
+    .filter((filename) => IMAGE_EXT.test(filename) && !IGNORED_IMAGE_PATTERN.test(filename))
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
 }
 
