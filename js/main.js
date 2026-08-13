@@ -18,29 +18,12 @@ import {
   initLazyImages,
   initCarousel,
 } from './animations.js';
+import { bootCachedImages, initImageRestore, initLocalImage } from './images.js';
 
 const CARD_CLASS = 'shop-card';
 
 function initShopCardImage(imgEl, product) {
-  const reveal = () => imgEl.classList.add('is-ready');
-
-  const useFallback = () => {
-    if (imgEl.dataset.fallbackApplied === 'true') {
-      reveal();
-      return;
-    }
-    imgEl.dataset.fallbackApplied = 'true';
-    imgEl.addEventListener('load', reveal, { once: true });
-    imgEl.src = product.fallback;
-  };
-
-  imgEl.addEventListener('load', reveal, { once: true });
-  imgEl.addEventListener('error', useFallback, { once: true });
-  imgEl.src = product.image;
-
-  if (imgEl.complete && imgEl.naturalWidth > 0) {
-    reveal();
-  }
+  initLocalImage(imgEl, { src: product.image, fallback: product.fallback });
 }
 
 function createProductCard(product) {
@@ -244,13 +227,10 @@ function renderLifestyle() {
     el.className = 'lifestyle-card fade-in-up';
     el.style.transitionDelay = `${i * 0.1}s`;
     el.innerHTML = `
-      <img src="${item.fallback}" alt="Style inspiration" loading="lazy" class="lifestyle-image" data-local="${item.image}" />
+      <img src="${item.image}" alt="Style inspiration" loading="lazy" decoding="async"
+           class="lifestyle-image" data-fallback="${item.fallback}" />
     `;
-    const img = el.querySelector('img');
-    const testImg = new Image();
-    testImg.onload = () => { img.src = item.image; };
-    testImg.onerror = () => { img.src = item.fallback; };
-    testImg.src = item.image;
+    initLocalImage(el.querySelector('img'), { src: item.image, fallback: item.fallback });
     grid.appendChild(el);
   });
 }
@@ -323,81 +303,22 @@ function initProductActions() {
   });
 }
 
-function refreshShopImagesOnRestore() {
-  window.addEventListener('pageshow', (event) => {
-    if (!event.persisted) return;
-    document.querySelectorAll('.shop-card-image').forEach((img) => {
-      const currentSrc = img.getAttribute('src');
-      if (!currentSrc) return;
-      img.classList.remove('is-ready');
-      img.removeAttribute('data-fallback-applied');
-      img.src = '';
-      img.src = currentSrc;
-      if (img.complete && img.naturalWidth > 0) {
-        img.classList.add('is-ready');
-      }
+function initAboutImages() {
+  document.querySelectorAll('.about-image').forEach((img) => {
+    initLocalImage(img, {
+      src: img.dataset.local || img.getAttribute('src'),
+      fallback: img.dataset.fallback,
     });
   });
-}
-
-function revealHeroImage(img) {
-  img.classList.add('is-ready');
 }
 
 function initHeroImage() {
   const heroImg = document.querySelector('.hero-image');
   if (!heroImg) return;
 
-  const fallback = heroImg.dataset.fallback;
-  let revealed = false;
-
-  const reveal = () => {
-    if (revealed) return;
-    revealed = true;
-    revealHeroImage(heroImg);
-  };
-
-  if (heroImg.complete && heroImg.naturalWidth > 0) {
-    reveal();
-    return;
-  }
-
-  heroImg.addEventListener('load', reveal, { once: true });
-  heroImg.addEventListener('error', () => {
-    if (fallback && heroImg.src !== fallback) {
-      heroImg.addEventListener('load', reveal, { once: true });
-      heroImg.src = fallback;
-      return;
-    }
-    reveal();
-  }, { once: true });
-}
-
-function refreshHeroImageOnRestore() {
-  window.addEventListener('pageshow', (event) => {
-    if (!event.persisted) return;
-    const heroImg = document.querySelector('.hero-image');
-    if (!heroImg) return;
-    heroImg.classList.remove('is-ready');
-    const currentSrc = heroImg.getAttribute('src');
-    if (!currentSrc) return;
-    heroImg.src = '';
-    heroImg.src = currentSrc;
-    if (heroImg.complete && heroImg.naturalWidth > 0) {
-      revealHeroImage(heroImg);
-    }
-  });
-}
-
-function initAboutImages() {
-  document.querySelectorAll('.about-image').forEach((img) => {
-    const local = img.dataset.local;
-    const fallback = img.src;
-    if (!local) return;
-    const testImg = new Image();
-    testImg.onload = () => { img.src = local; };
-    testImg.onerror = () => { img.src = fallback; };
-    testImg.src = local;
+  initLocalImage(heroImg, {
+    src: heroImg.getAttribute('src'),
+    fallback: heroImg.dataset.fallback,
   });
 }
 
@@ -428,6 +349,7 @@ function initContactForm() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  bootCachedImages();
   initStickyNav();
   initMobileMenu();
   initBackToTop();
@@ -436,8 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCart();
   initProductActions();
   initHeroImage();
-  refreshHeroImageOnRestore();
-  refreshShopImagesOnRestore();
+  initImageRestore('.hero-image, .shop-card-image, .lifestyle-image, .about-image');
   initAboutImages();
   initContactLinks();
   initContactForm();

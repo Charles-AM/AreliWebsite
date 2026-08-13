@@ -70,10 +70,11 @@
         <div class="about-image-wrap fade-in-left">
           <img
             class="about-image"
-            src="https://images.unsplash.com/photo-1617032213175-64c8e4b02b1a?w=800&q=85"
-            data-local="/images/about/about-story.jpg"
+            src="/images/about/about-story.jpg"
+            data-fallback="https://images.unsplash.com/photo-1617032213175-64c8e4b02b1a?w=800&q=85"
             alt="Model wearing Areli jewelry"
             loading="lazy"
+            decoding="async"
           />
         </div>
         <div class="about-text fade-in-right">
@@ -92,10 +93,11 @@
           <div class="about-image-wrap fade-in-right">
             <img
               class="about-image"
-              src="https://images.unsplash.com/photo-1596944924616-7b384c4a8b8e?w=800&q=85"
-              data-local="/images/about/model-2.jpg"
+              src="/images/about/model-2.jpg"
+              data-fallback="https://images.unsplash.com/photo-1596944924616-7b384c4a8b8e?w=800&q=85"
               alt="Model wearing Areli jewelry"
               loading="lazy"
+              decoding="async"
             />
           </div>
           <div class="about-text fade-in-left">
@@ -182,6 +184,13 @@
     <a href="/contact.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Contact</a>
   </nav>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      document.querySelectorAll('.about-image').forEach(function (img) {
+        if (img.complete && img.naturalWidth > 0) img.classList.add('is-ready');
+      });
+    });
+  </script>
   <script type="module" src="/js/main.js"></script>
 </body>
 </html>
