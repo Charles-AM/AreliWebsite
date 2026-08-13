@@ -76,7 +76,7 @@
           alt="Model wearing Areli statement jewelry piece"
           loading="eager"
           fetchpriority="high"
-          decoding="async"
+          decoding="sync"
         />
       </div>
     </section>
@@ -266,6 +266,12 @@
     </a>
   </nav>
 
+  <script>
+    (function () {
+      var img = document.querySelector('.hero-image');
+      if (img && img.complete && img.naturalWidth > 0) img.classList.add('is-ready');
+    })();
+  </script>
   <script type="module" src="/js/main.js"></script>
 </body>
 </html>
