@@ -12,12 +12,20 @@ import {
 import { addToCart, initCart } from './cart.js';
 import {
   initScrollAnimations,
+  initHeroTimeline,
   initStickyNav,
   initBackToTop,
   initMobileMenu,
   initLazyImages,
   initCarousel,
 } from './animations.js';
+import {
+  initCardHoverLift,
+  initPressFeedback,
+  initCartBadgePop,
+  initMobileMenuSpring,
+} from './interactions.js';
+import { initGridStagger, initFlourishDraw } from './decorative.js';
 import { bootCachedImages, initImageRestore, initLocalImage } from './images.js';
 
 const CARD_CLASS = 'shop-card';
@@ -91,6 +99,7 @@ function renderShopGrid(filterId = activeShopFilter, options = {}) {
   const catalogTotal = filterId === 'all' ? fullCatalog.length : sourceProducts.length;
 
   container.innerHTML = '';
+  delete container.dataset.staggerInit;
   products.forEach((product) => {
     container.appendChild(createProductCard(product));
   });
@@ -126,6 +135,7 @@ function renderShopGrid(filterId = activeShopFilter, options = {}) {
   });
 
   initScrollAnimations();
+  initGridStagger('#collections-container');
 }
 
 function closeFilterMenu() {
@@ -222,10 +232,9 @@ function renderCollections() {
 function renderLifestyle() {
   const grid = document.querySelector('.lifestyle-grid');
   if (!grid) return;
-  lifestyleImages.forEach((item, i) => {
+  lifestyleImages.forEach((item) => {
     const el = document.createElement('div');
-    el.className = 'lifestyle-card fade-in-up';
-    el.style.transitionDelay = `${i * 0.1}s`;
+    el.className = 'lifestyle-card';
     el.innerHTML = `
       <img src="${item.image}" alt="Style inspiration" loading="lazy" decoding="async"
            class="lifestyle-image" data-fallback="${item.fallback}" />
@@ -238,10 +247,9 @@ function renderLifestyle() {
 function renderTestimonials() {
   const track = document.querySelector('.testimonials-track');
   if (!track) return;
-  testimonials.forEach((t, i) => {
+  testimonials.forEach((t) => {
     const el = document.createElement('blockquote');
     el.className = 'testimonial-card';
-    el.style.transitionDelay = `${i * 0.1}s`;
     el.innerHTML = `
       <div class="testimonial-stars">${'★'.repeat(t.rating)}</div>
       <p>"${t.text}"</p>
@@ -264,12 +272,11 @@ function renderCategories() {
     perfume: '<path d="M9 4h6v3a3 3 0 01-6 0V4zM8 10h8v10H8z" fill="none" stroke="currentColor" stroke-width="1.2"/>',
     crochet: '<path d="M4 6c4 2 8 2 12 0M4 12c4 2 8 2 12 0M4 18c4 2 8 2 12 0" fill="none" stroke="currentColor" stroke-width="1.2"/>',
   };
-  categories.forEach((cat, i) => {
+  categories.forEach((cat) => {
     const el = document.createElement('a');
     el.href = '#collections';
-    el.className = 'category-card fade-in-up';
+    el.className = 'category-card';
     el.dataset.shopFilter = cat.filter;
-    el.style.transitionDelay = `${i * 0.08}s`;
     el.innerHTML = `
       <svg viewBox="0 0 24 24" class="category-icon">${icons[cat.icon]}</svg>
       <span>${cat.name}</span>
@@ -352,16 +359,22 @@ document.addEventListener('DOMContentLoaded', () => {
   bootCachedImages();
   initStickyNav();
   initMobileMenu();
+  initMobileMenuSpring();
   initBackToTop();
   initLazyImages();
   initCarousel();
   initCart();
+  initCartBadgePop();
   initProductActions();
   initHeroImage();
   initImageRestore('.hero-image, .shop-card-image, .lifestyle-image, .about-image');
   initAboutImages();
   initContactLinks();
   initContactForm();
+  initCardHoverLift();
+  initPressFeedback();
+  initFlourishDraw();
+  initHeroTimeline();
 
   renderCollections();
   renderLifestyle();
@@ -369,4 +382,5 @@ document.addEventListener('DOMContentLoaded', () => {
   renderCategories();
 
   initScrollAnimations();
+  initGridStagger('.why-grid, .lifestyle-grid, .category-grid, .testimonials-track');
 });
