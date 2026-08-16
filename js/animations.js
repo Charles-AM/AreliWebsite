@@ -1,36 +1,88 @@
-let scrollObserver;
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-function revealIfInView(el) {
-  const rect = el.getBoundingClientRect();
-  const inView = rect.top < window.innerHeight * 0.92 && rect.bottom > window.innerHeight * 0.08;
-  if (inView) {
-    el.classList.add('visible');
-    scrollObserver?.unobserve(el);
+gsap.registerPlugin(ScrollTrigger);
+
+const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/**
+ * Scroll-triggered reveals, driven by GSAP ScrollTrigger.
+ * Reuses the existing .fade-in / .fade-in-up / .fade-in-left / .fade-in-right
+ * hooks already present across all four pages, so markup never needs to
+ * change — only the engine underneath it does. Grid/list entrances
+ * (.stagger-children and dynamically-rendered card grids) are owned by
+ * Anime.js instead — see decorative.js's initGridStagger — to avoid two
+ * engines animating the same elements.
+ */
+export function initScrollAnimations() {
+  if (REDUCED_MOTION) {
+    document.querySelectorAll('.fade-in, .fade-in-up, .fade-in-left, .fade-in-right')
+      .forEach((el) => el.classList.add('visible'));
+    return;
   }
+
+  const revealed = new WeakSet();
+
+  const directions = {
+    'fade-in': { x: 0, y: 0 },
+    'fade-in-up': { x: 0, y: 30 },
+    'fade-in-left': { x: -30, y: 0 },
+    'fade-in-right': { x: 30, y: 0 },
+  };
+
+  Object.entries(directions).forEach(([cls, from]) => {
+    document.querySelectorAll(`.${cls}:not(.stagger-children)`).forEach((el) => {
+      if (revealed.has(el)) return;
+      revealed.add(el);
+      gsap.fromTo(el, { opacity: 0, x: from.x, y: from.y }, {
+        opacity: 1, x: 0, y: 0,
+        duration: 0.8,
+        ease: 'power3.out',
+        scrollTrigger: { trigger: el, start: 'top 92%', once: true },
+        onStart: () => el.classList.add('visible'),
+      });
+    });
+  });
+
+  ScrollTrigger.refresh();
 }
 
-export function initScrollAnimations() {
-  if (!scrollObserver) {
-    scrollObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-            scrollObserver.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -20px 0px' }
-    );
+/** Hero entrance sequence — nav down, eyebrow, headline, tagline, CTAs, image wipe. */
+export function initHeroTimeline() {
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+
+  if (REDUCED_MOTION) {
+    hero.querySelectorAll('.hero-eyebrow, h1, .hero-tagline, .hero-cta, .hero-image').forEach((el) => {
+      el.style.opacity = 1;
+    });
+    return;
   }
 
-  document.querySelectorAll('.fade-in, .fade-in-up, .fade-in-left, .fade-in-right, .stagger-children').forEach((el) => {
-    if (el.classList.contains('visible')) return;
-    revealIfInView(el);
-    if (!el.classList.contains('visible')) {
-      scrollObserver.observe(el);
-    }
-  });
+  const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+  const imageWrap = hero.querySelector('.hero-image-wrap');
+
+  tl.from('.main-nav', { y: -40, opacity: 0, duration: 0.6, clearProps: 'transform' }, 0)
+    .from(hero.querySelectorAll('.hero-eyebrow'), { opacity: 0, y: 16, duration: 0.6 }, 0.15)
+    .from(hero.querySelectorAll('h1'), { opacity: 0, y: 24, duration: 0.7 }, 0.25)
+    .from(hero.querySelectorAll('.hero-tagline'), { opacity: 0, y: 16, duration: 0.6 }, 0.4)
+    .from(hero.querySelectorAll('.hero-cta > *'), { opacity: 0, y: 16, duration: 0.5, stagger: 0.08 }, 0.5);
+
+  if (imageWrap) {
+    tl.from(imageWrap, {
+      clipPath: 'inset(0 0 100% 0)',
+      duration: 1,
+      ease: 'power4.inOut',
+    }, 0.1);
+  }
+
+  // Backgrounded tabs (e.g. links opened in a new background tab) can fully
+  // suspend requestAnimationFrame, which would otherwise leave the hero
+  // stuck invisible forever. setTimeout still fires on hidden tabs, so use
+  // it as a watchdog that snaps the timeline to its end state.
+  setTimeout(() => {
+    if (tl.progress() < 1) tl.progress(1);
+  }, 1600);
 }
 
 export function initStickyNav() {
