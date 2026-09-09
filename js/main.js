@@ -61,6 +61,7 @@ function createProductCard(product) {
 
 let activeShopFilter = 'all';
 let showFullCatalog = false;
+let shopResizeInitialized = false;
 
 function isDesktopShopView() {
   return window.matchMedia('(min-width: 768px)').matches;
@@ -172,6 +173,9 @@ function initShopFilter() {
     >${filter.label}</button>
   `).join('');
 
+  if (menu.dataset.listenersAttached === 'true') return;
+  menu.dataset.listenersAttached = 'true';
+
   toggle.addEventListener('click', (e) => {
     e.stopPropagation();
     const isOpen = toggle.getAttribute('aria-expanded') === 'true';
@@ -207,6 +211,8 @@ function applyShopFilter(filterId) {
 }
 
 function initShopFilterResize() {
+  if (shopResizeInitialized) return;
+  shopResizeInitialized = true;
   let lastLimit = getShopFilterLimit();
   window.addEventListener('resize', () => {
     if (showFullCatalog) return;
@@ -268,6 +274,7 @@ function renderTestimonials() {
 function renderCategories() {
   const grid = document.querySelector('.category-grid');
   if (!grid) return;
+  grid.replaceChildren();
   const icons = {
     necklace: '<path d="M12 2C8 2 5 5 5 9c0 4 3 7 7 13 4-6 7-9 7-13 0-4-3-7-7-7z" fill="none" stroke="currentColor" stroke-width="1.2"/>',
     earrings: '<circle cx="8" cy="8" r="2" fill="currentColor"/><circle cx="16" cy="8" r="2" fill="currentColor"/><circle cx="12" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.2"/>',
@@ -382,9 +389,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   initHeroTimeline();
 
   const catalogStatus = document.getElementById('collections-active-filter');
-  if (catalogStatus) catalogStatus.textContent = 'Loading collection';
-  await hydrateCatalog();
-
+  if (catalogStatus) catalogStatus.textContent = 'Showing the collection';
   renderCollections();
   renderLifestyle();
   renderTestimonials();
@@ -392,4 +397,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   initScrollAnimations();
   initGridStagger('.why-grid, .lifestyle-grid, .category-grid, .testimonials-track');
+
+  const catalogHydrated = await hydrateCatalog();
+  if (catalogHydrated) {
+    renderShopGrid(activeShopFilter);
+    initShopFilter();
+    renderCategories();
+  }
 });
