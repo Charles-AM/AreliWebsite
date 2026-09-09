@@ -252,9 +252,14 @@ document.getElementById('auth-form').addEventListener('submit', async (event) =>
   const button = event.submitter;
   const password = document.getElementById('auth-password').value;
   setBusy(button, true, 'Signing in');
-  const { error } = await supabase.auth.signInWithPassword({ email: ADMIN_EMAIL, password });
-  setBusy(button, false);
-  if (error) showNotice(error.message, true);
+  try {
+    const { error } = await supabase.auth.signInWithPassword({ email: ADMIN_EMAIL, password });
+    if (error) showNotice(error.message, true);
+  } catch (error) {
+    showNotice(error.message || 'Sign in could not be completed.', true);
+  } finally {
+    setBusy(button, false);
+  }
 });
 
 document.getElementById('create-account').addEventListener('click', async (event) => {
@@ -410,7 +415,7 @@ document.getElementById('product-form').addEventListener('submit', async (event)
   }
 });
 
-supabase.auth.onAuthStateChange(async (_event, session) => {
+async function handleAuthState(session) {
   try {
     const isAdmin = await requireAdmin(session);
     authView.hidden = isAdmin;
@@ -423,4 +428,8 @@ supabase.auth.onAuthStateChange(async (_event, session) => {
     signOutButton.hidden = true;
     showNotice(error.message, true);
   }
+}
+
+supabase.auth.onAuthStateChange((_event, session) => {
+  window.setTimeout(() => handleAuthState(session), 0);
 });
