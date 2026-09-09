@@ -8,6 +8,7 @@ import {
   SHOP_FILTER_LIMITS,
   WHATSAPP_URL,
   buildContactWhatsAppUrl,
+  hydrateCatalog,
 } from './products.js';
 import { addToCart, initCart } from './cart.js';
 import {
@@ -273,6 +274,7 @@ function renderCategories() {
     bracelet: '<ellipse cx="12" cy="12" rx="8" ry="4" fill="none" stroke="currentColor" stroke-width="1.2"/>',
     perfume: '<path d="M9 4h6v3a3 3 0 01-6 0V4zM8 10h8v10H8z" fill="none" stroke="currentColor" stroke-width="1.2"/>',
     crochet: '<path d="M4 6c4 2 8 2 12 0M4 12c4 2 8 2 12 0M4 18c4 2 8 2 12 0" fill="none" stroke="currentColor" stroke-width="1.2"/>',
+    jewelry: '<path d="M4 9h16l-8 11L4 9Zm0 0 4-5h8l4 5M8 4l4 5 4-5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>',
   };
   categories.forEach((cat) => {
     const el = document.createElement('a');
@@ -280,7 +282,7 @@ function renderCategories() {
     el.className = 'category-card';
     el.dataset.shopFilter = cat.filter;
     el.innerHTML = `
-      <svg viewBox="0 0 24 24" class="category-icon">${icons[cat.icon]}</svg>
+      <svg viewBox="0 0 24 24" class="category-icon">${icons[cat.icon] || icons.jewelry}</svg>
       <span>${cat.name}</span>
     `;
     grid.appendChild(el);
@@ -357,7 +359,7 @@ function initContactForm() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
   bootCachedImages();
   initStickyNav();
   initMobileMenu();
@@ -378,6 +380,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initPressFeedback();
   initFlourishDraw();
   initHeroTimeline();
+
+  const catalogStatus = document.getElementById('collections-active-filter');
+  if (catalogStatus) catalogStatus.textContent = 'Loading collection';
+  await hydrateCatalog();
 
   renderCollections();
   renderLifestyle();

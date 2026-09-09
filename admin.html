@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Manage Collection | Areli Jewellery</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <header class="admin-header">
+    <a class="admin-brand" href="/">ARELI</a>
+    <div class="admin-header-actions">
+      <a href="/" target="_blank" rel="noopener">View shop</a>
+      <button id="sign-out" class="text-button" type="button" hidden>Sign out</button>
+    </div>
+  </header>
+
+  <main>
+    <div id="admin-notice" class="admin-notice" role="status" aria-live="polite" hidden></div>
+    <section id="auth-view" class="auth-view">
+      <div class="auth-panel">
+        <p class="eyebrow">Private access</p>
+        <h1>Manage the collection</h1>
+        <p class="auth-intro">Sign in to add products, upload images, and organize categories.</p>
+        <form id="auth-form" class="admin-form">
+          <label>
+            Email
+            <input id="auth-email" type="email" autocomplete="username" value="cjmedicare15@gmail.com" readonly />
+          </label>
+          <label>
+            Password
+            <input id="auth-password" type="password" autocomplete="current-password" minlength="8" required />
+          </label>
+          <button class="primary-button" type="submit">Sign in</button>
+        </form>
+        <button id="create-account" class="secondary-button" type="button">Create the administrator account</button>
+        <p class="auth-help">Use this once if the administrator account has not been created. Supabase may send a confirmation email.</p>
+      </div>
+    </section>
+
+    <section id="dashboard-view" class="dashboard" hidden>
+      <div class="dashboard-heading">
+        <div>
+          <p class="eyebrow">Collection manager</p>
+          <h1>Products</h1>
+        </div>
+        <button id="new-product" class="primary-button" type="button">Add product</button>
+      </div>
+
+      <div class="admin-layout">
+        <aside class="category-panel">
+          <div class="panel-heading">
+            <h2>Categories</h2>
+            <button id="new-category" class="text-button" type="button">Add</button>
+          </div>
+          <nav id="category-list" class="category-list" aria-label="Product categories"></nav>
+        </aside>
+
+        <section class="product-panel">
+          <div class="panel-heading product-panel-heading">
+            <div>
+              <h2 id="active-category-name">All products</h2>
+              <p id="product-count">0 products</p>
+            </div>
+          </div>
+          <div id="product-list" class="admin-product-grid"></div>
+          <div id="product-empty" class="empty-state" hidden>
+            <h3>No products here yet</h3>
+            <p>Add the first piece to this category.</p>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <dialog id="product-dialog" class="admin-dialog">
+    <form id="product-form" class="admin-form dialog-form">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">Collection</p>
+          <h2 id="product-dialog-title">Add product</h2>
+        </div>
+        <button class="dialog-close" type="button" data-close-dialog="product-dialog" aria-label="Close">×</button>
+      </div>
+      <input id="product-id" type="hidden" />
+      <input id="product-image-path" type="hidden" />
+      <input id="product-current-image" type="hidden" />
+      <label>
+        Category
+        <select id="product-category" required></select>
+      </label>
+      <label>
+        Product name
+        <input id="product-name" type="text" maxlength="80" required />
+      </label>
+      <div class="form-row">
+        <label>
+          Price in GHS
+          <input id="product-price" type="number" min="0" step="0.01" inputmode="decimal" required />
+        </label>
+        <label>
+          Position
+          <input id="product-order" type="number" min="0" step="1" inputmode="numeric" value="0" />
+        </label>
+      </div>
+      <label>
+        Short description
+        <textarea id="product-description" rows="3" maxlength="180"></textarea>
+      </label>
+      <label class="image-field">
+        Product image
+        <input id="product-image" type="file" accept="image/jpeg,image/png,image/webp" />
+        <span>JPG, PNG, or WebP. The image will be prepared for the shop automatically.</span>
+      </label>
+      <label class="check-field">
+        <input id="product-active" type="checkbox" checked />
+        <span>Visible in the shop</span>
+      </label>
+      <button id="save-product" class="primary-button" type="submit">Publish product</button>
+    </form>
+  </dialog>
+
+  <dialog id="category-dialog" class="admin-dialog admin-dialog-small">
+    <form id="category-form" class="admin-form dialog-form">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">Shop organization</p>
+          <h2 id="category-dialog-title">Add category</h2>
+        </div>
+        <button class="dialog-close" type="button" data-close-dialog="category-dialog" aria-label="Close">×</button>
+      </div>
+      <input id="category-original-slug" type="hidden" />
+      <label>
+        Category name
+        <input id="category-name" type="text" maxlength="50" required />
+      </label>
+      <label>
+        Position
+        <input id="category-order" type="number" min="0" step="1" inputmode="numeric" value="0" />
+      </label>
+      <label class="check-field">
+        <input id="category-active" type="checkbox" checked />
+        <span>Visible in the shop</span>
+      </label>
+      <button class="primary-button" type="submit">Save category</button>
+    </form>
+  </dialog>
+
+  <script type="module" src="/js/admin.js"></script>
+</body>
+</html>

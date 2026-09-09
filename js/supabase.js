@@ -1,0 +1,55 @@
+import { createClient } from '@supabase/supabase-js';
+
+export const SUPABASE_URL = 'https://zxddsciwktxfdpydarzc.supabase.co';
+export const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_sZljF2UQDOYHxR2siiUuwg_SzwYG8-Y';
+export const ADMIN_EMAIL = 'cjmedicare15@gmail.com';
+export const PRODUCT_IMAGE_BUCKET = 'product-images';
+
+export const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
+  auth: {
+    persistSession: true,
+    autoRefreshToken: true,
+    detectSessionInUrl: true,
+  },
+});
+
+export function isAdminUser(user) {
+  return user?.email?.toLowerCase() === ADMIN_EMAIL;
+}
+
+export function mapCatalogProduct(row) {
+  return {
+    id: row.id,
+    name: row.name,
+    description: row.description || '',
+    price: Number(row.price),
+    image: row.image_url,
+    fallback: row.image_url,
+    categoryId: row.category_slug,
+  };
+}
+
+export async function fetchPublishedCatalog() {
+  const [categoryResult, productResult] = await Promise.all([
+    supabase
+      .from('categories')
+      .select('slug, name, display_order')
+      .eq('active', true)
+      .order('display_order')
+      .order('name'),
+    supabase
+      .from('products')
+      .select('id, category_slug, name, description, price, image_url, display_order')
+      .eq('active', true)
+      .order('display_order')
+      .order('created_at', { ascending: false }),
+  ]);
+
+  if (categoryResult.error) throw categoryResult.error;
+  if (productResult.error) throw productResult.error;
+
+  return {
+    categories: categoryResult.data || [],
+    products: (productResult.data || []).map(mapCatalogProduct),
+  };
+}

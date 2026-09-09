@@ -9,6 +9,7 @@
  */
 
 import collectionManifest from '../public/collection-manifest.json';
+import { fetchPublishedCatalog } from './supabase.js';
 
 const product = (id, folder, filename, fallback, name, price, description = '') => ({
   id,
@@ -177,12 +178,12 @@ const baseCollections = [
   },
 ];
 
-export const collections = baseCollections.map((group) => ({
+export let collections = baseCollections.map((group) => ({
   ...group,
   categories: withDiscoveredProducts(group.categories),
 }));
 
-export const shopFilters = [
+export let shopFilters = [
   { id: 'all', label: 'All' },
   { id: 'necklaces', label: 'Necklaces' },
   { id: 'earrings-rings', label: 'Earrings' },
@@ -295,13 +296,57 @@ export const testimonials = [
   },
 ];
 
-export const categories = [
+export let categories = [
   { id: 'necklaces', name: 'Necklaces', icon: 'necklace', filter: 'necklaces' },
   { id: 'earrings-rings', name: 'Earrings', icon: 'earrings', filter: 'earrings-rings' },
   { id: 'bracelets-bangles', name: 'Bracelets', icon: 'bracelet', filter: 'bracelets-bangles' },
   { id: 'perfume', name: 'Perfume', icon: 'perfume', filter: 'perfume' },
   { id: 'crochet', name: 'Crochet', icon: 'crochet', filter: 'crochet' },
 ];
+
+export async function hydrateCatalog() {
+  try {
+    const remote = await fetchPublishedCatalog();
+    if (!remote.categories.length) return false;
+
+    collections = [{
+      group: 'Catalog',
+      categories: remote.categories.map((category) => ({
+        id: category.slug,
+        name: category.name,
+        gallery: true,
+        products: remote.products
+          .filter((item) => item.categoryId === category.slug)
+          .map(({ categoryId, ...item }) => item),
+      })),
+    }];
+
+    shopFilters = [
+      { id: 'all', label: 'All' },
+      ...remote.categories.map((category) => ({ id: category.slug, label: category.name })),
+    ];
+
+    const knownIcons = {
+      necklaces: 'necklace',
+      'earrings-rings': 'earrings',
+      'bracelets-bangles': 'bracelet',
+      perfume: 'perfume',
+      crochet: 'crochet',
+    };
+
+    categories = remote.categories.map((category) => ({
+      id: category.slug,
+      name: category.name,
+      icon: knownIcons[category.slug] || 'jewelry',
+      filter: category.slug,
+    }));
+
+    return true;
+  } catch (error) {
+    console.warn('Using the built in catalog because the managed catalog is unavailable.', error);
+    return false;
+  }
+}
 
 export const deliveryTiers = [
   { location: 'Within Accra', fee: '20 – 50 GHS' },
