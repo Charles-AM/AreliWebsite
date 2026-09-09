@@ -3612,6 +3612,120 @@ h4 {
     color: rgba(247, 244, 238, 0.56);
   }
 
+  .testimonials,
+  .why-areli,
+  .section:has(.lifestyle-grid),
+  .section:has(.category-grid) {
+    padding-block: 2.75rem;
+  }
+
+  .testimonials .section-title,
+  .why-areli .section-title,
+  .section:has(.lifestyle-grid) .section-title,
+  .section:has(.category-grid) .section-title {
+    font-size: clamp(1.85rem, 8.5vw, 2.35rem);
+    margin-bottom: 0.6rem;
+  }
+
+  .testimonials .section-subtitle {
+    font-size: 0.84rem;
+    line-height: 1.5;
+  }
+
+  .testimonials .fade-in-up,
+  .why-areli .fade-in-up,
+  .section:has(.lifestyle-grid) .fade-in-up,
+  .section:has(.category-grid) .fade-in-up {
+    max-width: 100%;
+  }
+
+  .testimonials-track,
+  .lifestyle-grid,
+  .why-grid,
+  .category-grid {
+    margin-top: 1.15rem;
+  }
+
+  .testimonial-card {
+    flex-basis: 72%;
+    min-width: 72%;
+    min-height: 0;
+    padding: 1.2rem 0.9rem 1.2rem 0;
+  }
+
+  .testimonial-card + .testimonial-card {
+    padding-left: 0.9rem;
+  }
+
+  .testimonial-stars {
+    margin-bottom: 0.55rem;
+    font-size: 0.68rem;
+  }
+
+  .testimonial-card p {
+    font-size: 0.92rem;
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+    min-height: 0;
+    -webkit-line-clamp: 4;
+  }
+
+  .testimonial-card footer strong {
+    font-size: 0.88rem;
+  }
+
+  .testimonial-card footer span {
+    font-size: 0.72rem;
+  }
+
+  .lifestyle-card {
+    flex-basis: 62%;
+    min-width: 62%;
+    aspect-ratio: 3 / 4;
+  }
+
+  .why-card {
+    flex-basis: 72%;
+    min-width: 72%;
+    padding: 1.25rem 0.9rem 1.25rem 0;
+  }
+
+  .why-card + .why-card {
+    padding-left: 0.9rem;
+  }
+
+  .why-icon {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 0.55rem;
+  }
+
+  .why-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .why-card p {
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+
+  .category-card {
+    flex-basis: 42%;
+    min-width: 42%;
+    padding: 1.15rem 0.45rem;
+  }
+
+  .category-icon {
+    width: 28px;
+    height: 28px;
+    margin-bottom: 0.55rem;
+  }
+
+  .category-card span {
+    font-size: 0.72rem;
+  }
+
   .cart-panel {
     max-width: 100%;
   }
