@@ -1,6 +1,9 @@
 import { CONTACT_PHONE_INTL } from './products.js';
 
 const CART_KEY = 'areli-cart';
+const CART_NOTE_KEY = 'areli-cart-note';
+
+let orderThankYouActive = false;
 
 export function getCart() {
   try {
@@ -8,6 +11,18 @@ export function getCart() {
   } catch {
     return [];
   }
+}
+
+export function getCartNote() {
+  return sessionStorage.getItem(CART_NOTE_KEY) || '';
+}
+
+export function setCartNote(note) {
+  sessionStorage.setItem(CART_NOTE_KEY, note);
+}
+
+export function clearCartNote() {
+  sessionStorage.removeItem(CART_NOTE_KEY);
 }
 
 export function saveCart(items) {
@@ -24,6 +39,7 @@ export function addToCart(product) {
   } else {
     cart.push({ ...product, quantity: 1 });
   }
+  orderThankYouActive = false;
   saveCart(cart);
   openCart();
 }
@@ -69,13 +85,20 @@ export function buildCartOrderMessage() {
     return `${index + 1}. ${item.name} x ${item.quantity} — ${formatPrice(lineTotal)}`;
   });
 
-  return [
+  const note = getCartNote().trim();
+  const message = [
     'Hi Areli! I\'d like to order:',
     '',
     ...lines,
     '',
     `Total: ${formatPrice(getCartTotal())}`,
-  ].join('\n');
+  ];
+
+  if (note) {
+    message.push('', 'Note:', note);
+  }
+
+  return message.join('\n');
 }
 
 export function getWhatsAppCheckoutUrl(includeCart = true) {
@@ -86,6 +109,7 @@ export function getWhatsAppCheckoutUrl(includeCart = true) {
 function updateCartFooterButtons() {
   const checkoutBtn = document.querySelector('.cart-checkout');
   const clearBtn = document.querySelector('.cart-clear');
+  const noteWrap = document.getElementById('cart-note-wrap');
   const hasItems = getCart().length > 0;
   const url = getWhatsAppCheckoutUrl();
 
@@ -100,9 +124,24 @@ function updateCartFooterButtons() {
     clearBtn.setAttribute('aria-disabled', hasItems ? 'false' : 'true');
   }
 
+  if (noteWrap) {
+    noteWrap.classList.toggle('hidden', !hasItems || orderThankYouActive);
+  }
+
   document.querySelectorAll('.whatsapp-order').forEach((btn) => {
     btn.href = url;
   });
+}
+
+function showOrderThankYou() {
+  orderThankYouActive = true;
+  clearCart();
+  clearCartNote();
+  updateCartUI();
+}
+
+function resetCartThankYou() {
+  orderThankYouActive = false;
 }
 
 export function updateCartUI() {
@@ -110,6 +149,8 @@ export function updateCartUI() {
   const itemsEl = document.querySelector('.cart-items');
   const totalEl = document.querySelector('.cart-total-amount');
   const emptyEl = document.querySelector('.cart-empty');
+  const footerEl = document.querySelector('.cart-footer');
+  const noteInput = document.getElementById('cart-order-note');
 
   const cart = getCart();
   const count = getCartCount();
@@ -121,10 +162,30 @@ export function updateCartUI() {
 
   if (!itemsEl) return;
 
+  if (orderThankYouActive) {
+    itemsEl.innerHTML = '';
+    emptyEl?.classList.remove('hidden');
+    if (emptyEl) {
+      emptyEl.textContent = 'Thank you for your order. We will reach out to you shortly.';
+      emptyEl.classList.add('cart-thankyou');
+    }
+    footerEl?.classList.add('hidden');
+    if (totalEl) totalEl.textContent = formatPrice(0);
+    updateCartFooterButtons();
+    return;
+  }
+
+  emptyEl?.classList.remove('cart-thankyou');
+  footerEl?.classList.remove('hidden');
+
   if (cart.length === 0) {
     itemsEl.innerHTML = '';
     emptyEl?.classList.remove('hidden');
+    if (emptyEl) {
+      emptyEl.textContent = 'Your cart is empty. Discover our beautiful pieces!';
+    }
     if (totalEl) totalEl.textContent = formatPrice(0);
+    if (noteInput) noteInput.value = '';
     updateCartFooterButtons();
     return;
   }
@@ -148,6 +209,9 @@ export function updateCartUI() {
   `).join('');
 
   if (totalEl) totalEl.textContent = formatPrice(getCartTotal());
+  if (noteInput && !noteInput.value) {
+    noteInput.value = getCartNote();
+  }
   updateCartFooterButtons();
 }
 
@@ -161,9 +225,20 @@ export function closeCart() {
   document.querySelector('.cart-overlay')?.classList.remove('open');
   document.querySelector('.cart-panel')?.classList.remove('open');
   document.body.classList.remove('cart-open');
+  resetCartThankYou();
+  updateCartUI();
 }
 
 export function initCart() {
+  const noteInput = document.getElementById('cart-order-note');
+  if (noteInput) {
+    noteInput.value = getCartNote();
+    noteInput.addEventListener('input', () => {
+      setCartNote(noteInput.value);
+      updateCartFooterButtons();
+    });
+  }
+
   updateCartUI();
 
   document.querySelector('.cart-toggle')?.addEventListener('click', openCart);
@@ -177,10 +252,14 @@ export function initCart() {
     }
     e.preventDefault();
     window.open(getWhatsAppCheckoutUrl(), '_blank', 'noopener,noreferrer');
+    showOrderThankYou();
   });
 
   document.querySelector('.cart-clear')?.addEventListener('click', () => {
-    if (getCart().length) clearCart();
+    if (getCart().length) {
+      clearCartNote();
+      clearCart();
+    }
   });
 
   document.querySelector('.cart-items')?.addEventListener('click', (e) => {

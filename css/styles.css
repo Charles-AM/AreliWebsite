@@ -1836,6 +1836,17 @@ h1, h2, h3, h4 {
   color: var(--accent-gold);
 }
 
+.payment-delivery-days {
+  margin-top: 1rem;
+  font-size: 0.88rem;
+  color: var(--grey-dark);
+  text-align: center;
+}
+
+.payment-delivery-days strong {
+  color: var(--grey-charcoal);
+}
+
 .payment-detail-item {
   padding: 1.25rem;
   background: var(--beige-light);
@@ -2044,6 +2055,50 @@ h1, h2, h3, h4 {
 
 .cart-clear.hidden {
   display: none;
+}
+
+.cart-footer.hidden {
+  display: none;
+}
+
+.cart-note-field {
+  margin-bottom: 0.85rem;
+}
+
+.cart-note-field label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--grey-mid);
+  margin-bottom: 0.35rem;
+}
+
+.cart-order-note {
+  width: 100%;
+  min-height: 3.5rem;
+  padding: 0.55rem 0.65rem;
+  border: 1px solid var(--beige-dark);
+  border-radius: 2px;
+  background: var(--white);
+  font-family: inherit;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  color: var(--grey-charcoal);
+  resize: vertical;
+}
+
+.cart-order-note:focus {
+  outline: none;
+  border-color: var(--accent-gold);
+}
+
+.cart-thankyou {
+  color: var(--grey-charcoal);
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-weight: 500;
 }
 
 .cart-item {
