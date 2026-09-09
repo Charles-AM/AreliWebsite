@@ -24,6 +24,7 @@ import {
   initPressFeedback,
   initCartBadgePop,
   initMobileMenuSpring,
+  initProductImageInspection,
 } from './interactions.js';
 import { initGridStagger, initFlourishDraw } from './decorative.js';
 import { bootCachedImages, initImageRestore, initLocalImage } from './images.js';
@@ -40,7 +41,8 @@ function createProductCard(product) {
   card.dataset.category = product.categoryId;
   card.setAttribute('role', 'listitem');
   card.innerHTML = `
-    <div class="shop-card-image-wrap">
+    <div class="shop-card-image-wrap" role="button" tabindex="0"
+         aria-label="Inspect image of ${product.name}" aria-pressed="false">
       <img src="${product.image}" alt="${product.name}"
            loading="lazy" decoding="async" class="shop-card-image" />
     </div>
@@ -365,6 +367,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initCarousel();
   initCart();
   initCartBadgePop();
+  initProductImageInspection();
   initProductActions();
   initHeroImage();
   initImageRestore('.hero-image, .shop-card-image, .lifestyle-image, .about-image');

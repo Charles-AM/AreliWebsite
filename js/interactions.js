@@ -58,6 +58,132 @@ export function initPressFeedback() {
   });
 }
 
+/**
+ * Gives product photography a useful close inspection gesture.
+ * Touch and pointer users press and hold. Keyboard users toggle with Enter
+ * or Space and close with Escape.
+ */
+export function initProductImageInspection() {
+  const HOLD_DELAY = 240;
+  const MOVE_TOLERANCE = 10;
+  let holdTimer = null;
+  let candidate = null;
+  let activeWrap = null;
+  let startX = 0;
+  let startY = 0;
+  let resetSequence = 0;
+
+  const clearCandidate = () => {
+    window.clearTimeout(holdTimer);
+    holdTimer = null;
+    candidate = null;
+  };
+
+  const setOrigin = (wrap, clientX, clientY) => {
+    const image = wrap.querySelector('.shop-card-image');
+    if (!image) return;
+    const rect = wrap.getBoundingClientRect();
+    const x = Math.max(12, Math.min(88, ((clientX - rect.left) / rect.width) * 100));
+    const y = Math.max(12, Math.min(88, ((clientY - rect.top) / rect.height) * 100));
+    image.style.transformOrigin = `${x}% ${y}%`;
+  };
+
+  const closeInspection = () => {
+    if (!activeWrap) return;
+    const wrap = activeWrap;
+    const image = wrap.querySelector('.shop-card-image');
+    const sequence = ++resetSequence;
+    activeWrap = null;
+    wrap.classList.remove('is-inspecting');
+    wrap.setAttribute('aria-pressed', 'false');
+
+    if (image) {
+      const controls = animate(image, { scale: 1 }, {
+        duration: REDUCED_MOTION ? 0.001 : 0.34,
+        ease: [0.16, 1, 0.3, 1],
+      });
+      controls.finished.then(() => {
+        if (sequence !== resetSequence) return;
+        image.style.removeProperty('transform');
+        image.style.removeProperty('transform-origin');
+      }).catch(() => {});
+    }
+  };
+
+  const openInspection = (wrap, clientX, clientY) => {
+    const image = wrap.querySelector('.shop-card-image');
+    if (!image) return;
+
+    if (activeWrap && activeWrap !== wrap) closeInspection();
+    resetSequence += 1;
+    activeWrap = wrap;
+    setOrigin(wrap, clientX, clientY);
+    wrap.classList.add('is-inspecting');
+    wrap.setAttribute('aria-pressed', 'true');
+    animate(image, { scale: 1.6 }, REDUCED_MOTION
+      ? { duration: 0.001 }
+      : {
+          type: 'spring',
+          stiffness: 210,
+          damping: 28,
+          mass: 0.7,
+        });
+  };
+
+  document.addEventListener('pointerdown', (event) => {
+    const wrap = event.target.closest('.shop-card-image-wrap');
+    if (!wrap || event.button !== 0) return;
+
+    clearCandidate();
+    candidate = wrap;
+    startX = event.clientX;
+    startY = event.clientY;
+    holdTimer = window.setTimeout(() => {
+      if (candidate === wrap) openInspection(wrap, event.clientX, event.clientY);
+    }, HOLD_DELAY);
+  });
+
+  document.addEventListener('pointermove', (event) => {
+    if (!candidate) return;
+    const moved = Math.hypot(event.clientX - startX, event.clientY - startY);
+    if (!activeWrap && moved > MOVE_TOLERANCE) {
+      clearCandidate();
+      return;
+    }
+    if (activeWrap === candidate) setOrigin(activeWrap, event.clientX, event.clientY);
+  }, { passive: true });
+
+  ['pointerup', 'pointercancel'].forEach((eventName) => {
+    document.addEventListener(eventName, () => {
+      clearCandidate();
+      closeInspection();
+    });
+  });
+
+  document.addEventListener('keydown', (event) => {
+    const wrap = event.target.closest('.shop-card-image-wrap');
+    if (!wrap) return;
+
+    if (event.key === 'Escape') {
+      closeInspection();
+      return;
+    }
+
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    if (activeWrap === wrap) {
+      closeInspection();
+    } else {
+      const rect = wrap.getBoundingClientRect();
+      openInspection(wrap, rect.left + rect.width / 2, rect.top + rect.height / 2);
+    }
+  });
+
+  document.addEventListener('focusout', (event) => {
+    if (activeWrap === event.target) closeInspection();
+  });
+}
+
 /** Spring-pops the cart count badge whenever the cart changes. */
 export function initCartBadgePop() {
   if (REDUCED_MOTION) return;
