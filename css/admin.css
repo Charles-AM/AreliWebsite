@@ -207,6 +207,16 @@ h2 {
   border: 0;
 }
 
+.auth-reset {
+  justify-self: start;
+  margin-top: 0.35rem;
+  font-size: 0.68rem;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
 .primary-button:disabled,
 .secondary-button:disabled {
   opacity: 0.5;

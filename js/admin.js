@@ -262,6 +262,22 @@ document.getElementById('auth-form').addEventListener('submit', async (event) =>
   }
 });
 
+document.getElementById('reset-password').addEventListener('click', async (event) => {
+  const button = event.currentTarget;
+  setBusy(button, true, 'Sending reset email');
+  try {
+    const { error } = await supabase.auth.resetPasswordForEmail(ADMIN_EMAIL, {
+      redirectTo: `${window.location.origin}/admin.html`,
+    });
+    if (error) throw error;
+    showNotice('Check the administrator email for a password reset link.');
+  } catch (error) {
+    showNotice(error.message || 'The reset email could not be sent.', true);
+  } finally {
+    setBusy(button, false);
+  }
+});
+
 document.getElementById('create-account').addEventListener('click', async (event) => {
   const button = event.currentTarget;
   const password = document.getElementById('auth-password').value;
