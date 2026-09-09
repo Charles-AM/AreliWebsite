@@ -14,6 +14,7 @@ const productList = document.getElementById('product-list');
 const productEmpty = document.getElementById('product-empty');
 const productDialog = document.getElementById('product-dialog');
 const categoryDialog = document.getElementById('category-dialog');
+const ADMIN_ROUTE = '/areli-atelier-7k3p.html';
 
 let categories = [];
 let products = [];
@@ -267,7 +268,7 @@ document.getElementById('reset-password').addEventListener('click', async (event
   setBusy(button, true, 'Sending reset email');
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(ADMIN_EMAIL, {
-      redirectTo: `${window.location.origin}/admin.html`,
+      redirectTo: `${window.location.origin}${ADMIN_ROUTE}`,
     });
     if (error) throw error;
     showNotice('Check the administrator email for a password reset link.');
@@ -289,7 +290,7 @@ document.getElementById('create-account').addEventListener('click', async (event
   const { data, error } = await supabase.auth.signUp({
     email: ADMIN_EMAIL,
     password,
-    options: { emailRedirectTo: `${window.location.origin}/admin.html` },
+    options: { emailRedirectTo: `${window.location.origin}${ADMIN_ROUTE}` },
   });
   setBusy(button, false);
   if (error) {
