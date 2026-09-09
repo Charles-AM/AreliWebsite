@@ -258,7 +258,7 @@ export function getProductsForFilter(filterId, options = {}) {
 }
 
 export const SHOP_FILTER_LIMITS = {
-  mobile: 12,
+  mobile: 6,
   desktop: 10,
 };
 
@@ -349,10 +349,12 @@ export async function hydrateCatalog() {
 }
 
 export const deliveryTiers = [
-  { location: 'Within Accra', fee: '20 – 50 GHS' },
-  { location: 'Outskirts of Accra', fee: '45 – 65 GHS' },
+  { location: 'Within Accra', fee: '20 – 45 GHS' },
+  { location: 'Outskirts of Accra', fee: '50 GHS' },
   { location: 'Other Regions', fee: '45 – 50 GHS' },
 ];
+
+export const DELIVERY_DAYS = 'Mondays, Wednesdays, and Saturdays';
 
 /** Ghana: 053 997 4264 → international 233539974264 (no + in WhatsApp URLs) */
 export const CONTACT_PHONE_DISPLAY = '053 997 4264';
@@ -363,7 +365,7 @@ export const WHATSAPP_URL = `https://api.whatsapp.com/send?phone=${CONTACT_PHONE
 export const TEL_URL = `tel:+${CONTACT_PHONE_INTL}`;
 
 const CONTACT_SUBJECTS = {
-  order: 'Place an Order',
+  review: 'Leave a Review',
   question: 'General Question',
   custom: 'Custom Request',
   other: 'Other',

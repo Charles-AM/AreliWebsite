@@ -86,7 +86,7 @@
             <div class="form-group">
               <label for="subject">Subject</label>
               <select id="subject" name="subject">
-                <option value="order">Place an Order</option>
+                <option value="review">Leave a Review</option>
                 <option value="question">General Question</option>
                 <option value="custom">Custom Request</option>
                 <option value="other">Other</option>
@@ -169,6 +169,10 @@
       <p class="cart-empty">Your cart is empty.</p>
     </div>
     <div class="cart-footer">
+      <div class="cart-note-field hidden" id="cart-note-wrap">
+        <label for="cart-order-note">Add a note</label>
+        <textarea id="cart-order-note" class="cart-order-note" rows="2" placeholder="Delivery preferences, gift message, etc."></textarea>
+      </div>
       <div class="cart-total">
         <span>Total</span>
         <span class="cart-total-amount">GHS 0.00</span>

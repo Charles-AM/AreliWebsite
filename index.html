@@ -117,6 +117,18 @@
       </div>
     </section>
 
+    <!-- Shop by Category -->
+    <section class="section" style="background: var(--beige-mid);">
+      <div class="container">
+        <div class="fade-in-up" style="text-align:center;">
+          <p class="section-label">Collections</p>
+          <h2 class="section-title">Shop by Category</h2>
+          <p class="scroll-hint scroll-hint--center scroll-hint--mobile">Swipe for more</p>
+        </div>
+        <div class="category-grid"></div>
+      </div>
+    </section>
+
     <!-- Why Areli -->
     <section class="section why-areli">
       <div class="container">
@@ -174,18 +186,6 @@
       </div>
     </section>
 
-    <!-- Shop by Category -->
-    <section class="section" style="background: var(--beige-mid);">
-      <div class="container">
-        <div class="fade-in-up" style="text-align:center;">
-          <p class="section-label">Find your piece</p>
-          <h2 class="section-title">Shop by category</h2>
-          <p class="scroll-hint scroll-hint--center scroll-hint--mobile">Swipe for more</p>
-        </div>
-        <div class="category-grid"></div>
-      </div>
-    </section>
-
     <!-- Testimonials -->
     <section class="section testimonials texture-bg">
       <div class="container">
@@ -235,6 +235,10 @@
       <p class="cart-empty">Your cart is empty. Discover our beautiful pieces!</p>
     </div>
     <div class="cart-footer">
+      <div class="cart-note-field hidden" id="cart-note-wrap">
+        <label for="cart-order-note">Add a note</label>
+        <textarea id="cart-order-note" class="cart-order-note" rows="2" placeholder="Delivery preferences, gift message, etc."></textarea>
+      </div>
       <div class="cart-total">
         <span>Total</span>
         <span class="cart-total-amount">GHS 0.00</span>
