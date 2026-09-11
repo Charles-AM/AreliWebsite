@@ -295,6 +295,30 @@ export const clientCamMedia = buildClientCamMedia();
 
 export const testimonials = [
   {
+    name: 'P',
+    location: 'Ghana',
+    text: 'Waterproof, everything. I\'ve had mine for 7 months now and I wear it religiously, nothing has happened to it.',
+    rating: 5,
+  },
+  {
+    name: 'Maleb',
+    location: 'Ghana',
+    text: 'Really love the box. Thank you! My friend said she loved hers too and basket also ateeee.',
+    rating: 5,
+  },
+  {
+    name: 'Afia',
+    location: 'Ghana',
+    text: 'Thank you so much. It\'s always a pleasure working with you!',
+    rating: 5,
+  },
+  {
+    name: 'Diann',
+    location: 'Ghana',
+    text: 'Thank you so much! She loved it. Idk what I would do without you.',
+    rating: 5,
+  },
+  {
     name: 'Bella',
     location: 'Ghana',
     text: 'Received all the accessories for my birthday shoot and I love them! Thank you so much.',

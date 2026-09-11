@@ -952,21 +952,6 @@ h1, h2, h3, h4 {
   transform: scale(1.06);
 }
 
-.client-cam-badge {
-  position: absolute;
-  left: 0.65rem;
-  bottom: 0.65rem;
-  padding: 0.28rem 0.55rem;
-  border-radius: 999px;
-  background: rgba(24, 22, 19, 0.72);
-  color: var(--white);
-  font-size: 0.62rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  pointer-events: none;
-}
-
 /* ============================================
    Categories
    ============================================ */
