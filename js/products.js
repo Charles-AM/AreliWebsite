@@ -266,18 +266,16 @@ export function getAllCollectionProducts() {
   return getShopProducts();
 }
 
-/** Client Cam — short clips and photos from real customers. Upload MP4s to public/videos/client-cam/. */
+/** Client Cam — photos and clips from real customers. Files live in public/images/lifestyle/. */
 export const clientCamMedia = [
   {
-    type: 'video',
-    src: '/videos/client-cam/clip-1.mp4',
-    poster: '/images/lifestyle/work.jpg',
+    type: 'image',
+    image: '/images/lifestyle/work.jpg',
     fallback: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80',
   },
   {
-    type: 'video',
-    src: '/videos/client-cam/clip-2.mp4',
-    poster: '/images/lifestyle/night-out.jpg',
+    type: 'image',
+    image: '/images/lifestyle/night-out.jpg',
     fallback: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80',
   },
   {
@@ -286,9 +284,8 @@ export const clientCamMedia = [
     fallback: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80',
   },
   {
-    type: 'video',
-    src: '/videos/client-cam/clip-3.mp4',
-    poster: '/images/lifestyle/brunch.jpg',
+    type: 'image',
+    image: '/images/lifestyle/brunch.jpg',
     fallback: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80',
   },
   {
@@ -297,9 +294,8 @@ export const clientCamMedia = [
     fallback: 'https://images.unsplash.com/photo-1483985988350-763728e1935b?w=800&q=80',
   },
   {
-    type: 'video',
-    src: '/videos/client-cam/clip-4.mp4',
-    poster: '/images/lifestyle/travel.jpg',
+    type: 'image',
+    image: '/images/lifestyle/travel.jpg',
     fallback: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80',
   },
 ];

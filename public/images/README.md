@@ -68,22 +68,25 @@ Recommended: portrait photos, about **800×1000px**.
 | Folder | Filenames |
 |--------|-----------|
 | `hero/` | `hero-main.jpg` |
-| `lifestyle/` | Posters for Client Cam videos (e.g. `work.jpg`, `brunch.jpg`) |
+| `lifestyle/` | **Client Cam** photos (and optional MP4 clips) — `work.jpg`, `gym.jpg`, `night-out.jpg`, `brunch.jpg`, `casual.jpg`, `travel.jpg` |
 
-## Client Cam videos (homepage)
+## Client Cam (homepage)
 
-Upload short **MP4** clips to `public/videos/client-cam/`:
+Upload photos (or short MP4 clips) to `public/images/lifestyle/`, then list them in `clientCamMedia` inside `js/products.js`.
 
-| Filename | Used for |
-|----------|----------|
-| `clip-1.mp4` | First Client Cam slot |
-| `clip-2.mp4` | Second slot |
-| `clip-3.mp4` | Third slot |
-| `clip-4.mp4` | Fourth slot |
+For a **photo** slot:
 
-Edit `clientCamMedia` in `js/products.js` to add more slots or switch between `type: 'video'` and `type: 'image'`.
+```js
+{ type: 'image', image: '/images/lifestyle/work.jpg', fallback: '...' },
+```
 
-Tips: keep clips under **15 seconds**, portrait **9:16** or **3:4**, under **5MB** when possible. Videos autoplay muted when scrolled into view.
+For a **video** slot (same folder):
+
+```js
+{ type: 'video', src: '/images/lifestyle/clip-1.mp4', poster: '/images/lifestyle/work.jpg', fallback: '...' },
+```
+
+Tips for clips: under **15 seconds**, portrait **3:4**, under **5MB** when possible. Videos autoplay muted when scrolled into view.
 
 ---
 
