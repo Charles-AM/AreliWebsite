@@ -72,19 +72,9 @@ Recommended: portrait photos, about **800×1000px**.
 
 ## Client Cam (homepage)
 
-Upload client photos and clips to **`public/videos/client-cam/`** on GitHub, then add entries in `clientCamMedia` inside `js/products.js`.
+Upload client photos and clips to **`public/videos/client-cam/`** on GitHub. New files are picked up automatically on the next deploy (see `client-cam-manifest.json`).
 
-Photo:
-
-```js
-{ type: 'image', image: '/videos/client-cam/your-photo.jpg' },
-```
-
-Video (MP4 recommended; MOV works mainly on iPhone/Safari):
-
-```js
-{ type: 'video', src: '/videos/client-cam/your-clip.mp4', poster: '/videos/client-cam/your-photo.jpg' },
-```
+Supported: `.jpg`, `.jpeg`, `.png`, `.webp`, `.mp4`, `.mov`, `.webm`
 
 Use the **exact filename** (including capitals). Videos autoplay muted when scrolled into view.
 
