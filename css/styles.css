@@ -1440,17 +1440,37 @@ h1, h2, h3, h4 {
 }
 
 .testimonials-track {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: flex;
+  align-items: stretch;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
   gap: 2rem;
   margin-top: 3rem;
-  align-items: stretch;
+  padding-bottom: 0.5rem;
+  scrollbar-width: none;
+  cursor: grab;
+  scroll-padding-inline: 0.5rem;
+}
+
+.testimonials-track::-webkit-scrollbar {
+  display: none;
+}
+
+.testimonials-track.is-dragging {
+  cursor: grabbing;
+  scroll-snap-type: none;
 }
 
 .testimonial-card {
   display: flex;
   flex-direction: column;
-  height: 100%;
+  flex: 0 0 clamp(280px, 32vw, 380px);
+  min-width: clamp(280px, 32vw, 380px);
+  scroll-snap-align: start;
+  height: auto;
+  min-height: 220px;
   padding: 2rem;
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -2454,8 +2474,9 @@ h1, h2, h3, h4 {
     gap: 2rem;
   }
 
-  .testimonials-track {
-    grid-template-columns: repeat(2, 1fr);
+  .testimonial-card {
+    flex: 0 0 clamp(260px, 42vw, 340px);
+    min-width: clamp(260px, 42vw, 340px);
   }
 
   .about-section {
