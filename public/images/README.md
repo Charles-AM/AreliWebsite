@@ -78,6 +78,8 @@ Supported: `.jpg`, `.jpeg`, `.png`, `.webp`, `.mp4`, `.mov`, `.webm`
 
 Use the **exact filename** (including capitals). Videos autoplay muted when scrolled into view.
 
+**Fixed order:** edit `CLIENT_CAM_ORDER` in `js/products.js` — list filenames top to bottom in the order you want on the homepage. Unlisted uploads still show, added at the end.
+
 ---
 
 ## How to upload on GitHub
