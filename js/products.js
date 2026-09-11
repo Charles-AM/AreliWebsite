@@ -266,13 +266,42 @@ export function getAllCollectionProducts() {
   return getShopProducts();
 }
 
-export const lifestyleImages = [
-  { image: '/images/lifestyle/work.jpg', fallback: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80' },
-  { image: '/images/lifestyle/gym.jpg', fallback: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80' },
-  { image: '/images/lifestyle/night-out.jpg', fallback: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80' },
-  { image: '/images/lifestyle/brunch.jpg', fallback: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80' },
-  { image: '/images/lifestyle/casual.jpg', fallback: 'https://images.unsplash.com/photo-1483985988350-763728e1935b?w=800&q=80' },
-  { image: '/images/lifestyle/travel.jpg', fallback: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80' },
+/** Client Cam — short clips and photos from real customers. Upload MP4s to public/videos/client-cam/. */
+export const clientCamMedia = [
+  {
+    type: 'video',
+    src: '/videos/client-cam/clip-1.mp4',
+    poster: '/images/lifestyle/work.jpg',
+    fallback: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80',
+  },
+  {
+    type: 'video',
+    src: '/videos/client-cam/clip-2.mp4',
+    poster: '/images/lifestyle/night-out.jpg',
+    fallback: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80',
+  },
+  {
+    type: 'image',
+    image: '/images/lifestyle/gym.jpg',
+    fallback: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80',
+  },
+  {
+    type: 'video',
+    src: '/videos/client-cam/clip-3.mp4',
+    poster: '/images/lifestyle/brunch.jpg',
+    fallback: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80',
+  },
+  {
+    type: 'image',
+    image: '/images/lifestyle/casual.jpg',
+    fallback: 'https://images.unsplash.com/photo-1483985988350-763728e1935b?w=800&q=80',
+  },
+  {
+    type: 'video',
+    src: '/videos/client-cam/clip-4.mp4',
+    poster: '/images/lifestyle/travel.jpg',
+    fallback: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80',
+  },
 ];
 
 export const testimonials = [

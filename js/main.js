@@ -1,6 +1,6 @@
 import {
   shopFilters,
-  lifestyleImages,
+  clientCamMedia,
   testimonials,
   categories,
   getAllCollectionProducts,
@@ -238,19 +238,60 @@ function renderCollections() {
   }
 }
 
-function renderLifestyle() {
-  const grid = document.querySelector('.lifestyle-grid');
+function initClientCamVideos(grid) {
+  const videos = grid.querySelectorAll('.client-cam-video');
+  if (!videos.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      const video = entry.target;
+      if (entry.isIntersecting) {
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, { threshold: 0.35 });
+
+  videos.forEach((video) => {
+    video.addEventListener('loadeddata', () => {
+      video.classList.add('is-ready');
+    }, { once: true });
+    video.addEventListener('error', () => {
+      video.removeAttribute('src');
+      video.load();
+      video.classList.add('is-ready');
+    }, { once: true });
+    observer.observe(video);
+  });
+}
+
+function renderClientCam() {
+  const grid = document.querySelector('.client-cam-grid');
   if (!grid) return;
-  lifestyleImages.forEach((item) => {
+
+  clientCamMedia.forEach((item) => {
     const el = document.createElement('div');
-    el.className = 'lifestyle-card';
-    el.innerHTML = `
-      <img src="${item.image}" alt="Style inspiration" loading="lazy" decoding="async"
-           class="lifestyle-image" data-fallback="${item.fallback}" />
-    `;
-    initLocalImage(el.querySelector('img'), { src: item.image, fallback: item.fallback });
+    el.className = 'client-cam-card';
+
+    if (item.type === 'video') {
+      el.innerHTML = `
+        <video class="client-cam-media client-cam-video" muted loop playsinline preload="metadata"
+               poster="${item.poster}" src="${item.src}" aria-label="Client wearing Areli jewellery"></video>
+        <span class="client-cam-badge" aria-hidden="true">Client Cam</span>
+      `;
+    } else {
+      el.innerHTML = `
+        <img src="${item.image}" alt="Client wearing Areli jewellery" loading="lazy" decoding="async"
+             class="client-cam-media client-cam-image" data-fallback="${item.fallback}" />
+      `;
+      initLocalImage(el.querySelector('img'), { src: item.image, fallback: item.fallback });
+    }
+
     grid.appendChild(el);
   });
+
+  initClientCamVideos(grid);
 }
 
 function renderTestimonials() {
@@ -379,7 +420,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   initProductImageInspection();
   initProductActions();
   initHeroImage();
-  initImageRestore('.hero-image, .shop-card-image, .lifestyle-image, .about-image');
+  initImageRestore('.hero-image, .shop-card-image, .client-cam-image, .about-image');
   initAboutImages();
   initContactLinks();
   initContactForm();
@@ -391,12 +432,12 @@ document.addEventListener('DOMContentLoaded', async () => {
   const catalogStatus = document.getElementById('collections-active-filter');
   if (catalogStatus) catalogStatus.textContent = 'Showing the collection';
   renderCollections();
-  renderLifestyle();
+  renderClientCam();
   renderTestimonials();
   renderCategories();
 
   initScrollAnimations();
-  initGridStagger('.why-grid, .lifestyle-grid, .category-grid, .testimonials-track');
+  initGridStagger('.why-grid, .client-cam-grid, .category-grid, .testimonials-track');
 
   const catalogHydrated = await hydrateCatalog();
   if (catalogHydrated) {

@@ -891,9 +891,9 @@ h1, h2, h3, h4 {
 }
 
 /* ============================================
-   Lifestyle Grid
+   Client Cam Grid
    ============================================ */
-.lifestyle-grid {
+.client-cam-grid {
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
@@ -907,16 +907,16 @@ h1, h2, h3, h4 {
   scroll-padding-inline: 0.5rem;
 }
 
-.lifestyle-grid::-webkit-scrollbar {
+.client-cam-grid::-webkit-scrollbar {
   display: none;
 }
 
-.lifestyle-grid.is-dragging {
+.client-cam-grid.is-dragging {
   cursor: grabbing;
   scroll-snap-type: none;
 }
 
-.lifestyle-card {
+.client-cam-card {
   position: relative;
   flex: 0 0 clamp(180px, 20vw, 240px);
   min-width: clamp(180px, 20vw, 240px);
@@ -928,35 +928,43 @@ h1, h2, h3, h4 {
   background: var(--beige-mid);
 }
 
-.lifestyle-image {
+.client-cam-media {
   width: 100%;
   height: 100%;
   object-fit: cover;
   transition: transform 0.7s ease, opacity 0.35s ease;
+  display: block;
+}
+
+.client-cam-image {
   opacity: 0;
 }
 
-.lifestyle-image.is-ready {
+.client-cam-image.is-ready {
   opacity: 1;
 }
 
-.lifestyle-card:hover .lifestyle-image {
+.client-cam-video {
+  opacity: 1;
+}
+
+.client-cam-card:hover .client-cam-media {
   transform: scale(1.06);
 }
 
-.lifestyle-overlay {
+.client-cam-badge {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(44, 44, 44, 0.7) 0%, transparent 50%);
-  display: flex;
-  align-items: flex-end;
-  padding: 1.5rem;
-}
-
-.lifestyle-overlay span {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
+  left: 0.65rem;
+  bottom: 0.65rem;
+  padding: 0.28rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(24, 22, 19, 0.72);
   color: var(--white);
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  pointer-events: none;
 }
 
 /* ============================================
@@ -2519,7 +2527,7 @@ h1, h2, h3, h4 {
     max-height: calc(82vh - var(--nav-height));
   }
 
-  .lifestyle-card {
+  .client-cam-card {
     flex: 0 0 clamp(170px, 16vw, 220px);
     min-width: clamp(170px, 16vw, 220px);
   }
@@ -2691,7 +2699,7 @@ h1, h2, h3, h4 {
     -webkit-line-clamp: 5;
   }
 
-  .lifestyle-card {
+  .client-cam-card {
     flex: 0 0 calc((100% - 0.75rem) / 2);
     min-width: calc((100% - 0.75rem) / 2);
     scroll-snap-align: start;
@@ -3197,15 +3205,15 @@ h4 {
   font-size: 1.55rem;
 }
 
-.lifestyle-grid {
+.client-cam-grid {
   gap: 0.9rem;
 }
 
-.lifestyle-card {
+.client-cam-card {
   border-radius: 0;
 }
 
-.lifestyle-image {
+.client-cam-media {
   filter: saturate(0.82) contrast(1.03);
 }
 
@@ -3566,14 +3574,14 @@ h4 {
     line-height: 1.65;
   }
 
-  .lifestyle-grid {
+  .client-cam-grid {
     gap: 0.75rem;
     margin-inline: -1.25rem;
     padding-inline: 1.25rem;
     scroll-padding-inline: 1.25rem;
   }
 
-  .lifestyle-card {
+  .client-cam-card {
     flex-basis: 78%;
     min-width: 78%;
     aspect-ratio: 4 / 5;
@@ -3615,14 +3623,14 @@ h4 {
 
   .testimonials,
   .why-areli,
-  .section:has(.lifestyle-grid),
+  .section:has(.client-cam-grid),
   .section:has(.category-grid) {
     padding-block: 2.75rem;
   }
 
   .testimonials .section-title,
   .why-areli .section-title,
-  .section:has(.lifestyle-grid) .section-title,
+  .section:has(.client-cam-grid) .section-title,
   .section:has(.category-grid) .section-title {
     font-size: clamp(1.85rem, 8.5vw, 2.35rem);
     margin-bottom: 0.6rem;
@@ -3635,13 +3643,13 @@ h4 {
 
   .testimonials .fade-in-up,
   .why-areli .fade-in-up,
-  .section:has(.lifestyle-grid) .fade-in-up,
+  .section:has(.client-cam-grid) .fade-in-up,
   .section:has(.category-grid) .fade-in-up {
     max-width: 100%;
   }
 
   .testimonials-track,
-  .lifestyle-grid,
+  .client-cam-grid,
   .why-grid,
   .category-grid {
     margin-top: 1.15rem;
@@ -3679,10 +3687,16 @@ h4 {
     font-size: 0.72rem;
   }
 
-  .lifestyle-card {
+  .client-cam-card {
     flex-basis: 62%;
     min-width: 62%;
     aspect-ratio: 3 / 4;
+  }
+
+  .client-cam .section-subtitle {
+    font-size: 0.84rem;
+    line-height: 1.5;
+    margin-top: 0.35rem;
   }
 
   .why-card {

@@ -153,7 +153,7 @@ export function initLazyImages() {
 }
 
 export function initCarousel() {
-  document.querySelectorAll('.carousel-track:not([data-carousel-init]), .lifestyle-grid:not([data-carousel-init]), .category-grid:not([data-carousel-init]), .why-grid:not([data-carousel-init]), .testimonials-track:not([data-carousel-init])').forEach((track) => {
+  document.querySelectorAll('.carousel-track:not([data-carousel-init]), .client-cam-grid:not([data-carousel-init]), .category-grid:not([data-carousel-init]), .why-grid:not([data-carousel-init]), .testimonials-track:not([data-carousel-init])').forEach((track) => {
     track.dataset.carouselInit = 'true';
     let isDown = false;
     let startX;
