@@ -291,7 +291,6 @@ function renderClientCam() {
         <video class="client-cam-media client-cam-video" muted loop playsinline preload="metadata"
                ${poster ? `poster="${poster}"` : ''} src="${item.src}"
                aria-label="Client wearing Areli jewellery"></video>
-        <span class="client-cam-badge" aria-hidden="true">Client Cam</span>
       `;
     } else {
       const fallback = item.fallback ? ` data-fallback="${item.fallback}"` : '';
