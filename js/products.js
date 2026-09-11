@@ -9,6 +9,7 @@
  */
 
 import collectionManifest from '../public/collection-manifest.json';
+import clientCamManifest from '../public/client-cam-manifest.json';
 import { fetchPublishedCatalog } from './supabase.js';
 
 const product = (id, folder, filename, fallback, name, price, description = '') => ({
@@ -266,27 +267,31 @@ export function getAllCollectionProducts() {
   return getShopProducts();
 }
 
-/** Client Cam — real customer photos and clips in public/videos/client-cam/ */
+/** Client Cam — upload to public/videos/client-cam/; picked up via client-cam-manifest.json */
 const CLIENT_CAM = '/videos/client-cam';
+const CLIENT_CAM_IMAGE_EXT = /\.(jpe?g|png|webp)$/i;
+const CLIENT_CAM_VIDEO_EXT = /\.(mp4|mov|webm)$/i;
 
-export const clientCamMedia = [
-  { type: 'image', image: `${CLIENT_CAM}/04f50ef6-5610-4c2d-9c8b-e144f54b323b.JPG` },
-  { type: 'image', image: `${CLIENT_CAM}/1055d675-a433-4820-b6d6-52319b5cff08.JPG` },
-  { type: 'image', image: `${CLIENT_CAM}/2d23d457-4e4f-412b-bc6f-ff3009fea8f4.JPG` },
-  {
-    type: 'video',
-    src: `${CLIENT_CAM}/f677ab3b-1880-4e7a-9861-603fb15cb1e1.MP4`,
-    poster: `${CLIENT_CAM}/4acd655b-6a40-4f62-be74-6acb78a8312f.JPG`,
-  },
-  { type: 'image', image: `${CLIENT_CAM}/58804cb1-2b8d-4b5e-b340-8a29a4d0f3ed.JPG` },
-  { type: 'image', image: `${CLIENT_CAM}/755978fc-ace7-458d-a97a-037aec90aabd.JPG` },
-  {
-    type: 'video',
-    src: `${CLIENT_CAM}/AF903226-5F7A-43C8-85BC-45BB91A6B7AA.MOV`,
-    poster: `${CLIENT_CAM}/2d23d457-4e4f-412b-bc6f-ff3009fea8f4.JPG`,
-  },
-  { type: 'image', image: `${CLIENT_CAM}/4acd655b-6a40-4f62-be74-6acb78a8312f.JPG` },
-];
+function buildClientCamMedia() {
+  const files = clientCamManifest.files ?? [];
+  const posterFile = files.find((filename) => CLIENT_CAM_IMAGE_EXT.test(filename));
+
+  return files.flatMap((filename) => {
+    if (CLIENT_CAM_VIDEO_EXT.test(filename)) {
+      return [{
+        type: 'video',
+        src: `${CLIENT_CAM}/${filename}`,
+        poster: posterFile ? `${CLIENT_CAM}/${posterFile}` : undefined,
+      }];
+    }
+    if (CLIENT_CAM_IMAGE_EXT.test(filename)) {
+      return [{ type: 'image', image: `${CLIENT_CAM}/${filename}` }];
+    }
+    return [];
+  });
+}
+
+export const clientCamMedia = buildClientCamMedia();
 
 export const testimonials = [
   {
