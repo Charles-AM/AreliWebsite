@@ -266,38 +266,26 @@ export function getAllCollectionProducts() {
   return getShopProducts();
 }
 
-/** Client Cam — photos and clips from real customers. Files live in public/images/lifestyle/. */
+/** Client Cam — real customer photos and clips in public/videos/client-cam/ */
+const CLIENT_CAM = '/videos/client-cam';
+
 export const clientCamMedia = [
+  { type: 'image', image: `${CLIENT_CAM}/04f50ef6-5610-4c2d-9c8b-e144f54b323b.JPG` },
+  { type: 'image', image: `${CLIENT_CAM}/1055d675-a433-4820-b6d6-52319b5cff08.JPG` },
+  { type: 'image', image: `${CLIENT_CAM}/2d23d457-4e4f-412b-bc6f-ff3009fea8f4.JPG` },
   {
-    type: 'image',
-    image: '/images/lifestyle/work.jpg',
-    fallback: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&q=80',
+    type: 'video',
+    src: `${CLIENT_CAM}/f677ab3b-1880-4e7a-9861-603fb15cb1e1.MP4`,
+    poster: `${CLIENT_CAM}/4acd655b-6a40-4f62-be74-6acb78a8312f.JPG`,
   },
+  { type: 'image', image: `${CLIENT_CAM}/58804cb1-2b8d-4b5e-b340-8a29a4d0f3ed.JPG` },
+  { type: 'image', image: `${CLIENT_CAM}/755978fc-ace7-458d-a97a-037aec90aabd.JPG` },
   {
-    type: 'image',
-    image: '/images/lifestyle/night-out.jpg',
-    fallback: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=800&q=80',
+    type: 'video',
+    src: `${CLIENT_CAM}/AF903226-5F7A-43C8-85BC-45BB91A6B7AA.MOV`,
+    poster: `${CLIENT_CAM}/2d23d457-4e4f-412b-bc6f-ff3009fea8f4.JPG`,
   },
-  {
-    type: 'image',
-    image: '/images/lifestyle/gym.jpg',
-    fallback: 'https://images.unsplash.com/photo-1518611012118-696072aa579a?w=800&q=80',
-  },
-  {
-    type: 'image',
-    image: '/images/lifestyle/brunch.jpg',
-    fallback: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&q=80',
-  },
-  {
-    type: 'image',
-    image: '/images/lifestyle/casual.jpg',
-    fallback: 'https://images.unsplash.com/photo-1483985988350-763728e1935b?w=800&q=80',
-  },
-  {
-    type: 'image',
-    image: '/images/lifestyle/travel.jpg',
-    fallback: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=800&q=80',
-  },
+  { type: 'image', image: `${CLIENT_CAM}/4acd655b-6a40-4f62-be74-6acb78a8312f.JPG` },
 ];
 
 export const testimonials = [

@@ -258,6 +258,17 @@ function initClientCamVideos(grid) {
       video.classList.add('is-ready');
     }, { once: true });
     video.addEventListener('error', () => {
+      const poster = video.getAttribute('poster');
+      if (poster) {
+        const img = document.createElement('img');
+        img.src = poster;
+        img.alt = video.getAttribute('aria-label') || 'Client wearing Areli jewellery';
+        img.className = 'client-cam-media client-cam-image is-ready';
+        img.loading = 'lazy';
+        img.decoding = 'async';
+        video.replaceWith(img);
+        return;
+      }
       video.removeAttribute('src');
       video.load();
       video.classList.add('is-ready');
@@ -275,15 +286,18 @@ function renderClientCam() {
     el.className = 'client-cam-card';
 
     if (item.type === 'video') {
+      const poster = item.poster || '';
       el.innerHTML = `
         <video class="client-cam-media client-cam-video" muted loop playsinline preload="metadata"
-               poster="${item.poster}" src="${item.src}" aria-label="Client wearing Areli jewellery"></video>
+               ${poster ? `poster="${poster}"` : ''} src="${item.src}"
+               aria-label="Client wearing Areli jewellery"></video>
         <span class="client-cam-badge" aria-hidden="true">Client Cam</span>
       `;
     } else {
+      const fallback = item.fallback ? ` data-fallback="${item.fallback}"` : '';
       el.innerHTML = `
         <img src="${item.image}" alt="Client wearing Areli jewellery" loading="lazy" decoding="async"
-             class="client-cam-media client-cam-image" data-fallback="${item.fallback}" />
+             class="client-cam-media client-cam-image"${fallback} />
       `;
       initLocalImage(el.querySelector('img'), { src: item.image, fallback: item.fallback });
     }

@@ -68,25 +68,25 @@ Recommended: portrait photos, about **800×1000px**.
 | Folder | Filenames |
 |--------|-----------|
 | `hero/` | `hero-main.jpg` |
-| `lifestyle/` | **Client Cam** photos (and optional MP4 clips) — `work.jpg`, `gym.jpg`, `night-out.jpg`, `brunch.jpg`, `casual.jpg`, `travel.jpg` |
+| `lifestyle/` | Legacy style photos (no longer used on homepage) |
 
 ## Client Cam (homepage)
 
-Upload photos (or short MP4 clips) to `public/images/lifestyle/`, then list them in `clientCamMedia` inside `js/products.js`.
+Upload client photos and clips to **`public/videos/client-cam/`** on GitHub, then add entries in `clientCamMedia` inside `js/products.js`.
 
-For a **photo** slot:
-
-```js
-{ type: 'image', image: '/images/lifestyle/work.jpg', fallback: '...' },
-```
-
-For a **video** slot (same folder):
+Photo:
 
 ```js
-{ type: 'video', src: '/images/lifestyle/clip-1.mp4', poster: '/images/lifestyle/work.jpg', fallback: '...' },
+{ type: 'image', image: '/videos/client-cam/your-photo.jpg' },
 ```
 
-Tips for clips: under **15 seconds**, portrait **3:4**, under **5MB** when possible. Videos autoplay muted when scrolled into view.
+Video (MP4 recommended; MOV works mainly on iPhone/Safari):
+
+```js
+{ type: 'video', src: '/videos/client-cam/your-clip.mp4', poster: '/videos/client-cam/your-photo.jpg' },
+```
+
+Use the **exact filename** (including capitals). Videos autoplay muted when scrolled into view.
 
 ---
 
