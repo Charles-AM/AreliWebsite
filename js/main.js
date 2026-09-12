@@ -9,6 +9,7 @@ import {
   WHATSAPP_URL,
   buildContactWhatsAppUrl,
   hydrateCatalog,
+  hydrateClientCam,
 } from './products.js';
 import { addToCart, initCart } from './cart.js';
 import {
@@ -280,24 +281,34 @@ function renderClientCam() {
   const grid = document.querySelector('.client-cam-grid');
   if (!grid) return;
 
+  const section = grid.closest('.client-cam');
+  if (section) section.hidden = clientCamMedia.length === 0;
+  grid.replaceChildren();
+
   clientCamMedia.forEach((item) => {
     const el = document.createElement('div');
     el.className = 'client-cam-card';
 
     if (item.type === 'video') {
-      const poster = item.poster || '';
-      el.innerHTML = `
-        <video class="client-cam-media client-cam-video" muted loop playsinline preload="metadata"
-               ${poster ? `poster="${poster}"` : ''} src="${item.src}"
-               aria-label="Client wearing Areli jewellery"></video>
-      `;
+      const video = document.createElement('video');
+      video.className = 'client-cam-media client-cam-video';
+      video.src = item.src;
+      video.muted = true;
+      video.loop = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+      video.controls = true;
+      video.setAttribute('aria-label', 'Client wearing Areli jewellery');
+      el.appendChild(video);
     } else {
-      const fallback = item.fallback ? ` data-fallback="${item.fallback}"` : '';
-      el.innerHTML = `
-        <img src="${item.image}" alt="Client wearing Areli jewellery" loading="lazy" decoding="async"
-             class="client-cam-media client-cam-image"${fallback} />
-      `;
-      initLocalImage(el.querySelector('img'), { src: item.image, fallback: item.fallback });
+      const img = document.createElement('img');
+      img.src = item.image;
+      img.alt = 'Client wearing Areli jewellery';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      img.className = 'client-cam-media client-cam-image';
+      el.appendChild(img);
+      initLocalImage(img, { src: item.image });
     }
 
     grid.appendChild(el);
@@ -442,8 +453,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const hasShop = document.getElementById('collections-container');
 
+  await Promise.all([
+    hasShop ? hydrateCatalog() : Promise.resolve(),
+    hydrateClientCam(),
+  ]);
+
   if (hasShop) {
-    await hydrateCatalog();
     const catalogStatus = document.getElementById('collections-active-filter');
     if (catalogStatus) catalogStatus.textContent = 'Showing the collection';
     renderCollections();

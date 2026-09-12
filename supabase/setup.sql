@@ -35,15 +35,30 @@ create table if not exists public.products (
   updated_at timestamptz not null default now()
 );
 
+create table if not exists public.client_cam_media (
+  id text primary key,
+  media_type text not null check (media_type in ('image', 'video')),
+  media_url text not null,
+  media_path text,
+  display_order integer not null default 0 check (display_order >= 0),
+  active boolean not null default true,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 alter table public.categories enable row level security;
 alter table public.products enable row level security;
+alter table public.client_cam_media enable row level security;
 
 revoke all on public.categories from anon, authenticated;
 revoke all on public.products from anon, authenticated;
+revoke all on public.client_cam_media from anon, authenticated;
 grant select on public.categories to anon, authenticated;
 grant select on public.products to anon, authenticated;
 grant insert, update, delete on public.categories to authenticated;
 grant insert, update, delete on public.products to authenticated;
+grant select on public.client_cam_media to anon, authenticated;
+grant insert, update, delete on public.client_cam_media to authenticated;
 
 drop policy if exists "Public reads visible categories" on public.categories;
 create policy "Public reads visible categories"
@@ -97,6 +112,32 @@ create policy "Administrator removes products"
 on public.products for delete to authenticated
 using (public.is_areli_admin());
 
+drop policy if exists "Public reads visible Client Cam media" on public.client_cam_media;
+create policy "Public reads visible Client Cam media"
+on public.client_cam_media for select to anon
+using (active = true);
+
+drop policy if exists "Signed in users read permitted Client Cam media" on public.client_cam_media;
+create policy "Signed in users read permitted Client Cam media"
+on public.client_cam_media for select to authenticated
+using (active = true or public.is_areli_admin());
+
+drop policy if exists "Administrator creates Client Cam media" on public.client_cam_media;
+create policy "Administrator creates Client Cam media"
+on public.client_cam_media for insert to authenticated
+with check (public.is_areli_admin());
+
+drop policy if exists "Administrator updates Client Cam media" on public.client_cam_media;
+create policy "Administrator updates Client Cam media"
+on public.client_cam_media for update to authenticated
+using (public.is_areli_admin())
+with check (public.is_areli_admin());
+
+drop policy if exists "Administrator removes Client Cam media" on public.client_cam_media;
+create policy "Administrator removes Client Cam media"
+on public.client_cam_media for delete to authenticated
+using (public.is_areli_admin());
+
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (
   'product-images',
@@ -131,6 +172,40 @@ create policy "Administrator removes product images"
 on storage.objects for delete to authenticated
 using (bucket_id = 'product-images' and public.is_areli_admin());
 
+insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
+values (
+  'client-cam-media',
+  'client-cam-media',
+  true,
+  52428800,
+  array['image/jpeg', 'image/png', 'image/webp', 'video/mp4', 'video/webm', 'video/quicktime']
+)
+on conflict (id) do update set
+  public = excluded.public,
+  file_size_limit = excluded.file_size_limit,
+  allowed_mime_types = excluded.allowed_mime_types;
+
+drop policy if exists "Public reads Client Cam files" on storage.objects;
+create policy "Public reads Client Cam files"
+on storage.objects for select to anon, authenticated
+using (bucket_id = 'client-cam-media');
+
+drop policy if exists "Administrator uploads Client Cam files" on storage.objects;
+create policy "Administrator uploads Client Cam files"
+on storage.objects for insert to authenticated
+with check (bucket_id = 'client-cam-media' and public.is_areli_admin());
+
+drop policy if exists "Administrator updates Client Cam files" on storage.objects;
+create policy "Administrator updates Client Cam files"
+on storage.objects for update to authenticated
+using (bucket_id = 'client-cam-media' and public.is_areli_admin())
+with check (bucket_id = 'client-cam-media' and public.is_areli_admin());
+
+drop policy if exists "Administrator removes Client Cam files" on storage.objects;
+create policy "Administrator removes Client Cam files"
+on storage.objects for delete to authenticated
+using (bucket_id = 'client-cam-media' and public.is_areli_admin());
+
 delete from public.products where category_slug = 'crochet';
 delete from public.categories where slug = 'crochet';
 
@@ -138,7 +213,7 @@ insert into public.categories (slug, name, display_order, active) values
   ('necklaces', 'Necklaces', 0, true),
   ('earrings-rings', 'Earrings', 1, true),
   ('bracelets-bangles', 'Bracelets', 2, true),
-  ('perfume', 'Perfume', 3, true),
+  ('perfume', 'Extras', 3, true),
   ('exclusive-men', 'Exclusive Men', 4, true)
 on conflict (slug) do update set
   name = excluded.name,
@@ -185,6 +260,24 @@ on conflict (id) do update set
   description = excluded.description,
   price = excluded.price,
   image_url = excluded.image_url,
+  display_order = excluded.display_order;
+
+insert into public.client_cam_media
+  (id, media_type, media_url, display_order, active)
+values
+  ('legacy-client-cam-01', 'image', '/videos/client-cam/4acd655b-6a40-4f62-be74-6acb78a8312f.JPG', 0, true),
+  ('legacy-client-cam-02', 'image', '/videos/client-cam/1055d675-a433-4820-b6d6-52319b5cff08.JPG', 1, true),
+  ('legacy-client-cam-03', 'image', '/videos/client-cam/2d23d457-4e4f-412b-bc6f-ff3009fea8f4.JPG', 2, true),
+  ('legacy-client-cam-04', 'image', '/videos/client-cam/755978fc-ace7-458d-a97a-037aec90aabd.JPG', 3, true),
+  ('legacy-client-cam-05', 'image', '/videos/client-cam/21b7a2a8-8342-4afe-b26f-164a60395da5.JPG', 4, true),
+  ('legacy-client-cam-06', 'video', '/videos/client-cam/AF903226-5F7A-43C8-85BC-45BB91A6B7AA.MP4', 5, true),
+  ('legacy-client-cam-07', 'image', '/videos/client-cam/d0c8db62-48c0-4d1f-9b5e-e7eae75c89eb.JPG', 6, true),
+  ('legacy-client-cam-08', 'image', '/videos/client-cam/58804cb1-2b8d-4b5e-b340-8a29a4d0f3ed.JPG', 7, true),
+  ('legacy-client-cam-09', 'video', '/videos/client-cam/f677ab3b-1880-4e7a-9861-603fb15cb1e1.MP4', 8, true),
+  ('legacy-client-cam-10', 'image', '/videos/client-cam/04f50ef6-5610-4c2d-9c8b-e144f54b323b 2.jpg', 9, true)
+on conflict (id) do update set
+  media_type = excluded.media_type,
+  media_url = excluded.media_url,
   display_order = excluded.display_order;
 
 commit;

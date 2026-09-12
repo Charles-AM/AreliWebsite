@@ -6,7 +6,6 @@
  */
 
 import collectionManifest from '../public/collection-manifest.json';
-import clientCamManifest from '../public/client-cam-manifest.json';
 
 const product = (id, folder, filename, fallback, name, price, description = '') => ({
   id,
@@ -124,7 +123,7 @@ const baseCollections = [
     categories: [
       {
         id: 'perfume',
-        name: "Victoria's Secret Splashes",
+        name: 'Extras',
         gallery: true,
         products: [
           product('perfume-1', 'perfume', 'perfume-1.jpg', '', 'Amber Romance', 160, ''),
@@ -155,7 +154,7 @@ export let shopFilters = [
   { id: 'necklaces', label: 'Necklaces' },
   { id: 'earrings-rings', label: 'Earrings' },
   { id: 'bracelets-bangles', label: 'Bracelets' },
-  { id: 'perfume', label: 'Perfume' },
+  { id: 'perfume', label: 'Extras' },
   { id: 'exclusive-men', label: 'Exclusive Men' },
 ];
 
@@ -233,69 +232,19 @@ export function getAllCollectionProducts() {
   return getShopProducts();
 }
 
-/** Client Cam — upload to public/videos/client-cam/; picked up via client-cam-manifest.json */
-const CLIENT_CAM = '/videos/client-cam';
-const CLIENT_CAM_IMAGE_EXT = /\.(jpe?g|png|webp)$/i;
-const CLIENT_CAM_VIDEO_EXT = /\.(mp4|mov|webm)$/i;
+export let clientCamMedia = [];
 
-/**
- * Fixed homepage order — list exact filenames from public/videos/client-cam/.
- * Reorder this array to change what visitors see. Any uploads not listed here
- * still appear, appended at the end in alphabetical order.
- */
-export const CLIENT_CAM_ORDER = [
-  '4acd655b-6a40-4f62-be74-6acb78a8312f.JPG',
-  '1055d675-a433-4820-b6d6-52319b5cff08.JPG',
-  'fff24c5c-41b1-4e2e-932e-4798ab76b5af.JPG',
-  '2d23d457-4e4f-412b-bc6f-ff3009fea8f4.JPG',
-  '755978fc-ace7-458d-a97a-037aec90aabd.JPG',
-  '21b7a2a8-8342-4afe-b26f-164a60395da5.JPG',
-  'AF903226-5F7A-43C8-85BC-45BB91A6B7AA.MP4',
-  'd0c8db62-48c0-4d1f-9b5e-e7eae75c89eb.JPG',
-  '58804cb1-2b8d-4b5e-b340-8a29a4d0f3ed.JPG',
-  'f677ab3b-1880-4e7a-9861-603fb15cb1e1.MP4',
-  ,
-];
-
-function orderClientCamFiles(files) {
-  const listed = CLIENT_CAM_ORDER.filter((filename) => files.includes(filename));
-  const unlisted = files
-    .filter((filename) => !CLIENT_CAM_ORDER.includes(filename))
-    .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
-  return [...listed, ...unlisted];
-}
-
-function clientCamPoster(files, videoFilename) {
-  const index = files.indexOf(videoFilename);
-  for (let i = index - 1; i >= 0; i -= 1) {
-    if (CLIENT_CAM_IMAGE_EXT.test(files[i])) return `${CLIENT_CAM}/${files[i]}`;
+export async function hydrateClientCam() {
+  try {
+    const { fetchPublishedClientCam } = await import('./supabase.js');
+    clientCamMedia = await fetchPublishedClientCam();
+    return true;
+  } catch (error) {
+    console.warn('Client Cam is temporarily unavailable.', error);
+    clientCamMedia = [];
+    return false;
   }
-  for (let i = index + 1; i < files.length; i += 1) {
-    if (CLIENT_CAM_IMAGE_EXT.test(files[i])) return `${CLIENT_CAM}/${files[i]}`;
-  }
-  return undefined;
 }
-
-function buildClientCamMedia() {
-  const files = orderClientCamFiles(clientCamManifest.files ?? [])
-    .filter((filename) => !/\.mov$/i.test(filename));
-
-  return files.flatMap((filename) => {
-    if (CLIENT_CAM_VIDEO_EXT.test(filename)) {
-      return [{
-        type: 'video',
-        src: `${CLIENT_CAM}/${filename}`,
-        poster: clientCamPoster(files, filename),
-      }];
-    }
-    if (CLIENT_CAM_IMAGE_EXT.test(filename)) {
-      return [{ type: 'image', image: `${CLIENT_CAM}/${filename}` }];
-    }
-    return [];
-  });
-}
-
-export const clientCamMedia = buildClientCamMedia();
 
 export const testimonials = [
   {
@@ -346,7 +295,7 @@ export let categories = [
   { id: 'necklaces', name: 'Necklaces', icon: 'necklace', filter: 'necklaces' },
   { id: 'earrings-rings', name: 'Earrings', icon: 'earrings', filter: 'earrings-rings' },
   { id: 'bracelets-bangles', name: 'Bracelets', icon: 'bracelet', filter: 'bracelets-bangles' },
-  { id: 'perfume', name: 'Perfume', icon: 'perfume', filter: 'perfume' },
+  { id: 'perfume', name: 'Extras', icon: 'perfume', filter: 'perfume' },
   { id: 'exclusive-men', name: 'Exclusive Men', icon: 'men', filter: 'exclusive-men' },
 ];
 

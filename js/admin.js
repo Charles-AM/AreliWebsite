@@ -1,5 +1,6 @@
 import {
   ADMIN_EMAIL,
+  CLIENT_CAM_MEDIA_BUCKET,
   PRODUCT_IMAGE_BUCKET,
   isAdminUser,
   supabase,
@@ -14,10 +15,14 @@ const productList = document.getElementById('product-list');
 const productEmpty = document.getElementById('product-empty');
 const productDialog = document.getElementById('product-dialog');
 const categoryDialog = document.getElementById('category-dialog');
+const clientMediaList = document.getElementById('client-media-list');
+const clientMediaEmpty = document.getElementById('client-media-empty');
+const clientMediaDialog = document.getElementById('client-media-dialog');
 const ADMIN_ROUTE = '/areli-atelier-7k3p.html';
 
 let categories = [];
 let products = [];
+let clientMedia = [];
 let activeCategory = 'all';
 
 function escapeHtml(value = '') {
@@ -70,7 +75,7 @@ async function requireAdmin(session) {
 }
 
 async function loadCatalog() {
-  const [categoryResult, productResult] = await Promise.all([
+  const [categoryResult, productResult, clientMediaResult] = await Promise.all([
     supabase
       .from('categories')
       .select('*')
@@ -81,12 +86,19 @@ async function loadCatalog() {
       .select('*')
       .order('display_order')
       .order('created_at', { ascending: false }),
+    supabase
+      .from('client_cam_media')
+      .select('*')
+      .order('display_order')
+      .order('created_at', { ascending: false }),
   ]);
 
   if (categoryResult.error) throw categoryResult.error;
   if (productResult.error) throw productResult.error;
+  if (clientMediaResult.error) throw clientMediaResult.error;
   categories = categoryResult.data || [];
   products = productResult.data || [];
+  clientMedia = clientMediaResult.data || [];
 
   if (activeCategory !== 'all' && !categories.some((item) => item.slug === activeCategory)) {
     activeCategory = 'all';
@@ -98,7 +110,30 @@ async function loadCatalog() {
 function renderDashboard() {
   renderCategories();
   renderProducts();
+  renderClientMedia();
   fillCategorySelect();
+}
+
+function renderClientMedia() {
+  const count = clientMedia.length;
+  document.getElementById('client-media-count').textContent = `${count} upload${count === 1 ? '' : 's'}`;
+  clientMediaEmpty.hidden = count > 0;
+  clientMediaList.hidden = count === 0;
+  clientMediaList.innerHTML = clientMedia.map((item) => {
+    const media = item.media_type === 'video'
+      ? `<video src="${escapeHtml(item.media_url)}" muted playsinline preload="metadata"></video>`
+      : `<img src="${escapeHtml(item.media_url)}" alt="Client Cam upload" loading="lazy" />`;
+    return `<article class="admin-client-media-card">
+      ${media}
+      <div class="admin-client-media-meta">
+        <p>${item.media_type === 'video' ? 'Video' : 'Photo'} · Position ${item.display_order}${item.active ? '' : ' · Hidden'}</p>
+        <div class="admin-product-actions">
+          <button type="button" data-edit-client-media="${escapeHtml(item.id)}">Edit</button>
+          <button class="delete-action" type="button" data-delete-client-media="${escapeHtml(item.id)}">Remove</button>
+        </div>
+      </div>
+    </article>`;
+  }).join('');
 }
 
 function renderCategories() {
@@ -213,6 +248,34 @@ function openEditCategory(slug) {
   categoryDialog.showModal();
 }
 
+function openNewClientMedia() {
+  document.getElementById('client-media-form').reset();
+  document.getElementById('client-media-id').value = '';
+  document.getElementById('client-media-path').value = '';
+  document.getElementById('client-media-current-url').value = '';
+  document.getElementById('client-media-current-type').value = '';
+  document.getElementById('client-media-order').value = clientMedia.length;
+  document.getElementById('client-media-active').checked = true;
+  document.getElementById('client-media-dialog-title').textContent = 'Add media';
+  document.getElementById('save-client-media').textContent = 'Publish to Client Cam';
+  clientMediaDialog.showModal();
+}
+
+function openEditClientMedia(id) {
+  const item = clientMedia.find((media) => media.id === id);
+  if (!item) return;
+  document.getElementById('client-media-form').reset();
+  document.getElementById('client-media-id').value = item.id;
+  document.getElementById('client-media-path').value = item.media_path || '';
+  document.getElementById('client-media-current-url').value = item.media_url;
+  document.getElementById('client-media-current-type').value = item.media_type;
+  document.getElementById('client-media-order').value = item.display_order;
+  document.getElementById('client-media-active').checked = item.active;
+  document.getElementById('client-media-dialog-title').textContent = 'Edit media';
+  document.getElementById('save-client-media').textContent = 'Save changes';
+  clientMediaDialog.showModal();
+}
+
 async function prepareImage(file) {
   const bitmap = await createImageBitmap(file);
   const maxDimension = 1800;
@@ -246,6 +309,31 @@ async function uploadProductImage(file, categorySlug) {
   if (result.error) throw result.error;
   const publicUrl = supabase.storage.from(PRODUCT_IMAGE_BUCKET).getPublicUrl(path).data.publicUrl;
   return { path, publicUrl };
+}
+
+async function uploadClientMedia(file) {
+  const isImage = file.type.startsWith('image/');
+  const isVideo = ['video/mp4', 'video/webm', 'video/quicktime'].includes(file.type);
+  if (!isImage && !isVideo) throw new Error('Choose a JPG, PNG, WebP, MP4, WebM, or MOV file.');
+  if (isVideo && file.size > 50 * 1024 * 1024) throw new Error('Choose a video smaller than 50 MB.');
+  if (isImage && file.size > 20 * 1024 * 1024) throw new Error('Choose an image smaller than 20 MB.');
+
+  const mediaType = isVideo ? 'video' : 'image';
+  const uploadBody = isImage ? await prepareImage(file) : file;
+  const extensionByType = {
+    'video/mp4': 'mp4',
+    'video/webm': 'webm',
+    'video/quicktime': 'mov',
+  };
+  const extension = isImage ? 'webp' : extensionByType[file.type];
+  const contentType = isImage ? 'image/webp' : file.type;
+  const path = `${mediaType}/${crypto.randomUUID()}.${extension}`;
+  const result = await supabase.storage
+    .from(CLIENT_CAM_MEDIA_BUCKET)
+    .upload(path, uploadBody, { contentType, upsert: false });
+  if (result.error) throw result.error;
+  const publicUrl = supabase.storage.from(CLIENT_CAM_MEDIA_BUCKET).getPublicUrl(path).data.publicUrl;
+  return { path, publicUrl, mediaType };
 }
 
 document.getElementById('auth-form').addEventListener('submit', async (event) => {
@@ -304,6 +392,7 @@ signOutButton.addEventListener('click', () => supabase.auth.signOut());
 
 document.getElementById('new-product').addEventListener('click', openNewProduct);
 document.getElementById('new-category').addEventListener('click', openNewCategory);
+document.getElementById('new-client-media').addEventListener('click', openNewClientMedia);
 
 document.querySelectorAll('[data-close-dialog]').forEach((button) => {
   button.addEventListener('click', () => document.getElementById(button.dataset.closeDialog).close());
@@ -348,6 +437,27 @@ productList.addEventListener('click', async (event) => {
       await supabase.storage.from(PRODUCT_IMAGE_BUCKET).remove([product.image_path]);
     }
     showNotice(`${product.name} was removed.`);
+    await loadCatalog();
+  }
+});
+
+clientMediaList.addEventListener('click', async (event) => {
+  const edit = event.target.closest('[data-edit-client-media]');
+  const remove = event.target.closest('[data-delete-client-media]');
+  if (edit) {
+    openEditClientMedia(edit.dataset.editClientMedia);
+  } else if (remove) {
+    const item = clientMedia.find((media) => media.id === remove.dataset.deleteClientMedia);
+    if (!item || !window.confirm('Remove this upload from Client Cam?')) return;
+    const { error } = await supabase.from('client_cam_media').delete().eq('id', item.id);
+    if (error) {
+      showNotice(error.message, true);
+      return;
+    }
+    if (item.media_path) {
+      await supabase.storage.from(CLIENT_CAM_MEDIA_BUCKET).remove([item.media_path]);
+    }
+    showNotice('The Client Cam upload was removed.');
     await loadCatalog();
   }
 });
@@ -427,6 +537,49 @@ document.getElementById('product-form').addEventListener('submit', async (event)
   } catch (error) {
     if (uploaded?.path) await supabase.storage.from(PRODUCT_IMAGE_BUCKET).remove([uploaded.path]);
     showNotice(error.message || 'The product could not be saved.', true);
+  } finally {
+    setBusy(button, false);
+  }
+});
+
+document.getElementById('client-media-form').addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const button = event.submitter;
+  const id = document.getElementById('client-media-id').value;
+  const file = document.getElementById('client-media-file').files[0];
+  const currentPath = document.getElementById('client-media-path').value;
+  const currentUrl = document.getElementById('client-media-current-url').value;
+  const currentType = document.getElementById('client-media-current-type').value;
+  if (!id && !file) {
+    showNotice('Choose a client photo or video.', true);
+    return;
+  }
+
+  setBusy(button, true, file?.type.startsWith('video/') ? 'Uploading video' : 'Preparing upload');
+  let uploaded = null;
+  try {
+    if (file) uploaded = await uploadClientMedia(file);
+    const payload = {
+      media_type: uploaded?.mediaType || currentType,
+      media_url: uploaded?.publicUrl || currentUrl,
+      media_path: uploaded?.path || currentPath || null,
+      display_order: Number(document.getElementById('client-media-order').value) || 0,
+      active: document.getElementById('client-media-active').checked,
+      updated_at: new Date().toISOString(),
+    };
+    const result = id
+      ? await supabase.from('client_cam_media').update(payload).eq('id', id)
+      : await supabase.from('client_cam_media').insert({ id: crypto.randomUUID(), ...payload });
+    if (result.error) throw result.error;
+    if (uploaded && currentPath) {
+      await supabase.storage.from(CLIENT_CAM_MEDIA_BUCKET).remove([currentPath]);
+    }
+    clientMediaDialog.close();
+    showNotice(id ? 'Client Cam changes are live.' : 'The upload is now live in Client Cam.');
+    await loadCatalog();
+  } catch (error) {
+    if (uploaded?.path) await supabase.storage.from(CLIENT_CAM_MEDIA_BUCKET).remove([uploaded.path]);
+    showNotice(error.message || 'The Client Cam upload could not be saved.', true);
   } finally {
     setBusy(button, false);
   }

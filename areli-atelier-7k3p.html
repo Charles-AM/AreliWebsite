@@ -25,7 +25,7 @@
       <div class="auth-panel">
         <p class="eyebrow">Private access</p>
         <h1>Manage the collection</h1>
-        <p class="auth-intro">Sign in to add products, upload images, and organize categories.</p>
+        <p class="auth-intro">Sign in to manage products, categories, and Client Cam.</p>
         <form id="auth-form" class="admin-form">
           <label>
             Email
@@ -75,6 +75,22 @@
           </div>
         </section>
       </div>
+
+      <section class="client-media-panel">
+        <div class="panel-heading client-media-heading">
+          <div>
+            <p class="eyebrow">Social proof</p>
+            <h2>Client Cam</h2>
+            <p id="client-media-count">0 uploads</p>
+          </div>
+          <button id="new-client-media" class="primary-button" type="button">Add photo or video</button>
+        </div>
+        <div id="client-media-list" class="admin-client-media-grid"></div>
+        <div id="client-media-empty" class="empty-state" hidden>
+          <h3>No Client Cam uploads yet</h3>
+          <p>Add a client photo or short video to show it on the homepage.</p>
+        </div>
+      </section>
     </section>
   </main>
 
@@ -148,6 +164,36 @@
         <span>Visible in the shop</span>
       </label>
       <button class="primary-button" type="submit">Save category</button>
+    </form>
+  </dialog>
+
+  <dialog id="client-media-dialog" class="admin-dialog admin-dialog-small">
+    <form id="client-media-form" class="admin-form dialog-form">
+      <div class="dialog-heading">
+        <div>
+          <p class="eyebrow">Client Cam</p>
+          <h2 id="client-media-dialog-title">Add media</h2>
+        </div>
+        <button class="dialog-close" type="button" data-close-dialog="client-media-dialog" aria-label="Close">×</button>
+      </div>
+      <input id="client-media-id" type="hidden" />
+      <input id="client-media-path" type="hidden" />
+      <input id="client-media-current-url" type="hidden" />
+      <input id="client-media-current-type" type="hidden" />
+      <label class="image-field">
+        Client photo or video
+        <input id="client-media-file" type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm,video/quicktime" />
+        <span>JPG, PNG, WebP, MP4, WebM, or MOV. Keep videos under 50 MB.</span>
+      </label>
+      <label>
+        Position
+        <input id="client-media-order" type="number" min="0" step="1" inputmode="numeric" value="0" />
+      </label>
+      <label class="check-field">
+        <input id="client-media-active" type="checkbox" checked />
+        <span>Visible on the homepage</span>
+      </label>
+      <button id="save-client-media" class="primary-button" type="submit">Publish to Client Cam</button>
     </form>
   </dialog>
 

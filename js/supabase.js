@@ -4,6 +4,7 @@ export const SUPABASE_URL = 'https://zxddsciwktxfdpydarzc.supabase.co';
 export const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_sZljF2UQDOYHxR2siiUuwg_SzwYG8-Y';
 export const ADMIN_EMAIL = 'cjmedicare15@gmail.com';
 export const PRODUCT_IMAGE_BUCKET = 'product-images';
+export const CLIENT_CAM_MEDIA_BUCKET = 'client-cam-media';
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: {
@@ -52,4 +53,19 @@ export async function fetchPublishedCatalog() {
     categories: categoryResult.data || [],
     products: (productResult.data || []).map(mapCatalogProduct),
   };
+}
+
+export async function fetchPublishedClientCam() {
+  const { data, error } = await supabase
+    .from('client_cam_media')
+    .select('id, media_type, media_url, display_order')
+    .eq('active', true)
+    .order('display_order')
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+
+  return (data || []).map((item) => item.media_type === 'video'
+    ? { id: item.id, type: 'video', src: item.media_url }
+    : { id: item.id, type: 'image', image: item.media_url });
 }

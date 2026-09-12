@@ -44,7 +44,7 @@ product('pearl-layer', 'necklaces', 'pearl-layer-necklace.jpg', '',
 | `collections/earrings-rings/` | Earrings & Rings |
 | `collections/bracelets-bangles/` | Bracelets & Bangles |
 | `collections/perfume/` | Perfume |
-| `collections/crochet/` | Crochet Items |
+| `collections/exclusive-men/` | Exclusive Men |
 
 You can use **any filename** — just make sure it matches the filename in `js/products.js`.
 
@@ -72,13 +72,11 @@ Recommended: portrait photos, about **800×1000px**.
 
 ## Client Cam (homepage)
 
-Upload client photos and clips to **`public/videos/client-cam/`** on GitHub. New files are picked up automatically on the next deploy (see `client-cam-manifest.json`).
+Use the private admin page to add, hide, reorder, or remove Client Cam photos and videos from a phone. New uploads appear on the homepage without a code change or redeploy.
 
 Supported: `.jpg`, `.jpeg`, `.png`, `.webp`, `.mp4`, `.mov`, `.webm`
 
-Use the **exact filename** (including capitals). Videos autoplay muted when scrolled into view.
-
-**Fixed order:** edit `CLIENT_CAM_ORDER` in `js/products.js` — list filenames top to bottom in the order you want on the homepage. Unlisted uploads still show, added at the end.
+Videos start muted when scrolled into view and include playback controls.
 
 ---
 

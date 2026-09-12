@@ -12,7 +12,7 @@ const CATEGORIES = [
   'earrings-rings',
   'bracelets-bangles',
   'perfume',
-  'crochet',
+  'exclusive-men',
 ];
 
 const IMAGE_EXT = /\.(jpe?g|png|webp)$/i;
@@ -35,19 +35,3 @@ for (const categoryId of CATEGORIES) {
 
 fs.writeFileSync(outPath, `${JSON.stringify(manifest, null, 2)}\n`);
 console.log(`Wrote ${outPath}`);
-
-const clientCamDir = path.join(root, 'public', 'videos', 'client-cam');
-const clientCamOutPath = path.join(root, 'public', 'client-cam-manifest.json');
-const MEDIA_EXT = /\.(jpe?g|png|webp|mp4|mov|webm)$/i;
-
-const clientCamManifest = {
-  files: fs.existsSync(clientCamDir)
-    ? fs
-        .readdirSync(clientCamDir)
-        .filter((filename) => MEDIA_EXT.test(filename))
-        .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
-    : [],
-};
-
-fs.writeFileSync(clientCamOutPath, `${JSON.stringify(clientCamManifest, null, 2)}\n`);
-console.log(`Wrote ${clientCamOutPath}`);
