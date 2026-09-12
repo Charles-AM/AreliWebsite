@@ -1,4 +1,5 @@
 import { CONTACT_PHONE_INTL } from './products.js';
+import { initLocalImage } from './images.js';
 
 const CART_KEY = 'areli-cart';
 const CART_NOTE_KEY = 'areli-cart-note';
@@ -193,8 +194,7 @@ export function updateCartUI() {
   emptyEl?.classList.add('hidden');
   itemsEl.innerHTML = cart.map((item) => `
     <div class="cart-item" data-id="${item.id}">
-      <img src="${item.image}" alt="${item.name}" loading="lazy"
-           onerror="this.src='${item.fallback || ''}'" />
+      <img src="${item.image}" alt="${item.name}" loading="lazy" decoding="async" />
       <div class="cart-item-details">
         <h4>${item.name}</h4>
         <p class="cart-item-price">${formatPrice(item.price)}</p>
@@ -207,6 +207,8 @@ export function updateCartUI() {
       <button class="cart-item-remove" data-id="${item.id}" aria-label="Remove ${item.name}">×</button>
     </div>
   `).join('');
+
+  itemsEl.querySelectorAll('img').forEach((img) => initLocalImage(img));
 
   if (totalEl) totalEl.textContent = formatPrice(getCartTotal());
   if (noteInput && !noteInput.value) {

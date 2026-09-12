@@ -30,7 +30,7 @@ Rows scroll horizontally — add as many products as you have in stock (no limit
 **Step 2:** Open `js/products.js` and add inside the Necklaces `products` list:
 
 ```js
-product('pearl-layer', 'necklaces', 'pearl-layer-necklace.jpg', FALLBACKS.necklace,
+product('pearl-layer', 'necklaces', 'pearl-layer-necklace.jpg', '',
   'Pearl Layer Necklace', 120, 'Waterproof layered chain with pearl detail'),
 ```
 

@@ -944,6 +944,15 @@ h1, h2, h3, h4 {
   opacity: 1;
 }
 
+.hero-image.is-error,
+.about-image.is-error,
+.shop-card-image.is-error,
+.client-cam-image.is-error {
+  opacity: 1;
+  object-fit: cover;
+  background: var(--beige-mid);
+}
+
 .client-cam-video {
   opacity: 1;
 }
@@ -1407,20 +1416,6 @@ h1, h2, h3, h4 {
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-}
-
-/* ============================================
-   Bestsellers
-   ============================================ */
-.bestsellers {
-  background: var(--white);
-}
-
-.bestsellers-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  margin-top: 3rem;
 }
 
 /* ============================================

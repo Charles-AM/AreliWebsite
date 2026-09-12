@@ -10,7 +10,6 @@
 
 import collectionManifest from '../public/collection-manifest.json';
 import clientCamManifest from '../public/client-cam-manifest.json';
-import { fetchPublishedCatalog } from './supabase.js';
 
 const product = (id, folder, filename, fallback, name, price, description = '') => ({
   id,
@@ -21,36 +20,12 @@ const product = (id, folder, filename, fallback, name, price, description = '') 
   fallback,
 });
 
-/** Placeholder slots — full product name + GHS price (update when stock is ready) */
-function placeholderProducts(folder, filePrefix, fallback, label, basePrice = 65) {
-  return Array.from({ length: 5 }, (_, i) => {
-    const n = i + 1;
-    return product(
-      `${folder}-${n}`,
-      folder,
-      `${filePrefix}-${n}.jpg`,
-      fallback,
-      `${label} ${n}`,
-      basePrice + i * 5,
-      '',
-    );
-  });
-}
-
-const FALLBACKS = {
-  necklace: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=400&q=80',
-  earring: 'https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?w=400&q=80',
-  bracelet: 'https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=400&q=80',
-  perfume: 'https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&q=80',
-  crochet: 'https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400&q=80',
-};
-
 const CATEGORY_DEFAULTS = {
-  necklaces: { fallback: FALLBACKS.necklace, price: 65 },
-  'earrings-rings': { fallback: FALLBACKS.earring, price: 50 },
-  'bracelets-bangles': { fallback: FALLBACKS.bracelet, price: 65 },
-  perfume: { fallback: FALLBACKS.perfume, price: 160 },
-  crochet: { fallback: FALLBACKS.crochet, price: 50 },
+  necklaces: { price: 65 },
+  'earrings-rings': { price: 50 },
+  'bracelets-bangles': { price: 65 },
+  perfume: { price: 160 },
+  crochet: { price: 50 },
 };
 
 function slugFromFilename(filename) {
@@ -80,7 +55,7 @@ function withDiscoveredProducts(categories) {
           `${category.id}-disc-${slugFromFilename(filename)}`,
           category.id,
           filename,
-          defaults.fallback,
+          '',
           humanizeFilename(filename),
           defaults.price,
           '',
@@ -103,22 +78,22 @@ const baseCollections = [
         name: 'Necklaces',
         gallery: true,
         products: [
-          product('necklaces-16', 'necklaces', 'necklace-16.jpg', FALLBACKS.necklace, 'Pulse Necklace', 65, ''),
-          product('necklaces-7', 'necklaces', 'necklace-7.jpg', FALLBACKS.necklace, 'Halo Set', 130, ''),
-          product('necklaces-15', 'necklaces', 'necklace-15.jpg', FALLBACKS.necklace, 'Aurora Necklace', 65, ''),
-          product('necklaces-6', 'necklaces', 'necklace-6.jpg', FALLBACKS.necklace, 'Sea Pearl Set', 125, ''),
-          product('necklaces-14', 'necklaces', 'necklace-14.jpg', FALLBACKS.necklace, 'Isla Necklace', 65, ''),
-          product('necklaces-4', 'necklaces', 'necklace-4.jpg', FALLBACKS.necklace, 'Linea Heart Necklace', 65, ''),
-          product('necklaces-13', 'necklaces', 'necklace-13.jpg', FALLBACKS.necklace, 'Stella Necklace', 65, ''),
-          product('necklaces-1', 'necklaces', 'necklace-1.jpg', FALLBACKS.necklace, 'Rosalia Necklace', 65, ''),
-          product('necklaces-12', 'necklaces', 'necklace-12.jpg', FALLBACKS.necklace, 'Aria Necklace', 65, ''),
-          product('necklaces-2', 'necklaces', 'necklace-2.jpg', FALLBACKS.necklace, 'Flutter Charm Necklace', 45, ''),
-          product('necklaces-11', 'necklaces', 'necklace-11.jpg', FALLBACKS.necklace, 'Vienna Necklace', 65, ''),
-          product('necklaces-3', 'necklaces', 'necklace-3.jpg', FALLBACKS.necklace, 'Roseraie Set', 125, ''),
-          product('necklaces-10', 'necklaces', 'necklace-10.jpg', FALLBACKS.necklace, 'Nova Necklace', 65, ''),
-          product('necklaces-5', 'necklaces', 'necklace-5.jpg', FALLBACKS.necklace, '316 L Necklace', 120, ''),
-          product('necklaces-9', 'necklaces', 'necklace-9.jpg', FALLBACKS.necklace, 'Wisteria Necklace', 65, ''),
-          product('necklaces-8', 'necklaces', 'necklace-8.jpg', FALLBACKS.necklace, 'Celeste Necklace', 70, ''),
+          product('necklaces-16', 'necklaces', 'necklace-16.jpg', '', 'Pulse Necklace', 65, ''),
+          product('necklaces-7', 'necklaces', 'necklace-7.jpg', '', 'Halo Set', 130, ''),
+          product('necklaces-15', 'necklaces', 'necklace-15.jpg', '', 'Aurora Necklace', 65, ''),
+          product('necklaces-6', 'necklaces', 'necklace-6.jpg', '', 'Sea Pearl Set', 125, ''),
+          product('necklaces-14', 'necklaces', 'necklace-14.jpg', '', 'Isla Necklace', 65, ''),
+          product('necklaces-4', 'necklaces', 'necklace-4.jpg', '', 'Linea Heart Necklace', 65, ''),
+          product('necklaces-13', 'necklaces', 'necklace-13.jpg', '', 'Stella Necklace', 65, ''),
+          product('necklaces-1', 'necklaces', 'necklace-1.jpg', '', 'Rosalia Necklace', 65, ''),
+          product('necklaces-12', 'necklaces', 'necklace-12.jpg', '', 'Aria Necklace', 65, ''),
+          product('necklaces-2', 'necklaces', 'necklace-2.jpg', '', 'Flutter Charm Necklace', 45, ''),
+          product('necklaces-11', 'necklaces', 'necklace-11.jpg', '', 'Vienna Necklace', 65, ''),
+          product('necklaces-3', 'necklaces', 'necklace-3.jpg', '', 'Roseraie Set', 125, ''),
+          product('necklaces-10', 'necklaces', 'necklace-10.jpg', '', 'Nova Necklace', 65, ''),
+          product('necklaces-5', 'necklaces', 'necklace-5.jpg', '', '316 L Necklace', 120, ''),
+          product('necklaces-9', 'necklaces', 'necklace-9.jpg', '', 'Wisteria Necklace', 65, ''),
+          product('necklaces-8', 'necklaces', 'necklace-8.jpg', '', 'Celeste Necklace', 70, ''),
         ],
       },
       {
@@ -126,11 +101,11 @@ const baseCollections = [
         name: 'Earrings',
         gallery: true,
         products: [
-          product('earrings-rings-1', 'earrings-rings', 'earrings-rings-1.jpg', FALLBACKS.earring, 'Spherina Earrings', 50, ''),
-          product('earrings-rings-2', 'earrings-rings', 'earrings-rings-2.jpg', FALLBACKS.earring, 'Black Petal', 45, ''),
-          product('earrings-rings-3', 'earrings-rings', 'earrings-rings-3.jpg', FALLBACKS.earring, 'Luna Earrings', 50, ''),
-          product('earrings-rings-4', 'earrings-rings', 'earrings-rings-4.jpg', FALLBACKS.earring, 'Octavia Earrings', 50, ''),
-          product('earrings-rings-5', 'earrings-rings', 'earrings-rings-5.jpg', FALLBACKS.earring, 'Dewfall Earring', 45, ''),
+          product('earrings-rings-1', 'earrings-rings', 'earrings-rings-1.jpg', '', 'Spherina Earrings', 50, ''),
+          product('earrings-rings-2', 'earrings-rings', 'earrings-rings-2.jpg', '', 'Black Petal', 45, ''),
+          product('earrings-rings-3', 'earrings-rings', 'earrings-rings-3.jpg', '', 'Luna Earrings', 50, ''),
+          product('earrings-rings-4', 'earrings-rings', 'earrings-rings-4.jpg', '', 'Octavia Earrings', 50, ''),
+          product('earrings-rings-5', 'earrings-rings', 'earrings-rings-5.jpg', '', 'Dewfall Earring', 45, ''),
         ],
       },
       {
@@ -138,11 +113,11 @@ const baseCollections = [
         name: 'Bracelets',
         gallery: true,
         products: [
-          product('bracelets-bangles-1', 'bracelets-bangles', 'bracelet-1.jpg', FALLBACKS.bracelet, 'Butterfly Bangle', 65, ''),
-          product('bracelets-bangles-2', 'bracelets-bangles', 'bracelet-2.jpg', FALLBACKS.bracelet, 'Orbi Bangle', 60, ''),
-          product('bracelets-bangles-3', 'bracelets-bangles', 'bracelet-3.jpg', FALLBACKS.bracelet, 'Chana Bangle', 65, ''),
-          product('bracelets-bangles-4', 'bracelets-bangles', 'bracelet-4.jpg', FALLBACKS.bracelet, 'Bracelet / Bangle 4', 70, ''),
-          product('bracelets-bangles-5', 'bracelets-bangles', 'bracelet-5.jpg', FALLBACKS.bracelet, 'Bracelet / Bangle 5', 75, ''),
+          product('bracelets-bangles-1', 'bracelets-bangles', 'bracelet-1.jpg', '', 'Butterfly Bangle', 65, ''),
+          product('bracelets-bangles-2', 'bracelets-bangles', 'bracelet-2.jpg', '', 'Orbi Bangle', 60, ''),
+          product('bracelets-bangles-3', 'bracelets-bangles', 'bracelet-3.jpg', '', 'Chana Bangle', 65, ''),
+          product('bracelets-bangles-4', 'bracelets-bangles', 'bracelet-4.jpg', '', 'Bracelet / Bangle 4', 70, ''),
+          product('bracelets-bangles-5', 'bracelets-bangles', 'bracelet-5.jpg', '', 'Bracelet / Bangle 5', 75, ''),
         ],
       },
     ],
@@ -155,12 +130,12 @@ const baseCollections = [
         name: "Victoria's Secret Splashes",
         gallery: true,
         products: [
-          product('perfume-1', 'perfume', 'perfume-1.jpg', FALLBACKS.perfume, 'Amber Romance', 160, ''),
-          product('perfume-2', 'perfume', 'perfume-2.jpg', FALLBACKS.perfume, 'Vanilla Lace', 160, ''),
-          product('perfume-3', 'perfume', 'perfume-3.jpg', FALLBACKS.perfume, 'Pure Seduction Joy', 160, ''),
-          product('perfume-4a', 'perfume', 'perfume-4.jpg', FALLBACKS.perfume, 'Velvet Petals (Left)', 160, ''),
-          product('perfume-4b', 'perfume', 'perfume-4.jpg', FALLBACKS.perfume, 'Love Spell (Right)', 160, ''),
-          product('perfume-5', 'perfume', 'perfume-5.jpg', FALLBACKS.perfume, 'Camelia Sunset', 160, ''),
+          product('perfume-1', 'perfume', 'perfume-1.jpg', '', 'Amber Romance', 160, ''),
+          product('perfume-2', 'perfume', 'perfume-2.jpg', '', 'Vanilla Lace', 160, ''),
+          product('perfume-3', 'perfume', 'perfume-3.jpg', '', 'Pure Seduction Joy', 160, ''),
+          product('perfume-4a', 'perfume', 'perfume-4.jpg', '', 'Velvet Petals (Left)', 160, ''),
+          product('perfume-4b', 'perfume', 'perfume-4.jpg', '', 'Love Spell (Right)', 160, ''),
+          product('perfume-5', 'perfume', 'perfume-5.jpg', '', 'Camelia Sunset', 160, ''),
         ],
       },
       {
@@ -168,11 +143,11 @@ const baseCollections = [
         name: 'Crochet',
         gallery: true,
         products: [
-          product('crochet-1', 'crochet', 'crochet-1.jpg', FALLBACKS.crochet, 'Blue Crochet Mat', 50, ''),
-          product('crochet-2', 'crochet', 'crochet-2.jpg', FALLBACKS.crochet, 'Crochet Set', 50, 'GHS 50 each'),
-          product('crochet-3', 'crochet', 'crochet-3.jpg', FALLBACKS.crochet, 'Pink Crochet Mat', 50, ''),
-          product('crochet-4', 'crochet', 'crochet-4.jpg', FALLBACKS.crochet, 'Crochet Set', 50, ''),
-          product('crochet-5', 'crochet', 'crochet-5.jpg', FALLBACKS.crochet, 'Crochet Set', 50, ''),
+          product('crochet-1', 'crochet', 'crochet-1.jpg', '', 'Blue Crochet Mat', 50, ''),
+          product('crochet-2', 'crochet', 'crochet-2.jpg', '', 'Crochet Set', 50, 'GHS 50 each'),
+          product('crochet-3', 'crochet', 'crochet-3.jpg', '', 'Pink Crochet Mat', 50, ''),
+          product('crochet-4', 'crochet', 'crochet-4.jpg', '', 'Crochet Set', 50, ''),
+          product('crochet-5', 'crochet', 'crochet-5.jpg', '', 'Crochet Set', 50, ''),
         ],
       },
     ],
@@ -284,7 +259,6 @@ export const CLIENT_CAM_ORDER = [
   'f677ab3b-1880-4e7a-9861-603fb15cb1e1.MP4',
   '58804cb1-2b8d-4b5e-b340-8a29a4d0f3ed.JPG',
   '755978fc-ace7-458d-a97a-037aec90aabd.JPG',
-  'AF903226-5F7A-43C8-85BC-45BB91A6B7AA.MOV',
   '4acd655b-6a40-4f62-be74-6acb78a8312f.JPG',
   '21b7a2a8-8342-4afe-b26f-164a60395da5.JPG',
   'd0c8db62-48c0-4d1f-9b5e-e7eae75c89eb.JPG',
@@ -298,16 +272,27 @@ function orderClientCamFiles(files) {
   return [...listed, ...unlisted];
 }
 
+function clientCamPoster(files, videoFilename) {
+  const index = files.indexOf(videoFilename);
+  for (let i = index - 1; i >= 0; i -= 1) {
+    if (CLIENT_CAM_IMAGE_EXT.test(files[i])) return `${CLIENT_CAM}/${files[i]}`;
+  }
+  for (let i = index + 1; i < files.length; i += 1) {
+    if (CLIENT_CAM_IMAGE_EXT.test(files[i])) return `${CLIENT_CAM}/${files[i]}`;
+  }
+  return undefined;
+}
+
 function buildClientCamMedia() {
-  const files = orderClientCamFiles(clientCamManifest.files ?? []);
-  const posterFile = files.find((filename) => CLIENT_CAM_IMAGE_EXT.test(filename));
+  const files = orderClientCamFiles(clientCamManifest.files ?? [])
+    .filter((filename) => !/\.mov$/i.test(filename));
 
   return files.flatMap((filename) => {
     if (CLIENT_CAM_VIDEO_EXT.test(filename)) {
       return [{
         type: 'video',
         src: `${CLIENT_CAM}/${filename}`,
-        poster: posterFile ? `${CLIENT_CAM}/${posterFile}` : undefined,
+        poster: clientCamPoster(files, filename),
       }];
     }
     if (CLIENT_CAM_IMAGE_EXT.test(filename)) {
@@ -321,7 +306,7 @@ export const clientCamMedia = buildClientCamMedia();
 
 export const testimonials = [
   {
-    name: 'P',
+    name: 'Precious',
     location: 'Ghana',
     text: 'Waterproof, everything. I\'ve had mine for 7 months now and I wear it religiously, nothing has happened to it.',
     rating: 5,
@@ -374,6 +359,7 @@ export let categories = [
 
 export async function hydrateCatalog() {
   try {
+    const { fetchPublishedCatalog } = await import('./supabase.js');
     const remote = await fetchPublishedCatalog();
     if (!remote.categories.length) return false;
 
