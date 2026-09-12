@@ -74,8 +74,8 @@ async function requireAdmin(session) {
   return true;
 }
 
-async function loadCatalog() {
-  const [categoryResult, productResult, clientMediaResult] = await Promise.all([
+async function loadProductsAndCategories() {
+  const [categoryResult, productResult] = await Promise.all([
     supabase
       .from('categories')
       .select('*')
@@ -86,32 +86,36 @@ async function loadCatalog() {
       .select('*')
       .order('display_order')
       .order('created_at', { ascending: false }),
-    supabase
-      .from('client_cam_media')
-      .select('*')
-      .order('display_order')
-      .order('created_at', { ascending: false }),
   ]);
 
   if (categoryResult.error) throw categoryResult.error;
   if (productResult.error) throw productResult.error;
-  if (clientMediaResult.error) throw clientMediaResult.error;
   categories = categoryResult.data || [];
   products = productResult.data || [];
-  clientMedia = clientMediaResult.data || [];
 
   if (activeCategory !== 'all' && !categories.some((item) => item.slug === activeCategory)) {
     activeCategory = 'all';
   }
 
-  renderDashboard();
-}
-
-function renderDashboard() {
   renderCategories();
   renderProducts();
-  renderClientMedia();
   fillCategorySelect();
+}
+
+async function loadClientMedia() {
+  const { data, error } = await supabase
+    .from('client_cam_media')
+    .select('*')
+    .order('display_order')
+    .order('created_at', { ascending: false });
+
+  if (error) throw error;
+  clientMedia = data || [];
+  renderClientMedia();
+}
+
+async function loadDashboardData() {
+  await Promise.all([loadProductsAndCategories(), loadClientMedia()]);
 }
 
 function renderClientMedia() {
@@ -121,7 +125,7 @@ function renderClientMedia() {
   clientMediaList.hidden = count === 0;
   clientMediaList.innerHTML = clientMedia.map((item) => {
     const media = item.media_type === 'video'
-      ? `<video src="${escapeHtml(item.media_url)}" muted playsinline preload="metadata"></video>`
+      ? `<video src="${escapeHtml(item.media_url)}" muted playsinline preload="none"></video>`
       : `<img src="${escapeHtml(item.media_url)}" alt="Client Cam upload" loading="lazy" />`;
     return `<article class="admin-client-media-card">
       ${media}
@@ -276,18 +280,45 @@ function openEditClientMedia(id) {
   clientMediaDialog.showModal();
 }
 
+async function decodeImage(file) {
+  if ('createImageBitmap' in window) {
+    try {
+      return await createImageBitmap(file);
+    } catch (error) {
+      console.warn('Falling back to standard image decoding.', error);
+    }
+  }
+
+  const objectUrl = URL.createObjectURL(file);
+  try {
+    const image = new Image();
+    image.decoding = 'async';
+    await new Promise((resolve, reject) => {
+      image.addEventListener('load', resolve, { once: true });
+      image.addEventListener('error', () => reject(new Error('The image could not be opened.')), { once: true });
+      image.src = objectUrl;
+    });
+    return image;
+  } finally {
+    URL.revokeObjectURL(objectUrl);
+  }
+}
+
 async function prepareImage(file) {
-  const bitmap = await createImageBitmap(file);
+  const source = await decodeImage(file);
+  const sourceWidth = source.naturalWidth || source.width;
+  const sourceHeight = source.naturalHeight || source.height;
   const maxDimension = 1800;
-  const scale = Math.min(1, maxDimension / Math.max(bitmap.width, bitmap.height));
-  const width = Math.round(bitmap.width * scale);
-  const height = Math.round(bitmap.height * scale);
+  const scale = Math.min(1, maxDimension / Math.max(sourceWidth, sourceHeight));
+  const width = Math.round(sourceWidth * scale);
+  const height = Math.round(sourceHeight * scale);
   const canvas = document.createElement('canvas');
   canvas.width = width;
   canvas.height = height;
   const context = canvas.getContext('2d', { alpha: false });
-  context.drawImage(bitmap, 0, 0, width, height);
-  bitmap.close();
+  if (!context) throw new Error('This browser cannot prepare the image.');
+  context.drawImage(source, 0, 0, width, height);
+  source.close?.();
 
   return new Promise((resolve, reject) => {
     canvas.toBlob(
@@ -305,7 +336,11 @@ async function uploadProductImage(file, categorySlug) {
   const path = `${categorySlug}/${crypto.randomUUID()}.webp`;
   const result = await supabase.storage
     .from(PRODUCT_IMAGE_BUCKET)
-    .upload(path, prepared, { contentType: 'image/webp', upsert: false });
+    .upload(path, prepared, {
+      cacheControl: '31536000',
+      contentType: 'image/webp',
+      upsert: false,
+    });
   if (result.error) throw result.error;
   const publicUrl = supabase.storage.from(PRODUCT_IMAGE_BUCKET).getPublicUrl(path).data.publicUrl;
   return { path, publicUrl };
@@ -330,10 +365,20 @@ async function uploadClientMedia(file) {
   const path = `${mediaType}/${crypto.randomUUID()}.${extension}`;
   const result = await supabase.storage
     .from(CLIENT_CAM_MEDIA_BUCKET)
-    .upload(path, uploadBody, { contentType, upsert: false });
+    .upload(path, uploadBody, {
+      cacheControl: '31536000',
+      contentType,
+      upsert: false,
+    });
   if (result.error) throw result.error;
   const publicUrl = supabase.storage.from(CLIENT_CAM_MEDIA_BUCKET).getPublicUrl(path).data.publicUrl;
   return { path, publicUrl, mediaType };
+}
+
+async function removeStoredFile(bucket, path) {
+  if (!path) return;
+  const { error } = await supabase.storage.from(bucket).remove([path]);
+  if (error) console.warn(`Could not remove ${path} from ${bucket}.`, error);
 }
 
 document.getElementById('auth-form').addEventListener('submit', async (event) => {
@@ -404,7 +449,8 @@ categoryList.addEventListener('click', async (event) => {
   const remove = event.target.closest('[data-delete-category]');
   if (filter) {
     activeCategory = filter.dataset.category;
-    renderDashboard();
+    renderCategories();
+    renderProducts();
   } else if (edit) {
     openEditCategory(edit.dataset.editCategory);
   } else if (remove) {
@@ -415,7 +461,7 @@ categoryList.addEventListener('click', async (event) => {
     if (error) showNotice(error.message, true);
     else {
       showNotice(`${category.name} was removed.`);
-      await loadCatalog();
+      await loadProductsAndCategories();
     }
   }
 });
@@ -433,11 +479,9 @@ productList.addEventListener('click', async (event) => {
       showNotice(error.message, true);
       return;
     }
-    if (product.image_path) {
-      await supabase.storage.from(PRODUCT_IMAGE_BUCKET).remove([product.image_path]);
-    }
+    await removeStoredFile(PRODUCT_IMAGE_BUCKET, product.image_path);
     showNotice(`${product.name} was removed.`);
-    await loadCatalog();
+    await loadProductsAndCategories();
   }
 });
 
@@ -454,11 +498,9 @@ clientMediaList.addEventListener('click', async (event) => {
       showNotice(error.message, true);
       return;
     }
-    if (item.media_path) {
-      await supabase.storage.from(CLIENT_CAM_MEDIA_BUCKET).remove([item.media_path]);
-    }
+    await removeStoredFile(CLIENT_CAM_MEDIA_BUCKET, item.media_path);
     showNotice('The Client Cam upload was removed.');
-    await loadCatalog();
+    await loadClientMedia();
   }
 });
 
@@ -490,7 +532,7 @@ document.getElementById('category-form').addEventListener('submit', async (event
     categoryDialog.close();
     activeCategory = slug;
     showNotice(`${name} is ready.`);
-    await loadCatalog();
+    await loadProductsAndCategories();
   }
 });
 
@@ -527,15 +569,13 @@ document.getElementById('product-form').addEventListener('submit', async (event)
       ? await supabase.from('products').update(payload).eq('id', id)
       : await supabase.from('products').insert({ id: crypto.randomUUID(), ...payload });
     if (result.error) throw result.error;
-    if (uploaded && currentPath) {
-      await supabase.storage.from(PRODUCT_IMAGE_BUCKET).remove([currentPath]);
-    }
+    if (uploaded) await removeStoredFile(PRODUCT_IMAGE_BUCKET, currentPath);
     productDialog.close();
     activeCategory = categorySlug;
     showNotice(id ? 'Product changes are live.' : 'The product is now live.');
-    await loadCatalog();
+    await loadProductsAndCategories();
   } catch (error) {
-    if (uploaded?.path) await supabase.storage.from(PRODUCT_IMAGE_BUCKET).remove([uploaded.path]);
+    await removeStoredFile(PRODUCT_IMAGE_BUCKET, uploaded?.path);
     showNotice(error.message || 'The product could not be saved.', true);
   } finally {
     setBusy(button, false);
@@ -571,14 +611,12 @@ document.getElementById('client-media-form').addEventListener('submit', async (e
       ? await supabase.from('client_cam_media').update(payload).eq('id', id)
       : await supabase.from('client_cam_media').insert({ id: crypto.randomUUID(), ...payload });
     if (result.error) throw result.error;
-    if (uploaded && currentPath) {
-      await supabase.storage.from(CLIENT_CAM_MEDIA_BUCKET).remove([currentPath]);
-    }
+    if (uploaded) await removeStoredFile(CLIENT_CAM_MEDIA_BUCKET, currentPath);
     clientMediaDialog.close();
     showNotice(id ? 'Client Cam changes are live.' : 'The upload is now live in Client Cam.');
-    await loadCatalog();
+    await loadClientMedia();
   } catch (error) {
-    if (uploaded?.path) await supabase.storage.from(CLIENT_CAM_MEDIA_BUCKET).remove([uploaded.path]);
+    await removeStoredFile(CLIENT_CAM_MEDIA_BUCKET, uploaded?.path);
     showNotice(error.message || 'The Client Cam upload could not be saved.', true);
   } finally {
     setBusy(button, false);
@@ -591,7 +629,7 @@ async function handleAuthState(session) {
     authView.hidden = isAdmin;
     dashboardView.hidden = !isAdmin;
     signOutButton.hidden = !isAdmin;
-    if (isAdmin) await loadCatalog();
+    if (isAdmin) await loadDashboardData();
   } catch (error) {
     authView.hidden = false;
     dashboardView.hidden = true;

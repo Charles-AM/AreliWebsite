@@ -1,97 +1,27 @@
-# Areli Jewellery — Image Upload Guide
+# Areli Jewellery media guide
 
-Upload images to GitHub under `public/images/`. The site picks them up automatically when filenames match.
+## Products and Client Cam
 
----
+Manage products, categories, prices, descriptions, visibility, and Client Cam uploads from the private admin page:
 
-## Logo (top left)
+`https://arelijewellery.netlify.app/areli-atelier-7k3p.html`
 
-| Folder | Filename |
-|--------|----------|
-| `logo/` | `logo.png` |
+Changes made there are stored in Supabase and appear on the storefront without editing GitHub or redeploying the site. Product and Client Cam photos are resized and converted to WebP before upload. Client Cam also accepts MP4, WebM, and MOV videos.
 
-**Path:** `public/images/logo/logo.png`  
-Recommended: PNG with transparent background, about **200×60px**.
+Client Cam videos play silently in a loop while visible. Visitors are not shown playback, volume, fullscreen, or speed controls.
 
----
+## Fixed site photography
 
-## Collections (scrollable product rows)
+Only the fixed design photography is managed in this repository:
 
-Each product needs **two things**:
-1. **Photo** — upload to the folder on GitHub
-2. **Details** — edit `js/products.js` with name, description, and price
+| File | Use |
+|------|-----|
+| `hero/hero-main.jpg` | Homepage hero |
+| `about/about-story.jpg` | About page, Jewelry for Real Life |
+| `about/model-2.jpg` | About page, Confidence, Every Day |
 
-Rows scroll horizontally — add as many products as you have in stock (no limit).
+Keep replacements under 500 KB when practical and preserve the existing filenames.
 
-### Example — add a new necklace
+## Legacy Client Cam videos
 
-**Step 1:** Upload `pearl-layer-necklace.jpg` to `public/images/collections/necklaces/`
-
-**Step 2:** Open `js/products.js` and add inside the Necklaces `products` list:
-
-```js
-product('pearl-layer', 'necklaces', 'pearl-layer-necklace.jpg', '',
-  'Pearl Layer Necklace', 120, 'Waterproof layered chain with pearl detail'),
-```
-
-**Step 3:** Commit both changes on GitHub. Wait 1–2 min, refresh the site.
-
-### Image folders
-
-| Folder on GitHub | Category |
-|------------------|----------|
-| `collections/necklaces/` | Necklaces |
-| `collections/earrings-rings/` | Earrings & Rings |
-| `collections/bracelets-bangles/` | Bracelets & Bangles |
-| `collections/perfume/` | Perfume |
-| `collections/exclusive-men/` | Exclusive Men |
-
-You can use **any filename** — just make sure it matches the filename in `js/products.js`.
-
-To remove sold-out items, delete their `product()` line from `js/products.js` (and optionally delete the image).
-
----
-
-## About page — 2 model photos
-
-Upload to `public/images/about/`:
-
-| Filename | Section |
-|----------|---------|
-| `about-story.jpg` | **Jewelry for Real Life** — large image on the left |
-| `model-2.jpg` | **Confidence, Every Day** — image on the right |
-
-Recommended: portrait photos, about **800×1000px**.
-
-## Other site images
-
-| Folder | Filenames |
-|--------|-----------|
-| `hero/` | `hero-main.jpg` |
-| `lifestyle/` | Legacy style photos (no longer used on homepage) |
-
-## Client Cam (homepage)
-
-Use the private admin page to add, hide, reorder, or remove Client Cam photos and videos from a phone. New uploads appear on the homepage without a code change or redeploy.
-
-Supported: `.jpg`, `.jpeg`, `.png`, `.webp`, `.mp4`, `.mov`, `.webm`
-
-Videos start muted when scrolled into view and include playback controls.
-
----
-
-## How to upload on GitHub
-
-1. Go to **https://github.com/Charles-AM/AreliWebsite**
-2. Open the folder (e.g. `public/images/collections/necklaces`)
-3. **Add file** → **Upload files**
-4. Use **exact filenames** from the tables above
-5. **Commit changes**
-6. Wait 1–2 minutes, then refresh your Netlify site
-
-## Tips
-
-- All collection images show at the **same compact size** in scrollable rows
-- Use square or portrait photos (~800×800px or 800×1000px)
-- Keep files under 500KB when possible
-- Use lowercase filenames
+Files under `public/videos/client-cam/` are still referenced by imported Client Cam records. Do not delete them until those records have been replaced through the admin page.

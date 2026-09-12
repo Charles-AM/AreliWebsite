@@ -46,6 +46,18 @@ create table if not exists public.client_cam_media (
   updated_at timestamptz not null default now()
 );
 
+create index if not exists categories_active_order_idx
+on public.categories (active, display_order, name);
+
+create index if not exists products_active_order_idx
+on public.products (active, display_order, created_at desc);
+
+create index if not exists products_category_order_idx
+on public.products (category_slug, display_order, created_at desc);
+
+create index if not exists client_cam_active_order_idx
+on public.client_cam_media (active, display_order, created_at desc);
+
 alter table public.categories enable row level security;
 alter table public.products enable row level security;
 alter table public.client_cam_media enable row level security;
@@ -215,9 +227,7 @@ insert into public.categories (slug, name, display_order, active) values
   ('bracelets-bangles', 'Bracelets', 2, true),
   ('perfume', 'Extras', 3, true),
   ('exclusive-men', 'Exclusive Men', 4, true)
-on conflict (slug) do update set
-  name = excluded.name,
-  display_order = excluded.display_order;
+on conflict (slug) do nothing;
 
 insert into public.products
   (id, category_slug, name, description, price, image_url, display_order, active)
@@ -254,13 +264,7 @@ values
   ('perfume-4a', 'perfume', 'Velvet Petals (Left)', '', 160, '/images/collections/perfume/perfume-4.jpg', 3, true),
   ('perfume-4b', 'perfume', 'Love Spell (Right)', '', 160, '/images/collections/perfume/perfume-4.jpg', 4, true),
   ('perfume-5', 'perfume', 'Camelia Sunset', '', 160, '/images/collections/perfume/perfume-5.jpg', 5, true)
-on conflict (id) do update set
-  category_slug = excluded.category_slug,
-  name = excluded.name,
-  description = excluded.description,
-  price = excluded.price,
-  image_url = excluded.image_url,
-  display_order = excluded.display_order;
+on conflict (id) do nothing;
 
 insert into public.client_cam_media
   (id, media_type, media_url, display_order, active)
@@ -275,9 +279,6 @@ values
   ('legacy-client-cam-08', 'image', '/videos/client-cam/58804cb1-2b8d-4b5e-b340-8a29a4d0f3ed.JPG', 7, true),
   ('legacy-client-cam-09', 'video', '/videos/client-cam/f677ab3b-1880-4e7a-9861-603fb15cb1e1.MP4', 8, true),
   ('legacy-client-cam-10', 'image', '/videos/client-cam/04f50ef6-5610-4c2d-9c8b-e144f54b323b 2.jpg', 9, true)
-on conflict (id) do update set
-  media_type = excluded.media_type,
-  media_url = excluded.media_url,
-  display_order = excluded.display_order;
+on conflict (id) do nothing;
 
 commit;

@@ -457,22 +457,21 @@ document.addEventListener('DOMContentLoaded', async () => {
   initFlourishDraw();
   initHeroTimeline();
 
-  const hasShop = document.getElementById('collections-container');
-
-  await Promise.all([
-    hasShop ? hydrateCatalog() : Promise.resolve(),
-    hydrateClientCam(),
-  ]);
+  const hasShop = Boolean(document.getElementById('collections-container'));
+  const hasClientCam = Boolean(document.querySelector('.client-cam-grid'));
+  const clientCamReady = hasClientCam ? hydrateClientCam() : Promise.resolve();
 
   if (hasShop) {
+    await hydrateCatalog();
     const catalogStatus = document.getElementById('collections-active-filter');
     if (catalogStatus) catalogStatus.textContent = 'Showing the collection';
     renderCollections();
-    renderShopGrid(activeShopFilter);
-    initShopFilter();
   }
 
-  renderClientCam();
+  if (hasClientCam) {
+    await clientCamReady;
+    renderClientCam();
+  }
   renderTestimonials();
 
   if (document.querySelector('.category-grid')) {
