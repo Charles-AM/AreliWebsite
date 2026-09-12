@@ -2701,8 +2701,8 @@ h1, h2, h3, h4 {
   }
 
   .client-cam-card {
-    flex: 0 0 calc((100% - 0.75rem) / 2);
-    min-width: calc((100% - 0.75rem) / 2);
+    flex: 0 0 42%;
+    min-width: 42%;
     scroll-snap-align: start;
     aspect-ratio: 4 / 5;
   }
@@ -3583,8 +3583,8 @@ h4 {
   }
 
   .client-cam-card {
-    flex-basis: 78%;
-    min-width: 78%;
+    flex-basis: 52%;
+    min-width: 52%;
     aspect-ratio: 4 / 5;
   }
 
@@ -3650,10 +3650,13 @@ h4 {
   }
 
   .testimonials-track,
-  .client-cam-grid,
   .why-grid,
   .category-grid {
     margin-top: 1.15rem;
+  }
+
+  .client-cam-grid {
+    margin-top: 0.85rem;
   }
 
   .testimonial-card {
@@ -3689,9 +3692,9 @@ h4 {
   }
 
   .client-cam-card {
-    flex-basis: 62%;
-    min-width: 62%;
-    aspect-ratio: 3 / 4;
+    flex-basis: 46%;
+    min-width: 46%;
+    aspect-ratio: 4 / 5;
   }
 
   .client-cam .section-subtitle {
