@@ -17,8 +17,8 @@ Only the fixed design photography is managed in this repository:
 | File | Use |
 |------|-----|
 | `hero/hero-main.jpg` | Homepage hero |
+| `about/charis-founder.jpg` | About page founder portrait |
 | `about/about-story.jpg` | About page, Jewelry for Real Life |
-| `about/model-2.jpg` | About page, Confidence, Every Day |
 
 Keep replacements under 500 KB when practical and preserve the existing filenames.
 
