@@ -253,15 +253,18 @@ const CLIENT_CAM_VIDEO_EXT = /\.(mp4|mov|webm)$/i;
  * still appear, appended at the end in alphabetical order.
  */
 export const CLIENT_CAM_ORDER = [
-  '04f50ef6-5610-4c2d-9c8b-e144f54b323b.JPG',
+  '4acd655b-6a40-4f62-be74-6acb78a8312f.JPG',
   '1055d675-a433-4820-b6d6-52319b5cff08.JPG',
+  "fff24c5c-41b1-4e2e-932e-4798ab76b5af.JPG",
   '2d23d457-4e4f-412b-bc6f-ff3009fea8f4.JPG',
-  'f677ab3b-1880-4e7a-9861-603fb15cb1e1.MP4',
-  '58804cb1-2b8d-4b5e-b340-8a29a4d0f3ed.JPG',
+  '21b7a2a8-8342-4afe-b26f-164a60395da5.JPG',
+  "AF903226-5F7A-43C8-85BC-45BB91A6B7AA.MOV",
+  "d0c8db62-48c0-4d1f-9b5e-e7eae75c89eb.JPG",
   '755978fc-ace7-458d-a97a-037aec90aabd.JPG',
   '4acd655b-6a40-4f62-be74-6acb78a8312f.JPG',
-  '21b7a2a8-8342-4afe-b26f-164a60395da5.JPG',
-  'd0c8db62-48c0-4d1f-9b5e-e7eae75c89eb.JPG',
+  '58804cb1-2b8d-4b5e-b340-8a29a4d0f3ed.JPG',
+  'f677ab3b-1880-4e7a-9861-603fb15cb1e1.MP4',
+  ,
 ];
 
 function orderClientCamFiles(files) {
