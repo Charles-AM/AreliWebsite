@@ -28,7 +28,12 @@ import {
   initProductImageInspection,
 } from './interactions.js';
 import { initGridStagger, initFlourishDraw } from './decorative.js';
-import { bootCachedImages, initImageRestore, initLocalImage } from './images.js';
+import {
+  bootCachedImages,
+  initImageProtection,
+  initImageRestore,
+  initLocalImage,
+} from './images.js';
 
 const CARD_CLASS = 'shop-card';
 
@@ -437,6 +442,7 @@ function initContactForm() {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+  initImageProtection();
   bootCachedImages();
   initStickyNav();
   initMobileMenu();
