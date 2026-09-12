@@ -4,7 +4,7 @@ const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').mat
 const HOVER_SPRING = { type: 'spring', stiffness: 400, damping: 22 };
 const PRESS_SPRING = { type: 'spring', stiffness: 500, damping: 25 };
 
-const LIFT_SELECTOR = '.gallery-card, .product-card, .why-card, .shop-card, .category-card, .testimonial-card';
+const LIFT_SELECTOR = '.why-card, .shop-card, .category-card, .testimonial-card';
 const PRESS_SELECTOR = 'button, .btn';
 
 function isFinePointer(e) {

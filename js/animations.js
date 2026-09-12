@@ -133,25 +133,6 @@ export function initMobileMenu() {
   overlay?.querySelectorAll('a').forEach((link) => link.addEventListener('click', shut));
 }
 
-export function initLazyImages() {
-  const images = document.querySelectorAll('img[data-src]');
-  if (!images.length) return;
-
-  const imageObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        const img = entry.target;
-        img.src = img.dataset.src;
-        img.removeAttribute('data-src');
-        img.addEventListener('load', () => img.classList.add('loaded'));
-        imageObserver.unobserve(img);
-      }
-    });
-  }, { rootMargin: '200px' });
-
-  images.forEach((img) => imageObserver.observe(img));
-}
-
 export function initCarousel() {
   document.querySelectorAll('.carousel-track:not([data-carousel-init]), .client-cam-grid:not([data-carousel-init]), .category-grid:not([data-carousel-init]), .why-grid:not([data-carousel-init]), .testimonials-track:not([data-carousel-init])').forEach((track) => {
     track.dataset.carouselInit = 'true';
@@ -183,15 +164,3 @@ export function initCarousel() {
   });
 }
 
-export function initContactTabs() {
-  const tabs = document.querySelectorAll('.contact-tab');
-  const panels = document.querySelectorAll('.contact-panel');
-
-  tabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      const target = tab.dataset.tab;
-      tabs.forEach((t) => t.classList.toggle('active', t === tab));
-      panels.forEach((p) => p.classList.toggle('active', p.dataset.panel === target));
-    });
-  });
-}

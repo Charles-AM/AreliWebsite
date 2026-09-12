@@ -24,7 +24,7 @@ export function mapCatalogProduct(row) {
     description: row.description || '',
     price: Number(row.price),
     image: row.image_url,
-    fallback: row.image_url,
+    fallback: '',
     categoryId: row.category_slug,
   };
 }

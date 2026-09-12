@@ -12,6 +12,7 @@ export function initLocalImage(imgEl, { src, fallback } = {}) {
 
   const applyFallback = () => {
     if (!reserve || imgEl.dataset.fallbackApplied === 'true') {
+      imgEl.classList.add('is-error');
       reveal();
       return;
     }

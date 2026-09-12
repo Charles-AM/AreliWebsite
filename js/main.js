@@ -17,7 +17,6 @@ import {
   initStickyNav,
   initBackToTop,
   initMobileMenu,
-  initLazyImages,
   initCarousel,
 } from './animations.js';
 import {
@@ -426,7 +425,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   initMobileMenu();
   initMobileMenuSpring();
   initBackToTop();
-  initLazyImages();
   initCarousel();
   initCart();
   initCartBadgePop();
@@ -442,20 +440,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   initFlourishDraw();
   initHeroTimeline();
 
-  const catalogStatus = document.getElementById('collections-active-filter');
-  if (catalogStatus) catalogStatus.textContent = 'Showing the collection';
-  renderCollections();
+  const hasShop = document.getElementById('collections-container');
+
+  if (hasShop) {
+    await hydrateCatalog();
+    const catalogStatus = document.getElementById('collections-active-filter');
+    if (catalogStatus) catalogStatus.textContent = 'Showing the collection';
+    renderCollections();
+    renderShopGrid(activeShopFilter);
+    initShopFilter();
+  }
+
   renderClientCam();
   renderTestimonials();
-  renderCategories();
+
+  if (document.querySelector('.category-grid')) {
+    renderCategories();
+  }
 
   initScrollAnimations();
   initGridStagger('.why-grid, .client-cam-grid, .category-grid, .testimonials-track');
-
-  const catalogHydrated = await hydrateCatalog();
-  if (catalogHydrated) {
-    renderShopGrid(activeShopFilter);
-    initShopFilter();
-    renderCategories();
-  }
 });
