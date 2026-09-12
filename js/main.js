@@ -290,14 +290,20 @@ function renderClientCam() {
     el.className = 'client-cam-card';
 
     if (item.type === 'video') {
+      el.classList.add('client-cam-card--video');
       const video = document.createElement('video');
       video.className = 'client-cam-media client-cam-video';
       video.src = item.src;
       video.muted = true;
       video.loop = true;
+      video.autoplay = true;
       video.playsInline = true;
       video.preload = 'metadata';
-      video.controls = true;
+      video.controls = false;
+      video.disablePictureInPicture = true;
+      video.setAttribute('controlslist', 'nodownload nofullscreen noremoteplayback noplaybackrate');
+      video.setAttribute('disableremoteplayback', '');
+      video.tabIndex = -1;
       video.setAttribute('aria-label', 'Client wearing Areli jewellery');
       el.appendChild(video);
     } else {

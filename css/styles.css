@@ -955,10 +955,21 @@ h1, h2, h3, h4 {
 
 .client-cam-video {
   opacity: 1;
+  pointer-events: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.client-cam-card--video {
+  cursor: default;
 }
 
 .client-cam-card:hover .client-cam-media {
   transform: scale(1.06);
+}
+
+.client-cam-card--video:hover .client-cam-video {
+  transform: none;
 }
 
 /* ============================================
