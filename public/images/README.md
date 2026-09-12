@@ -60,6 +60,7 @@ Upload to `public/images/about/`:
 |----------|---------|
 | `about-story.jpg` | **Jewelry for Real Life** — large image on the left |
 | `model-2.jpg` | **Confidence, Every Day** — image on the right |
+| `charis-founder.jpg` | **Meet the Founder** — Charis portrait on the About page |
 
 Recommended: portrait photos, about **800×1000px**.
 
