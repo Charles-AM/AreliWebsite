@@ -1,11 +1,8 @@
 /**
  * Areli Jewellery — Collections catalog
  *
- * HOW TO ADD / UPDATE PRODUCTS (live stock):
- * 1. Upload your photo to public/images/collections/<folder>/ on GitHub
- * 2. For named products, add or edit a product() entry in the matching category below
- * 3. New image files are picked up automatically on the next deploy (see collection-manifest.json)
- * 4. Replace an existing filename to update that product photo without code changes
+ * Built-in catalog used only when the managed Supabase catalog is unavailable.
+ * Live products and categories are maintained from the private admin page.
  */
 
 import collectionManifest from '../public/collection-manifest.json';
@@ -25,7 +22,7 @@ const CATEGORY_DEFAULTS = {
   'earrings-rings': { price: 50 },
   'bracelets-bangles': { price: 65 },
   perfume: { price: 160 },
-  crochet: { price: 50 },
+  'exclusive-men': { price: 80 },
 };
 
 function slugFromFilename(filename) {
@@ -139,16 +136,10 @@ const baseCollections = [
         ],
       },
       {
-        id: 'crochet',
-        name: 'Crochet',
+        id: 'exclusive-men',
+        name: 'Exclusive Men',
         gallery: true,
-        products: [
-          product('crochet-1', 'crochet', 'crochet-1.jpg', '', 'Blue Crochet Mat', 50, ''),
-          product('crochet-2', 'crochet', 'crochet-2.jpg', '', 'Crochet Set', 50, 'GHS 50 each'),
-          product('crochet-3', 'crochet', 'crochet-3.jpg', '', 'Pink Crochet Mat', 50, ''),
-          product('crochet-4', 'crochet', 'crochet-4.jpg', '', 'Crochet Set', 50, ''),
-          product('crochet-5', 'crochet', 'crochet-5.jpg', '', 'Crochet Set', 50, ''),
-        ],
+        products: [],
       },
     ],
   },
@@ -165,7 +156,7 @@ export let shopFilters = [
   { id: 'earrings-rings', label: 'Earrings' },
   { id: 'bracelets-bangles', label: 'Bracelets' },
   { id: 'perfume', label: 'Perfume' },
-  { id: 'crochet', label: 'Crochet' },
+  { id: 'exclusive-men', label: 'Exclusive Men' },
 ];
 
 export function getAllCategories() {
@@ -356,7 +347,7 @@ export let categories = [
   { id: 'earrings-rings', name: 'Earrings', icon: 'earrings', filter: 'earrings-rings' },
   { id: 'bracelets-bangles', name: 'Bracelets', icon: 'bracelet', filter: 'bracelets-bangles' },
   { id: 'perfume', name: 'Perfume', icon: 'perfume', filter: 'perfume' },
-  { id: 'crochet', name: 'Crochet', icon: 'crochet', filter: 'crochet' },
+  { id: 'exclusive-men', name: 'Exclusive Men', icon: 'men', filter: 'exclusive-men' },
 ];
 
 export async function hydrateCatalog() {
@@ -387,7 +378,7 @@ export async function hydrateCatalog() {
       'earrings-rings': 'earrings',
       'bracelets-bangles': 'bracelet',
       perfume: 'perfume',
-      crochet: 'crochet',
+      'exclusive-men': 'men',
     };
 
     categories = remote.categories.map((category) => ({

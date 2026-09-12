@@ -333,7 +333,7 @@ function renderCategories() {
     earrings: '<circle cx="8" cy="8" r="2" fill="currentColor"/><circle cx="16" cy="8" r="2" fill="currentColor"/><circle cx="12" cy="16" r="3" fill="none" stroke="currentColor" stroke-width="1.2"/>',
     bracelet: '<ellipse cx="12" cy="12" rx="8" ry="4" fill="none" stroke="currentColor" stroke-width="1.2"/>',
     perfume: '<path d="M9 4h6v3a3 3 0 01-6 0V4zM8 10h8v10H8z" fill="none" stroke="currentColor" stroke-width="1.2"/>',
-    crochet: '<path d="M4 6c4 2 8 2 12 0M4 12c4 2 8 2 12 0M4 18c4 2 8 2 12 0" fill="none" stroke="currentColor" stroke-width="1.2"/>',
+    men: '<circle cx="8" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="1.2"/><circle cx="16" cy="12" r="3.5" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M11.5 12h1M4.5 8.5 2.5 6.5M19.5 8.5l2-2M4.5 15.5l-2 2M19.5 15.5l2 2" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>',
     jewelry: '<path d="M4 9h16l-8 11L4 9Zm0 0 4-5h8l4 5M8 4l4 5 4-5" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>',
   };
   categories.forEach((cat) => {

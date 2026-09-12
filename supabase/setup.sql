@@ -131,12 +131,15 @@ create policy "Administrator removes product images"
 on storage.objects for delete to authenticated
 using (bucket_id = 'product-images' and public.is_areli_admin());
 
+delete from public.products where category_slug = 'crochet';
+delete from public.categories where slug = 'crochet';
+
 insert into public.categories (slug, name, display_order, active) values
   ('necklaces', 'Necklaces', 0, true),
   ('earrings-rings', 'Earrings', 1, true),
   ('bracelets-bangles', 'Bracelets', 2, true),
   ('perfume', 'Perfume', 3, true),
-  ('crochet', 'Crochet', 4, true)
+  ('exclusive-men', 'Exclusive Men', 4, true)
 on conflict (slug) do update set
   name = excluded.name,
   display_order = excluded.display_order;
@@ -175,12 +178,7 @@ values
   ('perfume-3', 'perfume', 'Pure Seduction Joy', '', 160, '/images/collections/perfume/perfume-3.jpg', 2, true),
   ('perfume-4a', 'perfume', 'Velvet Petals (Left)', '', 160, '/images/collections/perfume/perfume-4.jpg', 3, true),
   ('perfume-4b', 'perfume', 'Love Spell (Right)', '', 160, '/images/collections/perfume/perfume-4.jpg', 4, true),
-  ('perfume-5', 'perfume', 'Camelia Sunset', '', 160, '/images/collections/perfume/perfume-5.jpg', 5, true),
-  ('crochet-1', 'crochet', 'Blue Crochet Mat', '', 50, '/images/collections/crochet/crochet-1.jpg', 0, true),
-  ('crochet-2', 'crochet', 'Crochet Set', 'GHS 50 each', 50, '/images/collections/crochet/crochet-2.jpg', 1, true),
-  ('crochet-3', 'crochet', 'Pink Crochet Mat', '', 50, '/images/collections/crochet/crochet-3.jpg', 2, true),
-  ('crochet-4', 'crochet', 'Crochet Set', '', 50, '/images/collections/crochet/crochet-4.jpg', 3, true),
-  ('crochet-5', 'crochet', 'Crochet Set', '', 50, '/images/collections/crochet/crochet-5.jpg', 4, true)
+  ('perfume-5', 'perfume', 'Camelia Sunset', '', 160, '/images/collections/perfume/perfume-5.jpg', 5, true)
 on conflict (id) do update set
   category_slug = excluded.category_slug,
   name = excluded.name,
