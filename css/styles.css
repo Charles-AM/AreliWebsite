@@ -1494,8 +1494,25 @@ h1, h2, h3, h4 {
 }
 
 .testimonial-stars {
-  color: var(--accent-gold);
+  display: flex;
+  gap: 0.12em;
   font-size: 1rem;
+  letter-spacing: 0;
+}
+
+.testimonial-stars .star--full {
+  color: var(--accent-gold);
+}
+
+.testimonial-stars .star--half {
+  background: linear-gradient(90deg, var(--accent-gold) 50%, rgba(201, 169, 110, 0.28) 50%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.testimonial-stars .star--empty {
+  color: rgba(201, 169, 110, 0.28);
   margin-bottom: 1rem;
   letter-spacing: 0.15em;
 }
