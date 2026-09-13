@@ -328,6 +328,20 @@ function renderClientCam() {
   initClientCamVideos(grid);
 }
 
+function renderStarRating(rating) {
+  let html = '';
+  for (let i = 1; i <= 5; i++) {
+    if (rating >= i) {
+      html += '<span class="star star--full">★</span>';
+    } else if (rating >= i - 0.5) {
+      html += '<span class="star star--half">★</span>';
+    } else {
+      html += '<span class="star star--empty">★</span>';
+    }
+  }
+  return html;
+}
+
 function renderTestimonials() {
   const track = document.querySelector('.testimonials-track');
   if (!track) return;
@@ -335,7 +349,7 @@ function renderTestimonials() {
     const el = document.createElement('blockquote');
     el.className = 'testimonial-card';
     el.innerHTML = `
-      <div class="testimonial-stars">${'★'.repeat(t.rating)}</div>
+      <div class="testimonial-stars">${renderStarRating(t.rating)}</div>
       <p>"${t.text}"</p>
       <footer>
         <strong>${t.name}</strong>

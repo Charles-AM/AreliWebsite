@@ -257,25 +257,25 @@ export const testimonials = [
     name: 'Maleb',
     location: 'Ghana',
     text: 'Really love the box. Thank you! My friend said she loved hers too and basket also ateeee.',
-    rating: 5,
+    rating: 4.5,
   },
   {
     name: 'Afia',
     location: 'Ghana',
     text: 'Thank you so much. It\'s always a pleasure working with you!',
-    rating: 5,
+    rating: 4,
   },
   {
     name: 'Diann',
     location: 'Ghana',
     text: 'Thank you so much! She loved it. Idk what I would do without you.',
-    rating: 5,
+    rating: 4,
   },
   {
     name: 'Bella',
     location: 'Ghana',
     text: 'Received all the accessories for my birthday shoot and I love them! Thank you so much.',
-    rating: 5,
+    rating: 4.5,
   },
   {
     name: 'Appiah',
@@ -287,7 +287,7 @@ export const testimonials = [
     name: 'Kris',
     location: 'Ghana',
     text: 'Just wanted to say thank you so much, I really appreciate the work you did for me. I\'m grateful!',
-    rating: 5,
+    rating: 4.5,
   },
 ];
 
